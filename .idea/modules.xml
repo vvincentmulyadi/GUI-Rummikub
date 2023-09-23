@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/GUI-Rummikub.iml" filepath="$PROJECT_DIR$/.idea/GUI-Rummikub.iml" />
-      <module fileurl="file://$PROJECT_DIR$/RummikubFrontScreen/RummikubFrontScreen.iml" filepath="$PROJECT_DIR$/RummikubFrontScreen/RummikubFrontScreen.iml" />
     </modules>
   </component>
 </project>

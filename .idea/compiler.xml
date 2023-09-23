@@ -9,8 +9,5 @@
         <module name="RummikubFrontScreen" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="RummikubFrontScreen" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>
