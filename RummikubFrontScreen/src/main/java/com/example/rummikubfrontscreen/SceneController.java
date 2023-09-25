@@ -15,24 +15,28 @@ public class SceneController {
     private Scene scene;
     private Parent root;
 
+
+
     public void switchToMenuScene(ActionEvent event) throws IOException{
-        Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        initializeScene(event, "Main.fxml");
     }
 
     public void switchToChooseOpponentScene(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("choose-opponent.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        initializeScene(event, "choose-opponent.fxml");
     }
 
-    public void switchToBoardScene(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("board.fxml"));
+    public void switchToBoardScene(ActionEvent event) throws IOException{
+        initializeScene(event, "board.fxml");
+    }
+
+    public void switchToMakeNewPlayersScene(ActionEvent event) throws IOException{
+        initializeScene(event, "make-new-players.fxml");
+    }
+
+
+
+    private void initializeScene(ActionEvent event, String sceneName) throws IOException{
+        Parent root = FXMLLoader.load(getClass().getResource(sceneName));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
