@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 
 public class BoardController {
     @FXML
@@ -48,15 +47,17 @@ public class BoardController {
 
     @FXML
     private void handleButtonClick(ActionEvent e) {
+        GameBoardController gc = new GameBoardController();
         Button clickedButton = (Button)e.getSource();
-        String buttonValue = clickedButton.getText();
+        gc.setButton(clickedButton);
+        /*String buttonValue = clickedButton.getText();
         if (buttonValue.isEmpty()) {
             clickedButton.setText(this.label.getText());
             this.label.setText("");
         } else {
             this.label.setText(buttonValue);
             clickedButton.setText("");
-        }
+        }*/
 
     }
 }
