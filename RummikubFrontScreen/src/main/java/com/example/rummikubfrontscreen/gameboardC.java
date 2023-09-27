@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 
 
 public class gameboardC {
@@ -17,6 +18,8 @@ public class gameboardC {
 
     @FXML
     private void coButtonClick(MouseEvent e) {
-        System.out.println("x: "+e.getSceneX()+" y: "+e.getSceneY());
+//        double X = e.getSceneX();
+//        double Y = e.getSceneY();
+        System.out.println("x: ");
     }
 }
