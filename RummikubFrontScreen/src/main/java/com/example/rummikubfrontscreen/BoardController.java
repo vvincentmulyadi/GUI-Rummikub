@@ -1,18 +1,14 @@
 package com.example.rummikubfrontscreen;
 
 import java.util.Random;
-
-import com.example.rummikubfrontscreen.setup.GameApp;
-import com.example.rummikubfrontscreen.setup.GameSetup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 
 public class BoardController {
     @FXML
-    public Button draw;
+    private Button draw;
     private final String[] randomValues = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"};
     @FXML
     private Button button1;
@@ -25,21 +21,11 @@ public class BoardController {
     @FXML
     private Label label;
 
-    private GameApp ga;
-
-    public BoardController(GameApp ga) {
-        this.ga = ga;
+    public BoardController() {
     }
 
     @FXML
     private void initialize() {
-        draw.setOnAction(this::handleDrawButton);
-    }
-
-    @FXML
-    private void handleDrawButton(ActionEvent e){
-        ga.draw(ga.getCurPlr());
-        System.out.println("ciao");
     }
 
     @FXML
@@ -61,15 +47,17 @@ public class BoardController {
 
     @FXML
     private void handleButtonClick(ActionEvent e) {
+        GameBoardController gc = new GameBoardController();
         Button clickedButton = (Button)e.getSource();
-        String buttonValue = clickedButton.getText();
+        gc.setButton(clickedButton);
+        /*String buttonValue = clickedButton.getText();
         if (buttonValue.isEmpty()) {
             clickedButton.setText(this.label.getText());
             this.label.setText("");
         } else {
             this.label.setText(buttonValue);
             clickedButton.setText("");
-        }
+        }*/
 
     }
 }
