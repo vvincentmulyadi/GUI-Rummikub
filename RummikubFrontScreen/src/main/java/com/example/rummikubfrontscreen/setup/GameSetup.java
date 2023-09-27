@@ -88,6 +88,7 @@ public class GameSetup {
     }
 
 
+
     public ArrayList<Tile> getTiles() {
         return tiles;
     }

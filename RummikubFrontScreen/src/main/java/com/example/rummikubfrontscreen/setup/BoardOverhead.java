@@ -1,6 +1,7 @@
 package com.example.rummikubfrontscreen.setup;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import com.example.rummikubfrontscreen.setup.Exceptions.InvalidTilePlacement;
@@ -18,7 +19,7 @@ public class BoardOverhead {
      public void addPLayer(Player player){
          players.add(player);
         }
-        
+
         public void removePlayer(Player player){
             if(players.contains(player)) players.remove(player);
      }
@@ -37,6 +38,8 @@ public class BoardOverhead {
 
          
     }
+
+
 
     public static void main(String[] args)  {  
         Scanner sc= new Scanner(System.in); //System.in is a standard input stream 

@@ -19,6 +19,7 @@ public class Main extends Application {
         stage.setHeight(600);
         stage.setWidth(500);
         stage.setTitle("Rummikub");*/
+
             Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
             Scene scene1 = new Scene(root);
             stage.setScene(scene1);
