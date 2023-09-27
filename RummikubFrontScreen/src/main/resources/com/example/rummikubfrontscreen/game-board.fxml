@@ -7,13 +7,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane prefHeight="466.0" prefWidth="519.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rummikubfrontscreen.gameboardC">
+<AnchorPane  prefHeight="466.0" prefWidth="519.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rummikubfrontscreen.gameboardC">
    <children>
-      <Pane fx:id="node" onMouseClicked="#coButtonClick" prefHeight="329.0" prefWidth="519.0" xmlns:fx="http://javafx.com/fxml/1">
-         <children>
-            <Rectangle fx:id="nodes" fill="#c0c0c0" height="329.0" layoutX="-1.0" stroke="TRANSPARENT" strokeType="INSIDE" width="520.0" />
-         </children>
-      </Pane>
+      <Pane fx:id="Pane" onMouseClicked="#coButtonClick" prefHeight="329.0" prefWidth="519.0" xmlns:fx="http://javafx.com/fxml/1" />
       <Pane layoutY="329.0" prefHeight="139.0" prefWidth="339.0">
          <children>
             <Button fx:id="btn1" layoutX="16.0" layoutY="32.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
