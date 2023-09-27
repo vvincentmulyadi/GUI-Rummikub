@@ -9,17 +9,17 @@ import javafx.scene.shape.Rectangle;
 
 public class gameboardC {
     @FXML
-    private Pane node;
+    private Pane pane;
 
-    @FXML
+    /*@FXML
     private void initialize(){
         node.setOnMouseClicked(this::coButtonClick);
-    }
+    }*/
 
     @FXML
-    private void coButtonClick(MouseEvent e) {
-//        double X = e.getSceneX();
-//        double Y = e.getSceneY();
-        System.out.println("x: ");
+    private void coButtonClick(MouseEvent event) {
+        double x = event.getX();
+        double y = event.getY();
+      System.out.println("Mouse clicked at coordinates: X=" + x + ", Y=" + y);
     }
 }
