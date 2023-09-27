@@ -33,6 +33,7 @@ public class BoardController {
 
     @FXML
     private void initialize() {
+        draw.setOnAction(this::handleDrawButton);
     }
 
     @FXML
