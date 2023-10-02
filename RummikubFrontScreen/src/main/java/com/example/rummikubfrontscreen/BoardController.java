@@ -33,7 +33,7 @@ public class BoardController {
         Button[] var1 = new Button[]{this.button1, this.button2, this.button3, this.button4};
         int var2 = var1.length;
 
-        for(int var3 = 0; var3 < var2; ++var3) {
+        for (int var3 = 0; var3 < var2; ++var3) {
             Button button = var1[var3];
             if (button.getText().isEmpty()) {
                 int randomIndex = (new Random()).nextInt(this.randomValues.length);
@@ -45,20 +45,20 @@ public class BoardController {
 
     }
 
-    @FXML
+    /*@FXML
     private void handleButtonClick(ActionEvent e) {
         GameBoardController gc = new GameBoardController();
         Button clickedButton = (Button)e.getSource();
         gc.setButton(clickedButton);
-        /*String buttonValue = clickedButton.getText();
+        String buttonValue = clickedButton.getText();
         if (buttonValue.isEmpty()) {
             clickedButton.setText(this.label.getText());
             this.label.setText("");
         } else {
             this.label.setText(buttonValue);
             clickedButton.setText("");
-        }*/
-
-    }
+        }
+     }
+     */
 }
 

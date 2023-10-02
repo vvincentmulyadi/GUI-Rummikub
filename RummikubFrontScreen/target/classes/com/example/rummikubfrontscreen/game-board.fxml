@@ -9,12 +9,12 @@
 
 <AnchorPane prefHeight="466.0" prefWidth="519.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rummikubfrontscreen.GameBoardController">
    <children>
-      <Pane fx:id="Pane" onMouseClicked="#coButtonClick" prefHeight="466.0" prefWidth="519.0" style="-fx-background-color: GRAY;" xmlns:fx="http://javafx.com/fxml/1">
+      <Pane fx:id="Pane" onMouseClicked="#handlePaneClick" prefHeight="466.0" prefWidth="519.0" style="-fx-background-color: GRAY;" xmlns:fx="http://javafx.com/fxml/1">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="139.0" layoutY="327.0" stroke="WHITE" strokeType="INSIDE" width="343.0" />
-            <Button fx:id="btn1" layoutX="20.0" layoutY="350.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
-            <Button fx:id="btn2" layoutX="65.0" layoutY="350.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
-            <Button fx:id="btn3" layoutX="112.0" layoutY="350.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="button1" layoutX="20.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn2" layoutX="65.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn3" layoutX="112.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="41.0" prefWidth="33.0" />
             <Button fx:id="btn4" layoutX="156.0" layoutY="350.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
             <Button fx:id="btn5" layoutX="199.0" layoutY="350.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
             <Button fx:id="btn6" layoutX="242.0" layoutY="350.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
