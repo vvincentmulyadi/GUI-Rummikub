@@ -1,5 +1,5 @@
 package com.example.rummikubfrontscreen.setup;
 
-enum Colour{
+public enum Colour{
     RED, BLUE, BLACK, YELLOW
 }

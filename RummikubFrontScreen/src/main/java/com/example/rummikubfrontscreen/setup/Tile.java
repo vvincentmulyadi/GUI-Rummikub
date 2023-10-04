@@ -1,6 +1,9 @@
 package com.example.rummikubfrontscreen.setup;
 
 public class Tile {
+
+    public Tile() {}
+
     private Colour colour;
     private Value value;
 

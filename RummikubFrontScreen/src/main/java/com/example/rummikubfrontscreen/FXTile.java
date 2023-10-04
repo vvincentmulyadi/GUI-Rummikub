@@ -1,35 +1,42 @@
 package com.example.rummikubfrontscreen;
 
+import com.example.rummikubfrontscreen.setup.Colour;
+import com.example.rummikubfrontscreen.setup.Tile;
+import com.example.rummikubfrontscreen.setup.Value;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Paint;
 
-public class FXTile implements EventHandler<MouseEvent> {
+public class FXTile extends Tile {
+
+    public String fxTileID;
 
     Button fxTile = new Button();
 
-    // Number and first letter of colour e.g. 4B -- is 4 black
-    private String fxTileID;
+    public FXTile (){
 
+    }
 
+    public FXTile(Colour colour, Value value){
+        super(colour, value);
+    }
 
-   /* public FXTile(double x, double y, String fxTileID){
-        fxTile.setLayoutX(x);
-        fxTile.setLayoutY(y);
-        //fxTile.setTileID(fxTileID);
-    }*/
-
-    public void setFXTileID(String tileID){
+    public void setFXTileID(String fxTileID){
         this.fxTileID = fxTileID;
     }
-    public String getTileID(){
-        return fxTileID;
+
+    public void setFXTile(Paint color, Value value){
+        fxTile.setText(value.name());
+        fxTile.setTextFill(color);
     }
 
-    public void handle(MouseEvent event){
-        fxTile.setLayoutX(event.getSceneX());
-        fxTile.setLayoutY(event.getSceneY());
-    }
+
+
+
+
+
+
 
 }
