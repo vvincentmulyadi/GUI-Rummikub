@@ -1,12 +1,17 @@
 package com.example.rummikubfrontscreen;
 
+import com.example.rummikubfrontscreen.setup.Colour;
+import com.example.rummikubfrontscreen.setup.Value;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class GameBoardController {
@@ -71,9 +76,21 @@ public class GameBoardController {
         // Create a new button
         Button newButton = new Button("New Button");
 
-        // Set its position
-        newButton.setLayoutX(20); // Set the X-coordinate
-        newButton.setLayoutY(350); // Set the Y-coordinate
+        Colour colour = getRandomColour();
+        Value value = getRandomValue();
+        fxTile = initFXTile(colour, value);
+
+        double initialX = 20;
+        double initialY = 350;
+
+        while (isButtonOccupyingCoordinates(initialX, initialY)) {
+            if (initialX < 270){
+                initialX += 45;
+            } else {
+                initialX = 20;
+                initialY = 405;
+            }
+        }
 
         // Set its size
         newButton.setPrefWidth(33); // Set the width
@@ -82,4 +99,52 @@ public class GameBoardController {
         // Add the new button to the root pane
         Pane.getChildren().add(newButton);
     }
+
+    private boolean isButtonOccupyingCoordinates(double x, double y) {
+        for (javafx.scene.Node node : Pane.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                if (button.getLayoutX() == x && button.getLayoutY() == y) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+   public static Colour getRandomColour(){
+        Colour[] colours = Colour.values();
+        Random rand = new Random();
+        int i = rand.nextInt(colours.length);
+        return colours[i];
+    }
+
+    public static Value getRandomValue(){
+        Value[] values = Value.values();
+        Random rand = new Random();
+        int i = rand.nextInt(values.length);
+        return values[i];
+    }
+
+    public FXTile initFXTile(Colour colour, Value value){
+        FXTile fxTile = new FXTile();
+        fxTile.setFXTile(convertColourToPaint(colour), value);
+        return fxTile;
+    }
+
+    private Paint convertColourToPaint(Colour colour){
+        switch (colour) {
+            case RED:
+                return Color.RED;
+            case BLUE:
+                return Color.BLUE;
+            case BLACK:
+                return Color.BLACK;
+            case YELLOW:
+                return Color.YELLOW;
+        }
+        return Color.WHITE;
+    }
+
+
 }

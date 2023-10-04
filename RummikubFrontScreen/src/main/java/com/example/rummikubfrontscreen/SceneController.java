@@ -1,5 +1,7 @@
 package com.example.rummikubfrontscreen;
 
+import com.example.rummikubfrontscreen.setup.GameApp;
+import com.example.rummikubfrontscreen.setup.GameSetup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -27,6 +29,8 @@ public class SceneController {
 
     public void switchToBoardScene(ActionEvent event) throws IOException{
         initializeScene(event, "game-board-copy.fxml");
+        GameApp gameApp = new GameApp();
+
     }
 
     public void switchToMakeNewPlayersScene(ActionEvent event) throws IOException{
