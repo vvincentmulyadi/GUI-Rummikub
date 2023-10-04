@@ -35,6 +35,7 @@ public class GameSetup {
             player.sortByColour(player.hand);
             System.out.println(player.getHand());
         }
+        System.out.println(game.getTiles());
 
 
         Board board = new Board();
@@ -62,7 +63,7 @@ public class GameSetup {
         for (int i = 0; i <  14; i++) {
             int index = rand.nextInt(size - i);
             hand.add(tiles.get(index));
-             tiles.remove(index);
+            tiles.remove(index);
         }
         return hand;
     }
