@@ -62,4 +62,24 @@ public class GameBoardController {
         selectedButton = (Button) event.getSource();
         System.out.println(selectedButton);
     }
+
+    @FXML
+    private Pane Pane;
+
+    @FXML
+    private void drawButton() {
+        // Create a new button
+        Button newButton = new Button("New Button");
+
+        // Set its position
+        newButton.setLayoutX(20); // Set the X-coordinate
+        newButton.setLayoutY(350); // Set the Y-coordinate
+
+        // Set its size
+        newButton.setPrefWidth(33); // Set the width
+        newButton.setPrefHeight(41); // Set the height
+
+        // Add the new button to the root pane
+        Pane.getChildren().add(newButton);
+    }
 }

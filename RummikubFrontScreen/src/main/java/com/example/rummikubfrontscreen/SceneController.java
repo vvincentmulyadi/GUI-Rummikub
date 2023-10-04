@@ -26,7 +26,7 @@ public class SceneController {
     }
 
     public void switchToBoardScene(ActionEvent event) throws IOException{
-        initializeScene(event, "game-board.fxml");
+        initializeScene(event, "game-board-copy.fxml");
     }
 
     public void switchToMakeNewPlayersScene(ActionEvent event) throws IOException{
