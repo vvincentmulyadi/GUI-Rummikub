@@ -32,12 +32,13 @@ public class GameApp {
         curPlr = plrs.get((i+1)%(plrs.size()-1));
     }
 
-    public void draw(Player player){
+    public Tile draw(){
         Random rand = new Random();
         int i = rand.nextInt(tiles.size())-1;
         Tile tile = tiles.get(i);
-        player.hand.add(tile);
+        curPlr.hand.add(tile);
         tiles.remove(i);
+        return tile;
     }
     public Player getCurPlr() {
         return curPlr;
