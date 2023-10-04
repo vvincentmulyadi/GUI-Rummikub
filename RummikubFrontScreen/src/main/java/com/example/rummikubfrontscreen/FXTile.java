@@ -28,7 +28,7 @@ public class FXTile extends Tile {
     }
 
     public void setFXTile(Paint color, Value value){
-        fxTile.setText(value.name());
+        fxTile.setText(value.getValueSymbol());
         fxTile.setTextFill(color);
     }
 

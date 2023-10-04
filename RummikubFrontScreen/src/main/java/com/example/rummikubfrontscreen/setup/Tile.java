@@ -1,5 +1,7 @@
 package com.example.rummikubfrontscreen.setup;
 
+import javafx.scene.control.Button;
+
 public class Tile {
 
     public Tile() {}
