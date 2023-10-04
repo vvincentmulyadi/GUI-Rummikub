@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameApp {
+
     GameSetup gs = new GameSetup();
     BoardOverhead bohe = new BoardOverhead (gs.getBoard(),gs.getPlayers());
     ArrayList<Player> plrs = bohe.getPlayers();
@@ -42,6 +43,12 @@ public class GameApp {
         return curPlr;
     }
 
+    public GameSetup getGs() {
+        return gs;
+    }
 
+    public BoardOverhead getBohe() {
+        return bohe;
+    }
 
 }
