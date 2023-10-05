@@ -13,12 +13,19 @@ import java.util.Random;
 
 public class GameApp {
 
-    GameSetup gs = new GameSetup();
-    BoardOverhead bohe = new BoardOverhead (gs.getBoard(),gs.getPlayers());
-    ArrayList<Player> plrs = bohe.getPlayers();
+    GameSetup gs;
+    BoardOverhead bohe;
+    ArrayList<Player> plrs;
+    private Player curPlr;
+    private ArrayList<Tile> tiles;
 
-    private Player curPlr = plrs.get(0);
-    private ArrayList<Tile> tiles = gs.getTiles();
+    public GameApp(){
+        gs = new GameSetup();
+        bohe =  new BoardOverhead (gs.getBoard(),gs.getPlayers());
+        plrs = bohe.getPlayers();
+        curPlr = plrs.get(0);
+        tiles = gs.getTiles();
+    }
 
     public void letsPlayRummi(){
     }
@@ -27,14 +34,14 @@ public class GameApp {
         return false;
     }
 
-    private void nextPlayer () {
+    public void nextPlayer () {
         int i = plrs.indexOf(curPlr);
         curPlr = plrs.get((i+1)%(plrs.size()-1));
     }
 
     public Tile draw(){
         Random rand = new Random();
-        int i = rand.nextInt(tiles.size())-1;
+        int i = rand.nextInt(tiles.size()-1);
         Tile tile = tiles.get(i);
         curPlr.hand.add(tile);
         tiles.remove(i);
