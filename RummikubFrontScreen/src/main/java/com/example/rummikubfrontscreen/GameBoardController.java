@@ -32,8 +32,6 @@ public class GameBoardController {
     private Colour colour;
 
     private Value value;
-    double initialX = 20;
-    double initialY = 350;
 
     private ArrayList<Button> fxTileButtons = new ArrayList<>();
 
@@ -63,15 +61,93 @@ public class GameBoardController {
     private void handleButtonClick(ActionEvent event){
         fxTile.fxTileButton = (Button) event.getSource();
         System.out.println(fxTile.fxTileButton.getText());
+        System.out.println("Hi");
     }
 
     @FXML
-    private Pane Pane;
+    private void changePlayer() {
+
+        gameApp.nextPlayer();
+        gameApp.getGs().getTiles();
+        tiles = gameApp.getCurPlr().getHand();
+
+        for (int i = 0; i < fxTileButtons.size(); i++) {
+            Pane.getChildren().remove(fxTileButtons.get(i));
+        }
+
+        for (int i = 0; i < tiles.size(); i++) {
+            colour = tiles.get(i).getColour();
+            value = tiles.get(i).getValue();
+            fxTile = initFXTile(colour, value);
+            fxTiles.add(fxTile);
+
+            double initialX = 20;
+            double initialY = 350;
+
+            while (isButtonOccupyingCoordinates(initialX, initialY)) {
+                if (initialX < 270) {
+                    initialX += 45;
+                } else {
+                    initialX = 20;
+                    initialY = 405;
+                }
+            }
+
+            fxTile.fxTileButton.setLayoutX(initialX);
+            fxTile.fxTileButton.setLayoutY(initialY);
+
+            fxTile.fxTileButton.setPrefWidth(33);
+            fxTile.fxTileButton.setPrefHeight(41);
+
+            Pane.getChildren().add(fxTile.fxTileButton);
+            fxTileButtons.set(i, fxTile.fxTileButton);
+
+        }
+        initializeTileAsButton();
+    }
+
+    @FXML
+    private void start(){
+        gameApp = new GameApp();
+        gameApp.getGs().getPlayers();
+        gameApp.getGs().getTiles();
+        tiles = gameApp.getCurPlr().getHand();
+
+        for (int i = 0; i < tiles.size(); i++){
+            colour = tiles.get(i).getColour();
+            value = tiles.get(i).getValue();
+            fxTile = initFXTile(colour, value);
+            fxTiles.add(fxTile);
+
+            double initialX = 20;
+            double initialY = 350;
+
+
+            while (isButtonOccupyingCoordinates(initialX, initialY)) {
+                if (initialX < 270){
+                    initialX += 45;
+                } else {
+                    initialX = 20;
+                    initialY = 405;
+                }
+            }
+
+            fxTile.fxTileButton.setLayoutX(initialX);
+            fxTile.fxTileButton.setLayoutY(initialY);
+
+            fxTile.fxTileButton.setPrefWidth(33);
+            fxTile.fxTileButton.setPrefHeight(41);
+
+            Pane.getChildren().add(fxTile.fxTileButton);
+            fxTileButtons.add(fxTile.fxTileButton);
+        }
+        initializeTileAsButton();
+    }
 
     @FXML
     private void drawButton() {
-        // Create a new button
-        Button newButton = new Button("New Button");
+        tile = new Tile();
+        tile = gameApp.draw();
 
         colour = tile.getColour();
         value = tile.getValue();
@@ -92,12 +168,15 @@ public class GameBoardController {
             }
         }
 
-        // Set its size
-        newButton.setPrefWidth(33); // Set the width
-        newButton.setPrefHeight(41); // Set the height
+        fxTile.fxTileButton.setLayoutX(initialX);
+        fxTile.fxTileButton.setLayoutY(initialY);
 
-        // Add the new button to the root pane
-        Pane.getChildren().add(newButton);
+        fxTile.fxTileButton.setPrefWidth(33);
+        fxTile.fxTileButton.setPrefHeight(41);
+
+        Pane.getChildren().add(fxTile.fxTileButton);
+        fxTileButtons.add(fxTile.fxTileButton);
+        initializeTileAsButton();
     }
 
     private boolean isButtonOccupyingCoordinates(double x, double y) {
