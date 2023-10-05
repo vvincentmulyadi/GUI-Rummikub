@@ -16,7 +16,7 @@ public class GameSetup {
     public GameSetup () {
         generateTiles();
         generateBoard();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             players.add(new Player(generateHand()));
         }
         for (Player player : players) {
