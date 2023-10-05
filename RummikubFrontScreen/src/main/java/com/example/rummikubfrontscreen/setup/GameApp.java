@@ -43,7 +43,7 @@ public class GameApp {
         Random rand = new Random();
         int i = rand.nextInt(tiles.size()-1);
         Tile tile = tiles.get(i);
-        curPlr.hand.add(tile);
+        curPlr.addTile(tile);
         tiles.remove(i);
         return tile;
     }
