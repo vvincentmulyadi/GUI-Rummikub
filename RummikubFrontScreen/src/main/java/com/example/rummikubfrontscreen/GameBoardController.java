@@ -89,7 +89,7 @@ public class GameBoardController {
                     initialX += 45;
                 } else {
                     initialX = 20;
-                    initialY = 405;
+                    initialY = 395;
                 }
             }
 
@@ -128,7 +128,7 @@ public class GameBoardController {
                     initialX += 45;
                 } else {
                     initialX = 20;
-                    initialY = 405;
+                    initialY = 395;
                 }
             }
 
@@ -157,12 +157,8 @@ public class GameBoardController {
         double initialY = 350;
 
         while (isButtonOccupyingCoordinates(initialX, initialY)) {
-            if (initialX < 270){
-                initialX += 45;
-            } else if (initialY >= 405){
-                initialX = 20;
-                initialY = 450;
-            } else{
+            initialX += 45;
+            if(initialX == 335){
                 initialX = 20;
                 initialY += 45;
             }
