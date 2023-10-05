@@ -61,7 +61,6 @@ public class GameBoardController {
     private void handleButtonClick(ActionEvent event){
         fxTile.fxTileButton = (Button) event.getSource();
         System.out.println(fxTile.fxTileButton.getText());
-        System.out.println("Hi");
     }
 
     @FXML
@@ -85,11 +84,10 @@ public class GameBoardController {
             double initialY = 350;
 
             while (isButtonOccupyingCoordinates(initialX, initialY)) {
-                if (initialX < 270) {
-                    initialX += 45;
-                } else {
+                initialX += 45;
+                if(initialX == 335){
                     initialX = 20;
-                    initialY = 395;
+                    initialY += 45;
                 }
             }
 
