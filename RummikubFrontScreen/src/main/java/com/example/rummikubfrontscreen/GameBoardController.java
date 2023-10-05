@@ -1,6 +1,8 @@
 package com.example.rummikubfrontscreen;
 
 import com.example.rummikubfrontscreen.setup.Colour;
+import com.example.rummikubfrontscreen.setup.GameApp;
+import com.example.rummikubfrontscreen.setup.Tile;
 import com.example.rummikubfrontscreen.setup.Value;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,38 +17,33 @@ import java.util.Random;
 
 
 public class GameBoardController {
-    @FXML
-    private Pane pane;
-    @FXML
-    private Button selectedButton;
 
-    private FXTile tile;
-    /*@FXML
-    private void initialize(){
-        node.setOnMouseClicked(this::coButtonClick);
-    }*/
-    /*@FXML
-    private void tilesButtonClick(ActionEvent e) {
-        Button clickedButton = (Button)e.getSource();
-        String clickedButton = click
-        if (buttonValue.isEmpty()) {
-            clickedButton.setText(this.label.getText());
-            this.label.setText("");
-        } else {
-            this.label.setText(buttonValue);
-            clickedButton.setText("");
+    @FXML
+    private Pane Pane;
+
+    public GameApp gameApp;
+
+    public Tile tile;
+
+    private ArrayList<Tile> tiles;
+
+    private FXTile fxTile;
+
+    private Colour colour;
+
+    private Value value;
+    double initialX = 20;
+    double initialY = 350;
+
+    private ArrayList<Button> fxTileButtons = new ArrayList<>();
+
+    private ArrayList<FXTile> fxTiles = new ArrayList<FXTile>();
+
+    @FXML
+    private void initializeTileAsButton(){
+        for (Button button: fxTileButtons){
+            button.setOnAction(this::handleButtonClick);
         }
-
-    }*/
-
-    public void setTileToBeClicked(FXTile tile){
-        this.tile = tile;
-    }
-
-    @FXML
-    private void selectTile(ActionEvent e){
-        tile = new FXTile();
-        tile.setFXTileID("button1");
     }
 
     @FXML
@@ -54,9 +51,9 @@ public class GameBoardController {
         double x = event.getSceneX();
         double y = event.getSceneY();
 
-        if (selectedButton != null){
-            selectedButton.setLayoutX(event.getSceneX());
-            selectedButton.setLayoutY(event.getSceneY());
+        if (fxTile.fxTileButton != null){
+            fxTile.fxTileButton.setLayoutX(event.getSceneX());
+            fxTile.fxTileButton.setLayoutY(event.getSceneY());
         }
 
         System.out.println("Mouse clicked at coordinates: X=" + x + ", Y=" + y);
@@ -64,8 +61,8 @@ public class GameBoardController {
 
     @FXML
     private void handleButtonClick(ActionEvent event){
-        selectedButton = (Button) event.getSource();
-        System.out.println(selectedButton);
+        fxTile.fxTileButton = (Button) event.getSource();
+        System.out.println(fxTile.fxTileButton.getText());
     }
 
     @FXML
@@ -76,8 +73,8 @@ public class GameBoardController {
         // Create a new button
         Button newButton = new Button("New Button");
 
-        Colour colour = getRandomColour();
-        Value value = getRandomValue();
+        colour = tile.getColour();
+        value = tile.getValue();
         fxTile = initFXTile(colour, value);
 
         double initialX = 20;
@@ -86,9 +83,12 @@ public class GameBoardController {
         while (isButtonOccupyingCoordinates(initialX, initialY)) {
             if (initialX < 270){
                 initialX += 45;
-            } else {
+            } else if (initialY >= 405){
                 initialX = 20;
-                initialY = 405;
+                initialY = 450;
+            } else{
+                initialX = 20;
+                initialY += 45;
             }
         }
 
@@ -135,15 +135,23 @@ public class GameBoardController {
     private Paint convertColourToPaint(Colour colour){
         switch (colour) {
             case RED:
-                return Color.RED;
+                return Color.CRIMSON;
             case BLUE:
-                return Color.BLUE;
+                return Color.DARKCYAN;
             case BLACK:
                 return Color.BLACK;
             case YELLOW:
-                return Color.YELLOW;
+                return Color.ORANGE;
         }
         return Color.WHITE;
+    }
+
+    public void initGameBoard(){
+        gameApp = new GameApp();
+        gameApp.getGs().getPlayers();
+        gameApp.getGs().getPlayers();
+        gameApp.getGs().getTiles();
+
     }
 
 

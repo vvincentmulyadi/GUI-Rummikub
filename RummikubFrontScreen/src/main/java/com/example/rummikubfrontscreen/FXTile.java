@@ -5,6 +5,7 @@ import com.example.rummikubfrontscreen.setup.Tile;
 import com.example.rummikubfrontscreen.setup.Value;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
@@ -13,7 +14,7 @@ public class FXTile extends Tile {
 
     public String fxTileID;
 
-    Button fxTile = new Button();
+    Button fxTileButton = new Button();
 
     public FXTile (){
 
@@ -28,9 +29,11 @@ public class FXTile extends Tile {
     }
 
     public void setFXTile(Paint color, Value value){
-        fxTile.setText(value.getValueSymbol());
-        fxTile.setTextFill(color);
+        fxTileButton.setText(value.getValueSymbol());
+        fxTileButton.setTextFill(color);
     }
+
+
 
 
 
