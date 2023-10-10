@@ -92,18 +92,25 @@ public class GameBoardController {
             }
         }
 
-        this.buttonsOnPlayingField.clear();
+        this.buttonsOnPlayingField = buttonsOnPlayingField;
+
+
 
         for (int i = 0; i < fxTileButtons.size(); i++) {
             Pane.getChildren().remove(fxTileButtons.get(i));
         }
+
+        for (int i = 0; i < buttonsOnPlayingField.size(); i++) {
+            Pane.getChildren().remove(this.buttonsOnPlayingField.get(i));
+        }
+
 
         for (Node node : buttonsToKeep){
             if (node instanceof Button){
                 buttonsOnPlayingField.add((Button) node);
             }
         }
-        this.buttonsOnPlayingField = buttonsOnPlayingField;
+
     }
 
     @FXML
