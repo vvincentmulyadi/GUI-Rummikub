@@ -78,8 +78,6 @@ public class GameBoardController {
         double maxX = 485;
         double maxY = 285;
 
-        System.out.println(Pane.getChildren());
-
         ArrayList<Node> buttonsToKeep = new ArrayList<>();
         for (Node node : Pane.getChildren()) {
             if (node instanceof Button){
@@ -94,15 +92,18 @@ public class GameBoardController {
             }
         }
 
+        this.buttonsOnPlayingField = buttonsOnPlayingField;
+
 
 
         for (int i = 0; i < fxTileButtons.size(); i++) {
             Pane.getChildren().remove(fxTileButtons.get(i));
         }
 
-        System.out.println(Pane.getChildren());
+        for (int i = 0; i < buttonsOnPlayingField.size(); i++) {
+            Pane.getChildren().remove(this.buttonsOnPlayingField.get(i));
+        }
 
-        this.buttonsOnPlayingField = new ArrayList<>();
 
         for (Node node : buttonsToKeep){
             if (node instanceof Button){
@@ -110,11 +111,6 @@ public class GameBoardController {
             }
         }
 
-        this.buttonsOnPlayingField = buttonsOnPlayingField;
-
-        for (int i = 0; i < this.buttonsOnPlayingField.size(); i++) {
-            Pane.getChildren().remove(this.buttonsOnPlayingField.get(i));
-        }
     }
 
     @FXML
@@ -133,7 +129,6 @@ public class GameBoardController {
         tiles = gameApp.getCurPlr().getHand();
 
         for (int i = 0; i < buttonsOnPlayingField.size(); i++) {
-
 
             buttonsOnPlayingField.get(i).setLayoutX(buttonsOnPlayingFieldPosX.get(i));
             buttonsOnPlayingField.get(i).setLayoutY(buttonsOnPlayingFieldPosY.get(i));
