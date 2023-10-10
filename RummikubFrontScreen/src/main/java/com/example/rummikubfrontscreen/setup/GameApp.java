@@ -47,6 +47,7 @@ public class GameApp {
         tiles.remove(i);
         return tile;
     }
+
     public Player getCurPlr() {
         return curPlr;
     }

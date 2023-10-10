@@ -39,8 +39,6 @@ public class TilePositionScanner {
     }
 
     public static HashMap<Integer, ArrayList<Tile>> YScanner (ArrayList<Tile> tiles) {
-        int[] x = {1,2,3,4};
-        //int[] y = {2,3,4,5};
         // width 33, height 41 range 15
         HashMap<Integer, ArrayList<Tile>> map = new HashMap<>();
         ArrayList<Tile> arr = new ArrayList<>();

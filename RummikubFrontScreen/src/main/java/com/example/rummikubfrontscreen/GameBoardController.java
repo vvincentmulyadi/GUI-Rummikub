@@ -6,6 +6,7 @@ import com.example.rummikubfrontscreen.setup.Tile;
 import com.example.rummikubfrontscreen.setup.Value;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -37,6 +38,13 @@ public class GameBoardController {
 
     private ArrayList<FXTile> fxTiles = new ArrayList<FXTile>();
 
+    private ArrayList<Button> buttonsOnPlayingField = new ArrayList<>();
+
+    private ArrayList<Double> buttonsOnPlayingFieldPosX = new ArrayList<>();
+    private ArrayList<Double> buttonsOnPlayingFieldPosY = new ArrayList<>();
+
+    private ArrayList<Button> buttonsInPlayerHand = new ArrayList<>();
+
     @FXML
     private void initializeTileAsButton(){
         for (Button button: fxTileButtons){
@@ -63,27 +71,76 @@ public class GameBoardController {
         System.out.println(fxTile.fxTileButton.getText());
     }
 
-    @FXML
-    private void changePlayer() {
+    public void resetPlayingField() {
+        ArrayList<Button> buttonsOnPlayingField =  new ArrayList<>();
+        double minX = 1;
+        double minY = 1;
+        double maxX = 485;
+        double maxY = 285;
 
-        gameApp.nextPlayer();
-        gameApp.getGs().getTiles();
-        tiles = gameApp.getCurPlr().getHand();
+        ArrayList<Node> buttonsToKeep = new ArrayList<>();
+        for (Node node : Pane.getChildren()) {
+            if (node instanceof Button){
+                double buttonX = node.getLayoutX();
+                double buttonY = node.getLayoutY();
+
+                if (buttonX >= minX && buttonX <= maxX && buttonY >= minY && buttonY <= maxY) {
+                    buttonsToKeep.add(node);
+                    buttonsOnPlayingFieldPosX.add(node.getLayoutX());
+                    buttonsOnPlayingFieldPosY.add(node.getLayoutY());
+                }
+            }
+        }
+
+        this.buttonsOnPlayingField.clear();
 
         for (int i = 0; i < fxTileButtons.size(); i++) {
             Pane.getChildren().remove(fxTileButtons.get(i));
         }
 
-        for (int i = 0; i < tiles.size(); i++) {
+        for (Node node : buttonsToKeep){
+            if (node instanceof Button){
+                buttonsOnPlayingField.add((Button) node);
+            }
+        }
+        this.buttonsOnPlayingField = buttonsOnPlayingField;
+    }
+
+    @FXML
+    private void changePlayer() {
+
+        double initialX = 20;
+        double initialY = 350;
+
+        resetPlayingField();
+
+        /*for (int i = 0; i < fxTileButtons.size(); i++) {
+            Pane.getChildren().remove(fxTileButtons.get(i));
+        }*/
+
+        gameApp.nextPlayer();
+        tiles = gameApp.getCurPlr().getHand();
+
+        for (int i = 0; i < buttonsOnPlayingField.size(); i++) {
+
+            buttonsOnPlayingField.get(i).setLayoutX(buttonsOnPlayingFieldPosX.get(i));
+            buttonsOnPlayingField.get(i).setLayoutY(buttonsOnPlayingFieldPosY.get(i));
+
+            buttonsOnPlayingField.get(i).setPrefWidth(33);
+            buttonsOnPlayingField.get(i).setPrefHeight(41);
+
+            Pane.getChildren().add(buttonsOnPlayingField.get(i));
+        }
+
+
+        for (int i = 0; i < tiles.size(); i++){
             colour = tiles.get(i).getColour();
             value = tiles.get(i).getValue();
             fxTile = initFXTile(colour, value);
             fxTiles.add(fxTile);
 
-            double initialX = 20;
-            double initialY = 350;
 
-            while (isButtonOccupyingCoordinates(initialX, initialY)) {
+          while (isButtonOccupyingCoordinates(initialX, initialY)) {
                 initialX += 45;
                 if(initialX == 335){
                     initialX = 20;
@@ -99,9 +156,10 @@ public class GameBoardController {
 
             Pane.getChildren().add(fxTile.fxTileButton);
             fxTileButtons.set(i, fxTile.fxTileButton);
-
         }
+
         initializeTileAsButton();
+
     }
 
     @FXML
