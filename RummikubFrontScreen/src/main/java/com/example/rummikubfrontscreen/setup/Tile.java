@@ -17,6 +17,13 @@ public class Tile {
         this.value = value;
     }
 
+    public Tile(Colour colour, Value value, int x, int y){
+        this.colour = colour;
+        this.value = value;
+        this.x = x;
+        this.y = y;
+    }
+
     public Colour getColour(){
         return colour;
     }
