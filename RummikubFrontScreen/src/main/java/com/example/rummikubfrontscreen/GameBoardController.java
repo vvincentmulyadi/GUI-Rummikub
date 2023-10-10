@@ -79,6 +79,8 @@ public class GameBoardController {
         double maxY = 285;
 
         ArrayList<Node> buttonsToKeep = new ArrayList<>();
+        buttonsOnPlayingFieldPosX.clear();
+        buttonsOnPlayingFieldPosY.clear();
         for (Node node : Pane.getChildren()) {
             if (node instanceof Button){
                 double buttonX = node.getLayoutX();
@@ -104,10 +106,10 @@ public class GameBoardController {
             Pane.getChildren().remove(this.buttonsOnPlayingField.get(i));
         }
 
-
-        for (Node node : buttonsToKeep){
-            if (node instanceof Button){
-                buttonsOnPlayingField.add((Button) node);
+        buttonsOnPlayingField = new ArrayList<>();
+        for (int i = 0; i < buttonsToKeep.size(); i ++){
+            if (buttonsToKeep.get(i) instanceof Button){
+                buttonsOnPlayingField.add((Button) buttonsToKeep.get(i));
             }
         }
 
@@ -132,6 +134,9 @@ public class GameBoardController {
 
             buttonsOnPlayingField.get(i).setLayoutX(buttonsOnPlayingFieldPosX.get(i));
             buttonsOnPlayingField.get(i).setLayoutY(buttonsOnPlayingFieldPosY.get(i));
+            System.out.println(buttonsOnPlayingFieldPosX.get(i));
+            System.out.println(buttonsOnPlayingFieldPosY.get(i));
+
 
             buttonsOnPlayingField.get(i).setPrefWidth(33);
             buttonsOnPlayingField.get(i).setPrefHeight(41);
