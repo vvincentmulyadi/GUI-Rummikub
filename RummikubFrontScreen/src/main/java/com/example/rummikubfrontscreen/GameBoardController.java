@@ -72,7 +72,7 @@ public class GameBoardController {
     }
 
     public void resetPlayingField() {
-        ArrayList<Button> buttonsOnPlayingField =  new ArrayList<>();
+        //ArrayList<Button> buttonsOnPlayingField =  new ArrayList<>();
         double minX = 1;
         double minY = 1;
         double maxX = 485;
@@ -93,18 +93,23 @@ public class GameBoardController {
                 }
             }
         }
+        System.out.println(buttonsToKeep.size());
 
-        this.buttonsOnPlayingField = buttonsOnPlayingField;
+        //this.buttonsOnPlayingField;//    = buttonsOnPlayingField;
 
-
+        System.out.println(buttonsOnPlayingField);
 
         for (int i = 0; i < fxTileButtons.size(); i++) {
             Pane.getChildren().remove(fxTileButtons.get(i));
         }
 
+            System.out.println("Before deleting " +Pane.getChildren());
+            System.out.println("deleting ..." +buttonsOnPlayingField.size());
         for (int i = 0; i < buttonsOnPlayingField.size(); i++) {
+            System.out.println("Its delt with " + buttonsOnPlayingField.get(i));
             Pane.getChildren().remove(this.buttonsOnPlayingField.get(i));
         }
+            System.out.println("aFTER del "  +Pane.getChildren());
 
         buttonsOnPlayingField = new ArrayList<>();
         for (int i = 0; i < buttonsToKeep.size(); i ++){
@@ -112,7 +117,6 @@ public class GameBoardController {
                 buttonsOnPlayingField.add((Button) buttonsToKeep.get(i));
             }
         }
-
     }
 
     @FXML
@@ -129,6 +133,7 @@ public class GameBoardController {
 
         gameApp.nextPlayer();
         tiles = gameApp.getCurPlr().getHand();
+        System.out.println();
 
         for (int i = 0; i < buttonsOnPlayingField.size(); i++) {
 
@@ -141,6 +146,9 @@ public class GameBoardController {
             buttonsOnPlayingField.get(i).setPrefWidth(33);
             buttonsOnPlayingField.get(i).setPrefHeight(41);
 
+            System.out.println(Pane.getChildren());
+            System.out.println("Its turn "+ i+ " and it was a bug");
+            System.out.println("its the element: " + buttonsOnPlayingField.get(i));
             Pane.getChildren().add(buttonsOnPlayingField.get(i));
         }
 
