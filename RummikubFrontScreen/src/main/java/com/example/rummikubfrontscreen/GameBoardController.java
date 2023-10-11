@@ -72,7 +72,7 @@ public class GameBoardController {
     }
 
     public void resetPlayingField() {
-        //ArrayList<Button> buttonsOnPlayingField =  new ArrayList<>();
+        ArrayList<Tile> tiles = new ArrayList<>();
         double minX = 1;
         double minY = 1;
         double maxX = 485;
@@ -93,23 +93,18 @@ public class GameBoardController {
                 }
             }
         }
-        System.out.println(buttonsToKeep.size());
 
-        //this.buttonsOnPlayingField;//    = buttonsOnPlayingField;
 
-        System.out.println(buttonsOnPlayingField);
+
 
         for (int i = 0; i < fxTileButtons.size(); i++) {
             Pane.getChildren().remove(fxTileButtons.get(i));
         }
 
-            System.out.println("Before deleting " +Pane.getChildren());
-            System.out.println("deleting ..." +buttonsOnPlayingField.size());
         for (int i = 0; i < buttonsOnPlayingField.size(); i++) {
-            System.out.println("Its delt with " + buttonsOnPlayingField.get(i));
             Pane.getChildren().remove(this.buttonsOnPlayingField.get(i));
         }
-            System.out.println("aFTER del "  +Pane.getChildren());
+
 
         buttonsOnPlayingField = new ArrayList<>();
         for (int i = 0; i < buttonsToKeep.size(); i ++){
@@ -117,6 +112,40 @@ public class GameBoardController {
                 buttonsOnPlayingField.add((Button) buttonsToKeep.get(i));
             }
         }
+        System.out.println("Player hand: "+gameApp.getCurPlr().getHand());
+        System.out.println(buttonsOnPlayingField);
+        System.out.println(tiles);
+        int i = 0;
+        for (FXTile fxTile : fxTiles) {
+        //for (int i = 0; i < fxTiles.size(); i++){
+            if(fxTile.equals(fxTiles.get(fxTiles.size()-1))){continue;}
+            double posX = fxTile.fxTileButton.getLayoutX();
+            double posY = fxTile.fxTileButton.getLayoutY();
+            if (posX >= minX && posX <= maxX && posY >= minY && posY <= maxY ) {
+                fxTile.getTile().setX(posX);
+                fxTile.getTile().setY(posY);
+                tiles.add(fxTile.getTile());
+                gameApp.getCurPlr().removeTile(fxTile.getTile());
+                i++;
+                System.out.println(posX + " and " + posY);
+            }
+        }
+        System.out.println(tiles);
+        System.out.println("i: "+i);
+        System.out.println("Player hand: "+ gameApp.getCurPlr().getHand());
+        fxTiles.clear();
+
+
+//        for (FXTile fxTile : fxTiles){
+//            double posX = fxTile.fxTileButton.getLayoutX();
+//            double posY = fxTile.fxTileButton.getLayoutY();
+//            if (posX >= minX && posX <= maxX && posY >= minY && posY <= maxY){
+//                fxTile.setX(posX);
+//                fxTile.setY(posY);
+//                System.out.println(fxTile.getColour());
+//                tiles.add(fxTile);
+//            }
+//        }
     }
 
     @FXML
@@ -147,16 +176,12 @@ public class GameBoardController {
             buttonsOnPlayingField.get(i).setPrefHeight(41);
 
             System.out.println(Pane.getChildren());
-            System.out.println("Its turn "+ i+ " and it was a bug");
-            System.out.println("its the element: " + buttonsOnPlayingField.get(i));
             Pane.getChildren().add(buttonsOnPlayingField.get(i));
         }
 
 
         for (int i = 0; i < tiles.size(); i++){
-            colour = tiles.get(i).getColour();
-            value = tiles.get(i).getValue();
-            fxTile = initFXTile(colour, value);
+            fxTile = initFXTile(tiles.get(i));
             fxTiles.add(fxTile);
 
 
@@ -185,14 +210,10 @@ public class GameBoardController {
     @FXML
     private void start(){
         gameApp = new GameApp();
-        gameApp.getGs().getPlayers();
-        gameApp.getGs().getTiles();
         tiles = gameApp.getCurPlr().getHand();
 
         for (int i = 0; i < tiles.size(); i++){
-            colour = tiles.get(i).getColour();
-            value = tiles.get(i).getValue();
-            fxTile = initFXTile(colour, value);
+            fxTile = initFXTile(tiles.get(i));
             fxTiles.add(fxTile);
 
             double initialX = 20;
@@ -227,7 +248,7 @@ public class GameBoardController {
 
         colour = tile.getColour();
         value = tile.getValue();
-        fxTile = initFXTile(colour, value);
+        fxTile = initFXTile(tile);
 
         double initialX = 20;
         double initialY = 350;
@@ -277,9 +298,9 @@ public class GameBoardController {
         return values[i];
     }
 
-    public FXTile initFXTile(Colour colour, Value value){
-        FXTile fxTile = new FXTile();
-        fxTile.setFXTile(convertColourToPaint(colour), value);
+    public FXTile initFXTile(Tile tile){
+        FXTile fxTile = new FXTile(tile);
+        fxTile.setFXTile(convertColourToPaint(tile.getColour()), tile.getValue());
         return fxTile;
     }
 

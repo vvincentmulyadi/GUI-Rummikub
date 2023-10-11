@@ -17,7 +17,7 @@ public class GameApp {
     BoardOverhead bohe;
     ArrayList<Player> plrs;
     private Player curPlr;
-    private ArrayList<Tile> tiles;
+    public ArrayList<Tile> tiles;
 
     public GameApp(){
         gs = new GameSetup();

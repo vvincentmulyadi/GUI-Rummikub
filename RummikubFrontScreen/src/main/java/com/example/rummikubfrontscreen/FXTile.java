@@ -14,14 +14,17 @@ public class FXTile extends Tile {
 
     public String fxTileID;
 
+
+    private Tile tile;
     Button fxTileButton = new Button();
 
     public FXTile (){
 
     }
 
-    public FXTile(Colour colour, Value value){
-        super(colour, value);
+    public FXTile(Tile tile){
+        super(tile.getColour(), tile.getValue());
+        this.tile = tile;
     }
 
     public void setFXTileID(String fxTileID){
@@ -32,6 +35,12 @@ public class FXTile extends Tile {
         fxTileButton.setText(value.getValueSymbol());
         fxTileButton.setTextFill(color);
     }
+
+    public Tile getTile() {
+        return this.tile;
+    }
+
+
 
 
 

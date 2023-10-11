@@ -10,10 +10,10 @@ import javafx.scene.paint.Paint;
 
 public class initFXTile {
 
-    public void initFXTile(Colour colour, Value value){
+    /*public void initFXTile(Colour colour, Value value){
         FXTile fxTile = new FXTile(colour, value);
         fxTile.setFXTile(convertColourToPaint(colour), value);
-    }
+    }*/
 
     private Paint convertColourToPaint(Colour colour){
         switch (colour) {

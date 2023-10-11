@@ -47,7 +47,7 @@ public class TilePositionScanner {
         for(int i = 1; i < tiles.size(); i++ ){
             boolean added = false;
             Tile currTile = tiles.get(i);
-            int y = currTile.getY();
+            double y = currTile.getY();
             for(int j = 0; j<map.size(); j++){
                 Tile compare = map.get(j).get(0);
                 if(Math.abs(y-compare.getY()) <= 15){
@@ -74,8 +74,8 @@ public class TilePositionScanner {
             for(int j = 0; j<map.get(i).size()-1; j++){
                 Tile currTile = map.get(i).get(j);
                 Tile nextTile = map.get(i).get(j+1);
-                int currX = currTile.getX();
-                int nextX = nextTile.getX();
+                double currX = currTile.getX();
+                double nextX = nextTile.getX();
                 if(Math.abs(currX-nextX) <= 15){
                     arr.get(arr.size()-1).add(nextTile);
                 }else{

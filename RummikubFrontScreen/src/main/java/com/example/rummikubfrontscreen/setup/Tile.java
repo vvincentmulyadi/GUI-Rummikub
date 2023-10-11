@@ -8,8 +8,8 @@ public class Tile {
 
     private Colour colour;
     private Value value;
-    private int x;
-    private int y;
+    private double x;
+    private double y;
 
 
     public Tile(Colour colour, Value value){
@@ -24,6 +24,8 @@ public class Tile {
         this.y = y;
     }
 
+
+
     public Colour getColour(){
         return colour;
     }
@@ -35,19 +37,19 @@ public class Tile {
     public String toString(){
         return getValue().getValue() + " " + getColour().toString();
     }
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
