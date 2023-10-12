@@ -57,6 +57,7 @@ public class GameBoardController {
         double x = event.getSceneX();
         double y = event.getSceneY();
 
+        System.out.println(fxTile.fxTileButton);
         if (fxTile.fxTileButton != null){
             fxTile.fxTileButton.setLayoutX(event.getSceneX());
             fxTile.fxTileButton.setLayoutY(event.getSceneY());
@@ -68,7 +69,7 @@ public class GameBoardController {
     @FXML
     private void handleButtonClick(ActionEvent event){
         fxTile.fxTileButton = (Button) event.getSource();
-        System.out.println(fxTile.fxTileButton.getText());
+        System.out.println("Button: "+fxTile.fxTileButton.getText()+" was place");
     }
 
     public void resetPlayingField() {
@@ -81,7 +82,12 @@ public class GameBoardController {
         ArrayList<Node> buttonsToKeep = new ArrayList<>();
         buttonsOnPlayingFieldPosX.clear();
         buttonsOnPlayingFieldPosY.clear();
-        for (Node node : Pane.getChildren()) {
+        Colour colour;
+        Paint paint;
+        String value;
+
+        int j = 0;
+            for (Node node : Pane.getChildren()) {
             if (node instanceof Button){
                 double buttonX = node.getLayoutX();
                 double buttonY = node.getLayoutY();
@@ -90,12 +96,14 @@ public class GameBoardController {
                     buttonsToKeep.add(node);
                     buttonsOnPlayingFieldPosX.add(node.getLayoutX());
                     buttonsOnPlayingFieldPosY.add(node.getLayoutY());
+                    paint = ((Button) node).getTextFill();
+                    value = ((Button) node).getText();
+                    colour = paintToColour(paint);
+                    System.out.println("Colour: "+colour);
+                    System.out.println("Value: "+value);
                 }
             }
         }
-
-
-
 
         for (int i = 0; i < fxTileButtons.size(); i++) {
             Pane.getChildren().remove(fxTileButtons.get(i));
@@ -104,7 +112,6 @@ public class GameBoardController {
         for (int i = 0; i < buttonsOnPlayingField.size(); i++) {
             Pane.getChildren().remove(this.buttonsOnPlayingField.get(i));
         }
-
 
         buttonsOnPlayingField = new ArrayList<>();
         for (int i = 0; i < buttonsToKeep.size(); i ++){
@@ -122,7 +129,7 @@ public class GameBoardController {
             Paint c = button.getTextFill();
 
         }
-
+        //System.out.println(fxTile.fxTileButton == null);
         for (FXTile fxTile : fxTiles) {
         //for (int i = 0; i < fxTiles.size(); i++){
             //if(fxTile.equals(fxTiles.get(fxTiles.size()-1))){continue;}
@@ -138,7 +145,7 @@ public class GameBoardController {
             }
         }
         System.out.println(tiles);
-        System.out.println("i: "+i);
+        System.out.println("i: "+j);
         System.out.println("Player hand: "+ gameApp.getCurPlr().getHand());
         System.out.println(buttonsOnPlayingField);
         fxTiles.clear();
@@ -156,11 +163,29 @@ public class GameBoardController {
 //        }
     }
 
+    public Colour paintToColour(Paint paint){
+        if (paint == Color.CRIMSON){
+           return Colour.RED;
+        }
+        if (paint == Color.DARKCYAN){
+            return Colour.BLUE;
+        }
+        if (paint == Color.ORANGE){
+            return Colour.YELLOW;
+        }
+        if (paint == Color.BLACK){
+            return Colour.BLACK;
+        }
+        else return null;
+    }
+
     @FXML
     private void changePlayer() {
 
         double initialX = 20;
         double initialY = 350;
+
+        System.out.println("Last fxTile: "+fxTile.fxTileButton);
 
         resetPlayingField();
 
@@ -208,9 +233,8 @@ public class GameBoardController {
             Pane.getChildren().add(fxTile.fxTileButton);
             fxTileButtons.set(i, fxTile.fxTileButton);
         }
-
         initializeTileAsButton();
-
+        fxTile.fxTileButton = null;
     }
 
     @FXML
@@ -244,7 +268,10 @@ public class GameBoardController {
             Pane.getChildren().add(fxTile.fxTileButton);
             fxTileButtons.add(fxTile.fxTileButton);
         }
+
         initializeTileAsButton();
+        fxTile.fxTileButton = null;
+        System.out.println(fxTile.fxTileButton == null);
     }
 
     @FXML
@@ -276,6 +303,7 @@ public class GameBoardController {
         Pane.getChildren().add(fxTile.fxTileButton);
         fxTileButtons.add(fxTile.fxTileButton);
         initializeTileAsButton();
+        fxTile.fxTileButton = null;
     }
 
     private boolean isButtonOccupyingCoordinates(double x, double y) {
