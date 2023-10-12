@@ -116,9 +116,16 @@ public class GameBoardController {
         System.out.println(buttonsOnPlayingField);
         System.out.println(tiles);
         int i = 0;
+
+        for(Button button : buttonsOnPlayingField){
+            String num = button.getText();
+            Paint c = button.getTextFill();
+
+        }
+
         for (FXTile fxTile : fxTiles) {
         //for (int i = 0; i < fxTiles.size(); i++){
-            if(fxTile.equals(fxTiles.get(fxTiles.size()-1))){continue;}
+            //if(fxTile.equals(fxTiles.get(fxTiles.size()-1))){continue;}
             double posX = fxTile.fxTileButton.getLayoutX();
             double posY = fxTile.fxTileButton.getLayoutY();
             if (posX >= minX && posX <= maxX && posY >= minY && posY <= maxY ) {
@@ -133,6 +140,7 @@ public class GameBoardController {
         System.out.println(tiles);
         System.out.println("i: "+i);
         System.out.println("Player hand: "+ gameApp.getCurPlr().getHand());
+        System.out.println(buttonsOnPlayingField);
         fxTiles.clear();
 
 
@@ -168,8 +176,6 @@ public class GameBoardController {
 
             buttonsOnPlayingField.get(i).setLayoutX(buttonsOnPlayingFieldPosX.get(i));
             buttonsOnPlayingField.get(i).setLayoutY(buttonsOnPlayingFieldPosY.get(i));
-            System.out.println(buttonsOnPlayingFieldPosX.get(i));
-            System.out.println(buttonsOnPlayingFieldPosY.get(i));
 
 
             buttonsOnPlayingField.get(i).setPrefWidth(33);
@@ -317,6 +323,20 @@ public class GameBoardController {
         }
         return Color.WHITE;
     }
+
+//    private Colour convertPaintToColour(Paint p){
+//        switch (p){
+//            case Color.CRIMSON:
+//                return Colour.RED;
+//            case Color.DARKCYAN:
+//                return Colour.BLUE;
+//            case Color.BLACK:
+//                return Colour.BLACK;
+//            case Color.YELLOW:
+//                return Colour.YELLOW;
+//        }
+//        return Colour.RED;
+//    }
 
     public void initGameBoard(){
         gameApp = new GameApp();
