@@ -54,6 +54,10 @@ public class TilePositionScanner {
         // width 33, height 41 range 15
         HashMap<Integer, ArrayList<Tile>> map = new HashMap<>();
         ArrayList<Tile> arr = new ArrayList<>();
+
+        // Checks for empty or null lists
+        if (tiles != null || tiles.size() < 1) return map;
+
         arr.add(tiles.get(0));
         map.put(0, arr);
         for(int i = 1; i < tiles.size(); i++ ){

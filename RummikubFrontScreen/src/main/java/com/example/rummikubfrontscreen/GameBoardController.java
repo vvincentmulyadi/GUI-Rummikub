@@ -11,8 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+
 
 
 public class GameBoardController {
@@ -27,10 +26,7 @@ public class GameBoardController {
     private ArrayList<Tile> tiles;
 
     private FXTile fxTile;
-    private Colour color;
-    private Value value;
 
-    private Paint paint;
 
     private ArrayList<Button> fxTileButtons = new ArrayList<>();
 
@@ -41,6 +37,10 @@ public class GameBoardController {
     private ArrayList<Double> buttonsOnPlayingFieldPosX = new ArrayList<>();
     private ArrayList<Double> buttonsOnPlayingFieldPosY = new ArrayList<>();
     ArrayList<Tile> tilesInField = new ArrayList<>();
+    boolean gameStarted = false;
+
+
+
 
 
 
@@ -51,17 +51,17 @@ public class GameBoardController {
         }
     }
 
+
+    /**
+     *
+     * Creates new Button() from fxTileButton. factory-like
+     */
     @FXML
     private void handlePaneClick(MouseEvent event) {
-        double x = event.getSceneX();
-        double y = event.getSceneY();
-
         if (fxTile.fxTileButton != null){
             fxTile.fxTileButton.setLayoutX(event.getSceneX());
             fxTile.fxTileButton.setLayoutY(event.getSceneY());
         }
-
-        // System.out.println("Mouse clicked at coordinates: X=" + x + ", Y=" + y);
     }
 
     @FXML
@@ -141,6 +141,7 @@ public class GameBoardController {
 
     @FXML
     private void changePlayer() {
+        if (!gameStarted) return;
 
         System.out.println("Last fxTile: "+fxTile.fxTileButton);
 
@@ -169,6 +170,8 @@ public class GameBoardController {
 
     @FXML
     private void start(){
+        if (gameStarted) return;
+
         gameApp = new GameApp();
         tiles = gameApp.getCurPlr().getHand();
 
@@ -179,7 +182,8 @@ public class GameBoardController {
         }
 
         initializeTileAsButton();
-        //fxTile.fxTileButton = null;
+        gameStarted = true;
+
     }
 
     private boolean wholeProcessChecker (ArrayList<Tile> unstructuredTiles) {
@@ -193,14 +197,13 @@ public class GameBoardController {
 
     @FXML
     private void drawButton() {
-        tile = new Tile();
+        if (!gameStarted) return;
         tile = gameApp.draw();
-        color = tile.getColour();
-        value = tile.getValue();
         fxTile = initFXTile(tile);
         putButtons();
         initializeTileAsButton();
-        //fxTile.fxTileButton = null;
+
+        changePlayer();
     }
 
     private void putButtons(){
