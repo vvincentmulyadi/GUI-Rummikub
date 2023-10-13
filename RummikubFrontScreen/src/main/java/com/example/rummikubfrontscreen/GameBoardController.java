@@ -36,7 +36,7 @@ public class GameBoardController {
 
     private ArrayList<Double> buttonsOnPlayingFieldPosX = new ArrayList<>();
     private ArrayList<Double> buttonsOnPlayingFieldPosY = new ArrayList<>();
-    ArrayList<Tile> tilesInField = new ArrayList<>();
+
     boolean gameStarted = false;
 
 
@@ -70,7 +70,7 @@ public class GameBoardController {
     }
 
     public void resetPlayingField() {
-        ArrayList<Tile> tiles = gameApp.getGs().getTiles();
+        ArrayList<Tile> tiles = gameApp.getGs().getAllTiles();
         System.out.println(tiles.size());
         System.out.println("tiles list: " + tiles);
         double minX = 1;
@@ -79,6 +79,7 @@ public class GameBoardController {
         double maxY = 285;
 
         ArrayList<Node> buttonsToKeep = new ArrayList<>();
+        ArrayList<Tile> tilesInField = new ArrayList<>();
         buttonsOnPlayingFieldPosX.clear();
         buttonsOnPlayingFieldPosY.clear();
         Colour colour;
@@ -95,11 +96,13 @@ public class GameBoardController {
                     paint = ((Button) node).getTextFill();
                     value = Value.getValueBySymbol(((Button) node).getText());
                     colour = paintToColour(paint);
+                    System.out.println("this1");
                     for (int i = 0; i < tiles.size(); i++){
                         if (tiles.get(i).getColour().equals(colour) && tiles.get(i).getValue() == value) {
+                    System.out.println("this2");
+                            tilesInField.add(tiles.get(i));
                             tiles.get(i).setX(node.getLayoutX());
                             tiles.get(i).setY(node.getLayoutY());
-                            tilesInField.add(tiles.get(i));
                             if(gameApp.getCurPlr().getHand().contains(tiles.get(i))) {
                                 gameApp.getCurPlr().removeTile(tiles.get(i));
                             }
@@ -187,12 +190,13 @@ public class GameBoardController {
     }
 
     private boolean wholeProcessChecker (ArrayList<Tile> unstructuredTiles) {
+        System.out.println("Unstructered: "+unstructuredTiles);
         // Verifying game field
         TilePositionScanner tScanner = new TilePositionScanner();
-        ArrayList<ArrayList<Tile>> structeredTiles = tScanner.scanner(unstructuredTiles);
+        ArrayList<ArrayList<Tile>> structuredTiles = tScanner.scanner(unstructuredTiles);
 
-        System.out.println("The series are :"+structeredTiles);
-        return Board.boardVerifier(structeredTiles);
+        System.out.println("The series are :"+structuredTiles);
+        return Board.boardVerifier(structuredTiles);
     }
 
     @FXML

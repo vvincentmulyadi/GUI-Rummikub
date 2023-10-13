@@ -56,7 +56,7 @@ public class TilePositionScanner {
         ArrayList<Tile> arr = new ArrayList<>();
 
         // Checks for empty or null lists
-        if (tiles != null || tiles.size() < 1) return map;
+        if (tiles == null || tiles.size() < 1) return map;
 
         arr.add(tiles.get(0));
         map.put(0, arr);

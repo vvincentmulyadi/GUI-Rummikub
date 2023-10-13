@@ -6,13 +6,16 @@ import java.util.Random;
 public class GameSetup {
 
     private ArrayList<Tile> tiles;
-    
+
+
+    private ArrayList<Tile> allTiles = new ArrayList<>();
+
     private ArrayList<Player> players = new ArrayList<>();
 
     Board board;
 
 
-    
+
     public GameSetup () {
         generateTiles();
         generateBoard();
@@ -23,7 +26,7 @@ public class GameSetup {
             player.sortByColour(player.hand);
         }
     }
-    
+
 
     public static void main(String[] args) {
         GameSetup game = new GameSetup();
@@ -41,7 +44,7 @@ public class GameSetup {
         Board board = new Board();
         BoardOverhead overHead = new BoardOverhead(board,game.players);
 
-        
+
     }
 
     private void generateBoard () {
@@ -71,22 +74,35 @@ public class GameSetup {
 
     private void generateTiles () {
         tiles = new ArrayList<>();
-        for (Colour c: Colour.values()){
-            for (Value v : Value.values()) {
+
+        for (Value v : Value.values()) {
+            for (Colour c: Colour.values()){
                 tiles.add(new Tile(c,v));
             }
-            
-            for (Value v : Value.values()) {
+        }
+
+        for (int i = tiles.size()-4; i < tiles.size(); i++){
+            tiles.remove(i);
+        }
+
+        for (Tile tile : tiles) {
+            allTiles.add(tile);
+        }
+
+        for (Value v : Value.values()) {
+            for (Colour c: Colour.values()){
                 tiles.add(new Tile(c,v));
             }
         }
 
         // Delete 6 Jokers
-        for (int i = 0; i < 6; i ++) {
-            tiles.remove(13 * (i + 1));
+        for (int i = 0; i < 4; i ++) {
+            tiles.remove(tiles.size()-1);
         }
-        
+
     }
+
+
 
 
 
@@ -97,8 +113,11 @@ public class GameSetup {
     public Board getBoard() {
         return board;
     }
-    
-    
+    public ArrayList<Tile> getAllTiles() {
+        return allTiles;
+    }
+
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
