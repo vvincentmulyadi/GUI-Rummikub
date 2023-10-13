@@ -4,7 +4,6 @@ import com.example.rummikubfrontscreen.setup.Colour;
 import com.example.rummikubfrontscreen.setup.Tile;
 import com.example.rummikubfrontscreen.setup.Value;
 
-import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -32,13 +31,26 @@ public class TilePositionScanner {
         arr.add(t8);
         arr.add(t9);
         arr.add(t10);
-        HashMap<Integer, ArrayList<Tile>> map = YScanner(arr);
+        HashMap<Integer, ArrayList<Tile>> map = yScanner(arr);
         System.out.println(map);
-        ArrayList<ArrayList<Tile>> arr2 = XScanner(map);
+        ArrayList<ArrayList<Tile>> arr2 = xScanner(map);
         System.out.print(arr2);
     }
 
-    public static HashMap<Integer, ArrayList<Tile>> YScanner (ArrayList<Tile> tiles) {
+    public static ArrayList<ArrayList<Tile>> scanner (ArrayList<Tile> unstructuredTiles) {
+        HashMap<Integer, ArrayList<Tile>> map = yScanner(unstructuredTiles);
+        System.out.println(map);
+        ArrayList<ArrayList<Tile>> structeredTiles = xScanner(map);
+        for (ArrayList<Tile> structeredTile : structeredTiles) {
+            for (Tile tile : structeredTile) {
+
+                System.out.println("Coordinates: " + tile.getY()+ " "+tile.getX());
+            }
+        }
+        return structeredTiles;
+    }
+
+    private static HashMap<Integer, ArrayList<Tile>> yScanner(ArrayList<Tile> tiles) {
         // width 33, height 41 range 15
         HashMap<Integer, ArrayList<Tile>> map = new HashMap<>();
         ArrayList<Tile> arr = new ArrayList<>();
@@ -66,7 +78,7 @@ public class TilePositionScanner {
         return map;
     }
 
-    public static ArrayList<ArrayList<Tile>> XScanner(HashMap<Integer, ArrayList<Tile>> map){
+    private static ArrayList<ArrayList<Tile>> xScanner(HashMap<Integer, ArrayList<Tile>> map){
         ArrayList<ArrayList<Tile>> arr = new ArrayList<>();
         for(int i = 0; i < map.size(); i++){
             arr.add(new ArrayList<>());

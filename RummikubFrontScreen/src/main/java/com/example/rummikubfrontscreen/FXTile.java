@@ -36,6 +36,10 @@ public class FXTile extends Tile {
         fxTileButton.setTextFill(color);
     }
 
+    public void fetchTile(Colour colour, Value value){
+
+    }
+
     public Tile getTile() {
         return this.tile;
     }
