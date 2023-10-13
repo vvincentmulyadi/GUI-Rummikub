@@ -59,19 +59,17 @@ public class GameBoardController {
         double x = event.getSceneX();
         double y = event.getSceneY();
 
-        System.out.println(fxTile.fxTileButton);
         if (fxTile.fxTileButton != null){
             fxTile.fxTileButton.setLayoutX(event.getSceneX());
             fxTile.fxTileButton.setLayoutY(event.getSceneY());
         }
 
-        System.out.println("Mouse clicked at coordinates: X=" + x + ", Y=" + y);
+        // System.out.println("Mouse clicked at coordinates: X=" + x + ", Y=" + y);
     }
 
     @FXML
     private void handleButtonClick(ActionEvent event){
         fxTile.fxTileButton = (Button) event.getSource();
-        System.out.println("Button: "+fxTile.fxTileButton.getText()+" was place");
     }
 
     public void resetPlayingField() {
@@ -147,9 +145,6 @@ public class GameBoardController {
     @FXML
     private void changePlayer() {
 
-        double initialX = 20;
-        double initialY = 350;
-
         System.out.println("Last fxTile: "+fxTile.fxTileButton);
 
         resetPlayingField();
@@ -193,28 +188,7 @@ public class GameBoardController {
         for (int i = 0; i < tiles.size(); i++){
             fxTile = initFXTile(tiles.get(i));
             fxTiles.add(fxTile);
-
-            double initialX = 20;
-            double initialY = 350;
-
-
-            while (isButtonOccupyingCoordinates(initialX, initialY)) {
-                if (initialX < 270){
-                    initialX += 45;
-                } else {
-                    initialX = 20;
-                    initialY = 395;
-                }
-            }
-
-            fxTile.fxTileButton.setLayoutX(initialX);
-            fxTile.fxTileButton.setLayoutY(initialY);
-
-            fxTile.fxTileButton.setPrefWidth(33);
-            fxTile.fxTileButton.setPrefHeight(41);
-
-            Pane.getChildren().add(fxTile.fxTileButton);
-            fxTileButtons.add(fxTile.fxTileButton);
+            putButtons();
         }
 
         initializeTileAsButton();
@@ -238,26 +212,7 @@ public class GameBoardController {
         color = tile.getColour();
         value = tile.getValue();
         fxTile = initFXTile(tile);
-
-        double initialX = 20;
-        double initialY = 350;
-
-        while (isButtonOccupyingCoordinates(initialX, initialY)) {
-            initialX += 45;
-            if(initialX == 335){
-                initialX = 20;
-                initialY += 45;
-            }
-        }
-
-        fxTile.fxTileButton.setLayoutX(initialX);
-        fxTile.fxTileButton.setLayoutY(initialY);
-
-        fxTile.fxTileButton.setPrefWidth(33);
-        fxTile.fxTileButton.setPrefHeight(41);
-
-        Pane.getChildren().add(fxTile.fxTileButton);
-        fxTileButtons.add(fxTile.fxTileButton);
+        putButtons();
         initializeTileAsButton();
         //fxTile.fxTileButton = null;
     }
@@ -292,6 +247,7 @@ public class GameBoardController {
         fxTile.setFXTile(convertColourToPaint(tile.getColour()), tile.getValue());
         return fxTile;
     }
+
 
     private Paint convertColourToPaint(Colour colour){
         return switch (colour) {

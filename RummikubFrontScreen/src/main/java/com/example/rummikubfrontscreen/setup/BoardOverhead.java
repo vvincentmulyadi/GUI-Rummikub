@@ -40,8 +40,7 @@ public class BoardOverhead {
     }
 
 
-
-    public static void main(String[] args)  {  
+    /*public static void main(String[] args)  {
         Scanner sc= new Scanner(System.in); //System.in is a standard input stream 
         String playing; 
         GameSetup gs = new GameSetup();
@@ -83,8 +82,7 @@ public class BoardOverhead {
         }
 
               
-    }  
-    
+    }*/
     public ArrayList<Player> getPlayers() {
        return players;
     }

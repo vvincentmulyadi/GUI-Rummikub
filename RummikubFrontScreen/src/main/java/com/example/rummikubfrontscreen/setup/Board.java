@@ -10,9 +10,6 @@ import java.util.concurrent.Callable;
 
 public class Board {
 
-    //Arraylist containing runs and rows present on the board, converted from 2D
-    private ArrayList<ArrayList<Tile>> seriesInGame;
-
     //2D arraylist grid representing the runs and rows
     private ArrayList<ArrayList<Tile>> currentGameBoard;
 
@@ -39,26 +36,11 @@ public class Board {
         return true;
     }
 
-    //Method that converts from 2d array used in GUI to an arraylist of series
-    public void convert(ArrayList<ArrayList<Tile>> currentGameBoard){
-        seriesInGame = new ArrayList<>();
-        int amountOfSeries = -1;
-        for(int i = 0; i<currentGameBoard.size(); i++){
-            for(int j = 0; j<currentGameBoard.get(i).size(); j++ ) {
-                if (currentGameBoard.get(i).get(j) == null) continue;
-                if (j == 0 || currentGameBoard.get(i).get(j - 1) == null) {
-                    amountOfSeries++;
-                    seriesInGame.add(new ArrayList<Tile>());
-                }
-                seriesInGame.get(amountOfSeries).add(currentGameBoard.get(i).get(j));
-            }
-        }
-    }
 
 
-    public boolean boardVerifier(){
+    public static boolean boardVerifier(ArrayList<ArrayList<Tile>> seriesInGame){
         Tile tile1 = null, tile2 = null;
-        convert(currentGameBoard);
+        //convert(currentGameBoard);
         for(int i = 0; i < seriesInGame.size();i++){
             if (seriesInGame.get(i).size() < 3) {return false;}
             //index of a first tl which is not a joker
@@ -114,18 +96,6 @@ public class Board {
     }
 
 
-
-    //returns the current board as strings
-    public ArrayList<ArrayList<String>> getList(){
-        ArrayList<ArrayList<String>> listToString = new ArrayList<>();
-        for(int i = 0; i<seriesInGame.size();i++){
-            listToString.add(new ArrayList<String>());
-            for(int j = 0;j < seriesInGame.get(i).size();j++){
-                listToString.get(i).add(seriesInGame.get(i).get(j).toString());
-            }
-        }
-        return listToString;
-    }
 
     @Override
     public String toString() {
