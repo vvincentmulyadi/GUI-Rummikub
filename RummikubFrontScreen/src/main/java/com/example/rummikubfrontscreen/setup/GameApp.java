@@ -19,15 +19,12 @@ public class GameApp {
     private Player curPlr;
     public ArrayList<Tile> tiles;
 
-    public GameApp(){
+    public GameApp() {
         gs = new GameSetup();
-        bohe =  new BoardOverhead (gs.getBoard(),gs.getPlayers());
+        bohe = new BoardOverhead(gs.getBoard(), gs.getPlayers());
         plrs = bohe.getPlayers();
         curPlr = plrs.get(0);
         tiles = gs.getTiles();
-    }
-
-    public void letsPlayRummi(){
     }
 
     public boolean isWinner(){
