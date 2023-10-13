@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public class FXTile extends Tile {
@@ -25,11 +26,18 @@ public class FXTile extends Tile {
     public FXTile(Tile tile){
         super(tile.getColour(), tile.getValue());
         this.tile = tile;
+        setFXTile(convertColourToPaint(tile.getColour()), tile.getValue());
     }
 
-    public void setFXTileID(String fxTileID){
-        this.fxTileID = fxTileID;
+    private Paint convertColourToPaint(Colour colour){
+        return switch (colour) {
+            case RED -> Color.CRIMSON;
+            case BLUE -> Color.DARKCYAN;
+            case BLACK -> Color.BLACK;
+            case YELLOW -> Color.ORANGE;
+        };
     }
+
 
     public void setFXTile(Paint color, Value value){
         fxTileButton.setText(value.getValueSymbol());

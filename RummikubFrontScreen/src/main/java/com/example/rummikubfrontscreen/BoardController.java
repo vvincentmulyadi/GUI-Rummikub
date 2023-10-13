@@ -45,11 +45,11 @@ public class BoardController {
 
     }
 
-    /*@FXML
+    @FXML
     private void handleButtonClick(ActionEvent e) {
         GameBoardController gc = new GameBoardController();
         Button clickedButton = (Button)e.getSource();
-        gc.setButton(clickedButton);
+//        gc.setButton(clickedButton);
         String buttonValue = clickedButton.getText();
         if (buttonValue.isEmpty()) {
             clickedButton.setText(this.label.getText());
@@ -59,6 +59,6 @@ public class BoardController {
             clickedButton.setText("");
         }
      }
-     */
+
 }
 

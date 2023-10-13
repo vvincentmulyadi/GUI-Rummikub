@@ -241,19 +241,11 @@ public class GameBoardController {
 
     public FXTile initFXTile(Tile tile){
         FXTile fxTile = new FXTile(tile);
-        fxTile.setFXTile(convertColourToPaint(tile.getColour()), tile.getValue());
         return fxTile;
     }
 
 
-    private Paint convertColourToPaint(Colour colour){
-        return switch (colour) {
-            case RED -> Color.CRIMSON;
-            case BLUE -> Color.DARKCYAN;
-            case BLACK -> Color.BLACK;
-            case YELLOW -> Color.ORANGE;
-        };
-    }
+
     private Colour paintToColour(Paint paint){
         if (paint == Color.CRIMSON){
             return Colour.RED;
