@@ -38,12 +38,13 @@ public class TilePositionScanner {
     }
 
     public static ArrayList<ArrayList<Tile>> scanner (ArrayList<Tile> unstructuredTiles) {
+        // first scanning the y positions
         HashMap<Integer, ArrayList<Tile>> map = yScanner(unstructuredTiles);
         System.out.println(map);
+        // then seperating tiles into runs and rows
         ArrayList<ArrayList<Tile>> structeredTiles = xScanner(map);
         for (ArrayList<Tile> structeredTile : structeredTiles) {
             for (Tile tile : structeredTile) {
-
                 System.out.println("Coordinates: " + tile.getY()+ " "+tile.getX());
             }
         }
@@ -56,7 +57,7 @@ public class TilePositionScanner {
         ArrayList<Tile> arr = new ArrayList<>();
 
         // Checks for empty or null lists
-        if (tiles == null || tiles.size() < 1) return map;
+        if (tiles == null || tiles.isEmpty()) return map;
 
         arr.add(tiles.get(0));
         map.put(0, arr);
@@ -84,17 +85,22 @@ public class TilePositionScanner {
 
     private static ArrayList<ArrayList<Tile>> xScanner(HashMap<Integer, ArrayList<Tile>> map){
         ArrayList<ArrayList<Tile>> arr = new ArrayList<>();
+
         for(int i = 0; i < map.size(); i++){
             arr.add(new ArrayList<>());
             arr.get(arr.size()-1).add(map.get(i).get(0));
-            for(int j = 0; j<map.get(i).size()-1; j++){
+
+            for(int j = 0; j < map.get(i).size()-1; j++){
                 Tile currTile = map.get(i).get(j);
                 Tile nextTile = map.get(i).get(j+1);
                 double currX = currTile.getX();
                 double nextX = nextTile.getX();
-                if(Math.abs(currX-nextX) <= 15){
-                    arr.get(arr.size()-1).add(nextTile);
-                }else{
+
+                // range of acceptable space between
+                if(Math.abs(currX-nextX) <= 43) {
+                    arr.get(arr.size() - 1).add(nextTile);
+                }
+                else{
                     arr.add(new ArrayList<>());
                     arr.get(arr.size()-1).add(nextTile);
                 }

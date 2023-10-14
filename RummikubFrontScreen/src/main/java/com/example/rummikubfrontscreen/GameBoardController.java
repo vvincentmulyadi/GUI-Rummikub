@@ -112,15 +112,11 @@ public class GameBoardController {
             }
         }
 
-
-
         if (!wholeProcessChecker(tilesInField)) {
             System.out.println("Playerfield is Unnnnvalid");
         } else {
             System.out.println("The whole field appears to be valid");
         }
-
-
 
         for (Button fxTileButton : fxTileButtons) {
             Pane.getChildren().remove(fxTileButton);
@@ -136,17 +132,12 @@ public class GameBoardController {
                 buttonsOnPlayingField.add((Button) buttonsToKeep.get(i));
             }
         }
-        for(int i = 0; i<buttonsOnPlayingField.size();i++){
-
-        }
     }
 
 
     @FXML
     private void changePlayer() {
         if (!gameStarted) return;
-
-        System.out.println("Last fxTile: "+fxTile.fxTileButton);
 
         resetPlayingField();
 
@@ -162,13 +153,12 @@ public class GameBoardController {
             Pane.getChildren().add(buttonsOnPlayingField.get(i));
         }
 
-        for (int i = 0; i < tiles.size(); i++){
-            fxTile = initFXTile(tiles.get(i));
+        for (Tile value : tiles) {
+            fxTile = initFXTile(value);
             fxTiles.add(fxTile);
             putButtons();
         }
         initializeTileAsButton();
-        //fxTile.fxTileButton = null;
     }
 
     @FXML
@@ -178,15 +168,14 @@ public class GameBoardController {
         gameApp = new GameApp();
         tiles = gameApp.getCurPlr().getHand();
 
-        for (int i = 0; i < tiles.size(); i++){
-            fxTile = initFXTile(tiles.get(i));
+        for (Tile value : tiles) {
+            fxTile = initFXTile(value);
             fxTiles.add(fxTile);
             putButtons();
         }
 
         initializeTileAsButton();
         gameStarted = true;
-
     }
 
     private boolean wholeProcessChecker (ArrayList<Tile> unstructuredTiles) {
@@ -232,7 +221,6 @@ public class GameBoardController {
 
             Pane.getChildren().add(fxTile.fxTileButton);
             fxTileButtons.add(fxTile.fxTileButton);
-
     }
 
     private boolean isButtonOccupyingCoordinates(double x, double y) {
@@ -250,8 +238,6 @@ public class GameBoardController {
         FXTile fxTile = new FXTile(tile);
         return fxTile;
     }
-
-
 
     private Colour paintToColour(Paint paint){
         if (paint == Color.CRIMSON){
