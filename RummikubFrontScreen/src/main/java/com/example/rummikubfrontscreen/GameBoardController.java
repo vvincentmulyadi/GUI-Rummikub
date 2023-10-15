@@ -173,8 +173,8 @@ public class GameBoardController {
         gameApp = new GameApp();
         tiles = gameApp.getCurPlr().getHand();
 
-        for (Tile value : tiles) {
-            fxTile = initFXTile(value);
+        for (Tile tile : tiles) {
+            fxTile = initFXTile(tile);
             fxTiles.add(fxTile);
             putButton();
         }
@@ -209,7 +209,8 @@ public class GameBoardController {
         System.out.println("drawn");
         tile = gameApp.draw();
         fxTile = initFXTile(tile);
-        putButtons();
+        System.out.println(fxTile);
+        putButton();
         initializeTileAsButton();
 
         drawn = true;
@@ -217,26 +218,27 @@ public class GameBoardController {
 
     private void putButton(){
 
-            double initialX = 20;
-            double initialY = 350;
+        double initialX = 20;
+        double initialY = 350;
 
-            while (isButtonOccupyingCoordinates(initialX, initialY)) {
-                if (initialX < 270) {
-                    initialX += 45;
-                } else {
-                    initialX = 20;
-                    initialY = 395;
-                }
+
+        while (isButtonOccupyingCoordinates(initialX, initialY)) {
+            if (initialX < 270) {
+                initialX += 45;
+            } else {
+                initialX = 20;
+                initialY = 395;
             }
+        }
 
-            fxTile.fxTileButton.setLayoutX(initialX);
-            fxTile.fxTileButton.setLayoutY(initialY);
+        fxTile.fxTileButton.setLayoutX(initialX);
+        fxTile.fxTileButton.setLayoutY(initialY);
 
-            fxTile.fxTileButton.setPrefWidth(33);
-            fxTile.fxTileButton.setPrefHeight(41);
+        fxTile.fxTileButton.setPrefWidth(33);
+        fxTile.fxTileButton.setPrefHeight(41);
 
-            Pane.getChildren().add(fxTile.fxTileButton);
-            fxTileButtons.add(fxTile.fxTileButton);
+        Pane.getChildren().add(fxTile.fxTileButton);
+        fxTileButtons.add(fxTile.fxTileButton);
     }
 
     private boolean isButtonOccupyingCoordinates(double x, double y) {

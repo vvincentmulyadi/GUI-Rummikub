@@ -49,6 +49,10 @@ public class FXTile extends Tile {
         return this.tile;
     }
 
+    public String toString(){
+        return getTile().getValue().getValue() + " " + getTile().getColour().toString();
+    }
+
 
 
 
