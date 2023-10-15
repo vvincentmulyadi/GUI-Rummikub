@@ -25,9 +25,9 @@ public class SceneController {
         initializeScene(event, "game-board-copy.fxml");
     }
 
-    public void switchToMakeNewPlayersScene(ActionEvent event) throws IOException{
+    /*public void switchToMakeNewPlayersScene(ActionEvent event) throws IOException{
         initializeScene(event, "make-new-players.fxml");
-    }
+    }*/
 
 
     private void initializeScene(ActionEvent event, String sceneName) throws IOException{

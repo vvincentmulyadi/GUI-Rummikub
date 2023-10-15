@@ -4,6 +4,7 @@ import com.example.rummikubfrontscreen.setup.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -50,6 +51,7 @@ public class GameBoardController {
     double minY = 1;
     double maxX = 485;
     double maxY = 285;
+    boolean winner = false;
 
 
     @FXML
@@ -110,10 +112,19 @@ public class GameBoardController {
                 }
             }
         }
+        winner = gameApp.isWinner();
         //endTurnBlocked = !wholeProcessChecker(tilesInField);
+        if (winner){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("YOU WON!");
+            alert.showAndWait();
+        }
     }
 
     public void resetPlayingField() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("YOU WON!");
+
         ArrayList<Tile> tiles = gameApp.getGs().getAllTiles();
         System.out.println("tiles list: " + tiles);
 

@@ -10,8 +10,8 @@
     <children>
         <Pane layoutX="-1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="359.0" style="-fx-background-color: GRAY;">
             <children>
-                <Button fx:id="humanPlayerButton" layoutX="144.0" layoutY="162.0" mnemonicParsing="false" onAction="#switchToMakeNewPlayersScene" text="Human player" />
-                <Button fx:id="AIPlayerButton" layoutX="158.0" layoutY="224.0" mnemonicParsing="false" onAction="#switchToMakeNewPlayersScene" text="AI player" />
+                <Button fx:id="humanPlayerButton" layoutX="144.0" layoutY="162.0" mnemonicParsing="false" onAction="#switchToBoardScene" text="Human player" />
+                <Button fx:id="AIPlayerButton" layoutX="158.0" layoutY="224.0" mnemonicParsing="false" onAction="#switchToBoardScene" text="AI player" />
                 <Label layoutX="71.0" layoutY="106.0" text="Whom do you wish to play against?" textFill="WHITE">
                     <font>
                         <Font size="15.0" />

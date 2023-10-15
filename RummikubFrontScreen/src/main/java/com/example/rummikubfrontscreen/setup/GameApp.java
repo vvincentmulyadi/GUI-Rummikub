@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.lang.reflect.Array;
@@ -28,7 +29,7 @@ public class GameApp {
     }
 
     public boolean isWinner(){
-        return false;
+        return curPlr.getHand().isEmpty();
     }
 
     public void nextPlayer () {
