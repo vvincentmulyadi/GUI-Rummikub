@@ -11,17 +11,18 @@ public class Tile {
     private double x;
     private double y;
 
+    public int getId() {
+        return id;
+    }
+
+    private int id;
+    private static int counter = 0;
+
 
     public Tile(Colour colour, Value value){
         this.colour = colour;
         this.value = value;
-    }
-
-    public Tile(Colour colour, Value value, int x, int y){
-        this.colour = colour;
-        this.value = value;
-        this.x = x;
-        this.y = y;
+        id = counter++;
     }
 
 

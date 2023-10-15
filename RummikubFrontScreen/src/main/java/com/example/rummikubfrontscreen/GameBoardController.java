@@ -25,7 +25,7 @@ public class GameBoardController {
 
     private ArrayList<Tile> tiles;
 
-    private FXTile fxTile;
+    private FXTile fxTile = new FXTile();
 
 
     private ArrayList<Button> fxTileButtons = new ArrayList<>();
@@ -36,12 +36,18 @@ public class GameBoardController {
 
     private ArrayList<Double> buttonsOnPlayingFieldPosX = new ArrayList<>();
     private ArrayList<Double> buttonsOnPlayingFieldPosY = new ArrayList<>();
+    private ArrayList<Node> buttonsToKeep;
+    private ArrayList<Tile> tilesInField;
+    private ArrayList<Tile> all_tiles;
+
 
     boolean gameStarted = false;
+    boolean drawn = true;
 
-
-
-
+    double minX = 1;
+    double minY = 1;
+    double maxX = 485;
+    double maxY = 285;
 
 
     @FXML
@@ -49,8 +55,10 @@ public class GameBoardController {
         for (Button button: fxTileButtons){
             button.setOnAction(this::handleButtonClick);
         }
+       for (Tile tile : gameApp.getGs().getAllTiles()) {
+           //all_tiles.add(tile.getId(), tile);
+       }
     }
-
 
     /**
      *
@@ -69,26 +77,20 @@ public class GameBoardController {
         fxTile.fxTileButton = (Button) event.getSource();
     }
 
-    public void resetPlayingField() {
-        ArrayList<Tile> tiles = gameApp.getGs().getAllTiles();
-        System.out.println(tiles.size());
-        System.out.println("tiles list: " + tiles);
-        double minX = 1;
-        double minY = 1;
-        double maxX = 485;
-        double maxY = 285;
-
-        ArrayList<Node> buttonsToKeep = new ArrayList<>();
-        ArrayList<Tile> tilesInField = new ArrayList<>();
-        buttonsOnPlayingFieldPosX.clear();
-        buttonsOnPlayingFieldPosY.clear();
+    public void resetButtonsOnField(){
         Colour colour;
         Paint paint;
         Value value;
+        buttonsToKeep = new ArrayList<>();
+        tilesInField = new ArrayList<>();
+
         for (Node node : Pane.getChildren()) {
             if (node instanceof Button){
                 double buttonX = node.getLayoutX();
                 double buttonY = node.getLayoutY();
+                //node.set
+                //node.setId();
+
                 if (buttonX >= minX && buttonX <= maxX && buttonY >= minY && buttonY <= maxY) {
                     buttonsToKeep.add(node);
                     buttonsOnPlayingFieldPosX.add(node.getLayoutX());
@@ -97,20 +99,35 @@ public class GameBoardController {
                     value = Value.getValueBySymbol(((Button) node).getText());
                     colour = paintToColour(paint);
                     System.out.println("this1");
+
+                    // still need to fix this cause th reference is wrong in the if contains statement, we have two black 6 and if only one is in the tiles list then it wont remove the other one
                     for (int i = 0; i < tiles.size(); i++){
                         if (tiles.get(i).getColour().equals(colour) && tiles.get(i).getValue() == value) {
-                    System.out.println("this2");
+                            System.out.println("this2");
                             tilesInField.add(tiles.get(i));
                             tiles.get(i).setX(node.getLayoutX());
                             tiles.get(i).setY(node.getLayoutY());
+                            System.out.println(tiles.get(i));
+                            System.out.println(gameApp.getCurPlr().getHand());
                             if(gameApp.getCurPlr().getHand().contains(tiles.get(i))) {
                                 gameApp.getCurPlr().removeTile(tiles.get(i));
+                                System.out.println("this3");
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    public void resetPlayingField() {
+        ArrayList<Tile> tiles = gameApp.getGs().getAllTiles();
+        System.out.println(tiles.size());
+        System.out.println("tiles list: " + tiles);
+
+        buttonsOnPlayingFieldPosX.clear();
+        buttonsOnPlayingFieldPosY.clear();
+        resetButtonsOnField();
 
         if (!wholeProcessChecker(tilesInField)) {
             System.out.println("Playerfield is Unnnnvalid");
@@ -156,9 +173,12 @@ public class GameBoardController {
         for (Tile value : tiles) {
             fxTile = initFXTile(value);
             fxTiles.add(fxTile);
-            putButtons();
+            putButton();
         }
         initializeTileAsButton();
+
+        // Setting up next round
+        drawn = false;
     }
 
     @FXML
@@ -171,7 +191,7 @@ public class GameBoardController {
         for (Tile value : tiles) {
             fxTile = initFXTile(value);
             fxTiles.add(fxTile);
-            putButtons();
+            putButton();
         }
 
         initializeTileAsButton();
@@ -190,16 +210,18 @@ public class GameBoardController {
 
     @FXML
     private void drawButton() {
+        if (!drawn) return;
         if (!gameStarted) return;
+        System.out.println("drawn");
         tile = gameApp.draw();
         fxTile = initFXTile(tile);
         putButtons();
         initializeTileAsButton();
 
-        changePlayer();
+        drawn = true;
     }
 
-    private void putButtons(){
+    private void putButton(){
 
             double initialX = 20;
             double initialY = 350;
