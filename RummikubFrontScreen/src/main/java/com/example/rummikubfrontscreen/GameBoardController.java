@@ -38,7 +38,7 @@ public class GameBoardController {
     private ArrayList<Double> buttonsOnPlayingFieldPosY = new ArrayList<>();
     private ArrayList<Node> buttonsToKeep;
     private ArrayList<Tile> tilesInField;
-    private ArrayList<Tile> allTilesInField;
+    private ArrayList<Tile> allTilesInField = new ArrayList<>();
     HashMap<String, Tile> all_tiles = new HashMap<>();
 
 
@@ -95,9 +95,7 @@ public class GameBoardController {
 
                     Tile curTile = all_tiles.get(id);
 
-                    tilesInField.add(curTile);
-                    //if ()
-                    //allTilesInField(curTile);
+
                     curTile.setX(buttonX);
                     curTile.setY(buttonY);
 
