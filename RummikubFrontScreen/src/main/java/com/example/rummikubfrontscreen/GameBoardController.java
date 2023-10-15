@@ -96,6 +96,12 @@ public class GameBoardController {
                     Tile curTile = all_tiles.get(id);
 
 
+                    // Should only be added when approved
+                    tilesInField.add(curTile);
+                    if (!allTilesInField.contains(curTile)){
+                        allTilesInField.add(curTile);
+                    }
+
                     curTile.setX(buttonX);
                     curTile.setY(buttonY);
 
@@ -113,6 +119,7 @@ public class GameBoardController {
 
         buttonsOnPlayingFieldPosX.clear();
         buttonsOnPlayingFieldPosY.clear();
+
         resetButtonsOnField();
 
         if (!wholeProcessChecker(tilesInField)) {
@@ -165,6 +172,8 @@ public class GameBoardController {
         // Setting up next round
         drawn = false;
     }
+
+    private updated
 
     @FXML
     private void start(){
