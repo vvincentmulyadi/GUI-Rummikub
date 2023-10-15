@@ -37,13 +37,14 @@ public class GameBoardController {
     private ArrayList<Double> buttonsOnPlayingFieldPosX = new ArrayList<>();
     private ArrayList<Double> buttonsOnPlayingFieldPosY = new ArrayList<>();
     private ArrayList<Node> buttonsToKeep;
-    private ArrayList<Tile> tilesInField;
+    private ArrayList<Tile> tilesInField = new ArrayList<>();
     private ArrayList<Tile> allTilesInField = new ArrayList<>();
     HashMap<String, Tile> all_tiles = new HashMap<>();
 
 
     boolean gameStarted = false;
     boolean drawn = true;
+    boolean endTurnBlocked = false;
 
     double minX = 1;
     double minY = 1;
@@ -92,9 +93,7 @@ public class GameBoardController {
                     buttonsOnPlayingFieldPosX.add(node.getLayoutX());
                     buttonsOnPlayingFieldPosY.add(node.getLayoutY());
 
-
                     Tile curTile = all_tiles.get(id);
-
 
                     // Should only be added when approved
                     tilesInField.add(curTile);
@@ -111,6 +110,7 @@ public class GameBoardController {
                 }
             }
         }
+        //endTurnBlocked = !wholeProcessChecker(tilesInField);
     }
 
     public void resetPlayingField() {
@@ -122,10 +122,14 @@ public class GameBoardController {
 
         resetButtonsOnField();
 
+        if(endTurnBlocked) return;
+
         if (!wholeProcessChecker(tilesInField)) {
             System.out.println("Playerfield is Unnnnvalid");
+            endTurnBlocked = true;
         } else {
             System.out.println("The whole field appears to be valid");
+            endTurnBlocked = false;
         }
 
         for (Button fxTileButton : fxTileButtons) {
@@ -148,10 +152,17 @@ public class GameBoardController {
     @FXML
     private void changePlayer() {
         if (!gameStarted) return;
+        if(endTurnBlocked) {
+            endTurnBlocked = false;
+            return;
+        }
 
         resetPlayingField();
 
-        gameApp.nextPlayer();
+        if(!endTurnBlocked){
+            endTurnBlocked = false;
+            gameApp.nextPlayer();
+        }
         tiles = gameApp.getCurPlr().getHand();
 
         for (int i = 0; i < buttonsOnPlayingField.size(); i++) {
@@ -172,8 +183,6 @@ public class GameBoardController {
         // Setting up next round
         drawn = false;
     }
-
-    private updated
 
     @FXML
     private void start(){
