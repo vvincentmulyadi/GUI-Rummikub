@@ -85,9 +85,6 @@ public class GameSetup {
             tiles.remove(i);
         }
 
-        for (Tile tile : tiles) {
-            allTiles.add(tile);
-        }
 
         for (Value v : Value.values()) {
             for (Colour c: Colour.values()){
@@ -99,6 +96,10 @@ public class GameSetup {
         for (int i = 0; i < 4; i ++) {
             tiles.remove(tiles.size()-1);
         }
+        for (Tile tile : tiles) {
+            allTiles.add(tile);
+        }
+
 
     }
 

@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 
 
 public class GameBoardController {
@@ -38,7 +38,8 @@ public class GameBoardController {
     private ArrayList<Double> buttonsOnPlayingFieldPosY = new ArrayList<>();
     private ArrayList<Node> buttonsToKeep;
     private ArrayList<Tile> tilesInField;
-    private ArrayList<Tile> all_tiles;
+    private ArrayList<Tile> allTilesInField = new ArrayList<>();
+    HashMap<String, Tile> all_tiles = new HashMap<>();
 
 
     boolean gameStarted = false;
@@ -55,9 +56,7 @@ public class GameBoardController {
         for (Button button: fxTileButtons){
             button.setOnAction(this::handleButtonClick);
         }
-       for (Tile tile : gameApp.getGs().getAllTiles()) {
-           //all_tiles.add(tile.getId(), tile);
-       }
+
     }
 
     /**
@@ -78,9 +77,7 @@ public class GameBoardController {
     }
 
     public void resetButtonsOnField(){
-        Colour colour;
-        Paint paint;
-        Value value;
+
         buttonsToKeep = new ArrayList<>();
         tilesInField = new ArrayList<>();
 
@@ -88,32 +85,28 @@ public class GameBoardController {
             if (node instanceof Button){
                 double buttonX = node.getLayoutX();
                 double buttonY = node.getLayoutY();
-                //node.set
-                //node.setId();
 
                 if (buttonX >= minX && buttonX <= maxX && buttonY >= minY && buttonY <= maxY) {
+                    String id =node.getId();
                     buttonsToKeep.add(node);
                     buttonsOnPlayingFieldPosX.add(node.getLayoutX());
                     buttonsOnPlayingFieldPosY.add(node.getLayoutY());
-                    paint = ((Button) node).getTextFill();
-                    value = Value.getValueBySymbol(((Button) node).getText());
-                    colour = paintToColour(paint);
-                    System.out.println("this1");
 
-                    // still need to fix this cause th reference is wrong in the if contains statement, we have two black 6 and if only one is in the tiles list then it wont remove the other one
-                    for (int i = 0; i < tiles.size(); i++){
-                        if (tiles.get(i).getColour().equals(colour) && tiles.get(i).getValue() == value) {
-                            System.out.println("this2");
-                            tilesInField.add(tiles.get(i));
-                            tiles.get(i).setX(node.getLayoutX());
-                            tiles.get(i).setY(node.getLayoutY());
-                            System.out.println(tiles.get(i));
-                            System.out.println(gameApp.getCurPlr().getHand());
-                            if(gameApp.getCurPlr().getHand().contains(tiles.get(i))) {
-                                gameApp.getCurPlr().removeTile(tiles.get(i));
-                                System.out.println("this3");
-                            }
-                        }
+
+                    Tile curTile = all_tiles.get(id);
+
+
+                    // Should only be added when approved
+                    tilesInField.add(curTile);
+                    if (!allTilesInField.contains(curTile)){
+                        allTilesInField.add(curTile);
+                    }
+
+                    curTile.setX(buttonX);
+                    curTile.setY(buttonY);
+
+                    if(gameApp.getCurPlr().getHand().contains(curTile) ){
+                        gameApp.getCurPlr().removeTile(curTile);
                     }
                 }
             }
@@ -122,11 +115,11 @@ public class GameBoardController {
 
     public void resetPlayingField() {
         ArrayList<Tile> tiles = gameApp.getGs().getAllTiles();
-        System.out.println(tiles.size());
         System.out.println("tiles list: " + tiles);
 
         buttonsOnPlayingFieldPosX.clear();
         buttonsOnPlayingFieldPosY.clear();
+
         resetButtonsOnField();
 
         if (!wholeProcessChecker(tilesInField)) {
@@ -160,7 +153,6 @@ public class GameBoardController {
 
         gameApp.nextPlayer();
         tiles = gameApp.getCurPlr().getHand();
-        System.out.println();
 
         for (int i = 0; i < buttonsOnPlayingField.size(); i++) {
             buttonsOnPlayingField.get(i).setLayoutX(buttonsOnPlayingFieldPosX.get(i));
@@ -181,6 +173,8 @@ public class GameBoardController {
         drawn = false;
     }
 
+    private updated
+
     @FXML
     private void start(){
         if (gameStarted) return;
@@ -188,14 +182,23 @@ public class GameBoardController {
         gameApp = new GameApp();
         tiles = gameApp.getCurPlr().getHand();
 
-        for (Tile value : tiles) {
-            fxTile = initFXTile(value);
+        for (Tile tile : tiles) {
+            fxTile = initFXTile(tile);
             fxTiles.add(fxTile);
             putButton();
         }
 
         initializeTileAsButton();
         gameStarted = true;
+
+
+        // allbuttons
+
+        for (Tile tile : gameApp.getGs().getAllTiles()) {
+            all_tiles.put(Integer.toString(tile.getId()), tile);
+
+        }
+
     }
 
     private boolean wholeProcessChecker (ArrayList<Tile> unstructuredTiles) {
@@ -215,7 +218,8 @@ public class GameBoardController {
         System.out.println("drawn");
         tile = gameApp.draw();
         fxTile = initFXTile(tile);
-        putButtons();
+        System.out.println(fxTile);
+        putButton();
         initializeTileAsButton();
 
         drawn = true;
@@ -223,26 +227,27 @@ public class GameBoardController {
 
     private void putButton(){
 
-            double initialX = 20;
-            double initialY = 350;
+        double initialX = 20;
+        double initialY = 350;
 
-            while (isButtonOccupyingCoordinates(initialX, initialY)) {
-                if (initialX < 270) {
-                    initialX += 45;
-                } else {
-                    initialX = 20;
-                    initialY = 395;
-                }
+
+        while (isButtonOccupyingCoordinates(initialX, initialY)) {
+            if (initialX < 270) {
+                initialX += 45;
+            } else {
+                initialX = 20;
+                initialY = 395;
             }
+        }
 
-            fxTile.fxTileButton.setLayoutX(initialX);
-            fxTile.fxTileButton.setLayoutY(initialY);
+        fxTile.fxTileButton.setLayoutX(initialX);
+        fxTile.fxTileButton.setLayoutY(initialY);
 
-            fxTile.fxTileButton.setPrefWidth(33);
-            fxTile.fxTileButton.setPrefHeight(41);
+        fxTile.fxTileButton.setPrefWidth(33);
+        fxTile.fxTileButton.setPrefHeight(41);
 
-            Pane.getChildren().add(fxTile.fxTileButton);
-            fxTileButtons.add(fxTile.fxTileButton);
+        Pane.getChildren().add(fxTile.fxTileButton);
+        fxTileButtons.add(fxTile.fxTileButton);
     }
 
     private boolean isButtonOccupyingCoordinates(double x, double y) {
