@@ -41,12 +41,9 @@ public class FXTile extends Tile {
     public void setFXTile(Paint color, Value value){
         fxTileButton.setText(value.getValueSymbol());
         fxTileButton.setTextFill(color);
-        // fxTileButton.setId((String) tile.getId());
+        fxTileButton.setId(Integer.toString(tile.getId()));
     }
 
-    public void fetchTile(Colour colour, Value value){
-
-    }
 
     public Tile getTile() {
         return this.tile;
