@@ -228,7 +228,7 @@ public class GameBoardController {
         ArrayList<ArrayList<Tile>> structuredTiles = tScanner.scanner(unstructuredTiles);
 
         System.out.println("The series are :"+structuredTiles);
-        return Board.boardVerifier(structuredTiles);
+        return GameApp.boardVerifier(structuredTiles);
     }
 
     @FXML

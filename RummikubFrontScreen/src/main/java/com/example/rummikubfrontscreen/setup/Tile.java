@@ -17,16 +17,11 @@ public class Tile {
 
     private int id;
     private static int counter = 0;
-
-
     public Tile(Colour colour, Value value){
         this.colour = colour;
         this.value = value;
         id = counter++;
     }
-
-
-
     public Colour getColour(){
         return colour;
     }
