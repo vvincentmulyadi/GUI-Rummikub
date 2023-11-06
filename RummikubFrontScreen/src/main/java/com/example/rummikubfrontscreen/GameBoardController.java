@@ -31,7 +31,7 @@ public class GameBoardController {
 
     private ArrayList<Button> fxTileButtons = new ArrayList<>();
 
-    private ArrayList<FXTile> fxTiles = new ArrayList<FXTile>();
+    private ArrayList<FXTile> fxTiles = new ArrayList<>();
 
     private ArrayList<Button> buttonsOnPlayingField = new ArrayList<>();
 
@@ -133,7 +133,7 @@ public class GameBoardController {
 
         resetButtonsOnField();
 
-        if(endTurnBlocked) return;
+//        if(endTurnBlocked) return;
 
         if (!wholeProcessChecker(tilesInField)) {
             System.out.println("Playerfield is Unnnnvalid");
@@ -163,17 +163,17 @@ public class GameBoardController {
     @FXML
     private void changePlayer() {
         if (!gameStarted) return;
-        if(endTurnBlocked) {
-            endTurnBlocked = false;
-            return;
-        }
+//        if(endTurnBlocked) {
+//            endTurnBlocked = false;
+//            return;
+//        }
 
         resetPlayingField();
 
-        if(!endTurnBlocked){
-            endTurnBlocked = false;
-            gameApp.nextPlayer();
-        }
+//        if(!endTurnBlocked){
+//            endTurnBlocked = false;
+//            gameApp.nextPlayer();
+//        }
         tiles = gameApp.getCurPlr().getHand();
 
         for (int i = 0; i < buttonsOnPlayingField.size(); i++) {
@@ -184,9 +184,8 @@ public class GameBoardController {
             Pane.getChildren().add(buttonsOnPlayingField.get(i));
         }
 
-        for (Tile value : tiles) {
-            fxTile = initFXTile(value);
-            fxTiles.add(fxTile);
+        for (Tile tile : tiles) {
+            fxTile = gameApp.findTile(tile);
             putButton();
         }
         initializeTileAsButton();
@@ -201,10 +200,10 @@ public class GameBoardController {
 
         gameApp = new GameApp();
         tiles = gameApp.getCurPlr().getHand();
+        fxTiles = gameApp.getGs().getFxTiles();
 
         for (Tile tile : tiles) {
-            fxTile = initFXTile(tile);
-            fxTiles.add(fxTile);
+            fxTile = gameApp.findTile(tile);
             putButton();
         }
 
@@ -237,7 +236,7 @@ public class GameBoardController {
         if (!gameStarted) return;
         System.out.println("drawn");
         tile = gameApp.draw();
-        fxTile = initFXTile(tile);
+        fxTile = gameApp.findTile(tile);
         System.out.println(fxTile);
         putButton();
         initializeTileAsButton();
@@ -281,10 +280,10 @@ public class GameBoardController {
         return false;
     }
 
-    public FXTile initFXTile(Tile tile){
+ /*   public FXTile initFXTile(Tile tile){
         FXTile fxTile = new FXTile(tile);
         return fxTile;
-    }
+    }*/
 
     private Colour paintToColour(Paint paint){
         if (paint == Color.CRIMSON){

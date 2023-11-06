@@ -1,5 +1,7 @@
 package com.example.rummikubfrontscreen.setup;
 
+import com.example.rummikubfrontscreen.FXTile;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -107,6 +109,15 @@ public class GameApp {
 
     public GameSetup getGs() {
         return gs;
+    }
+
+    public FXTile findTile(Tile tile){
+        for(FXTile fxTile : gs.getFxTiles()){
+            if(fxTile.getTile() == tile){
+                return gs.getFxTiles().get(gs.getFxTiles().indexOf(fxTile));
+            }
+        }
+        return null;
     }
 
 }

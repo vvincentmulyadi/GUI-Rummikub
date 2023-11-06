@@ -1,5 +1,7 @@
 package com.example.rummikubfrontscreen.setup;
 
+import com.example.rummikubfrontscreen.FXTile;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,6 +10,7 @@ public class GameSetup {
     private ArrayList<Tile> tilesInBag;
     private ArrayList<Tile> allTiles = new ArrayList<>();
     private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<FXTile> fxTiles = new ArrayList<>();
 
 
     // generating the tiles and players
@@ -32,6 +35,7 @@ public class GameSetup {
             System.out.println(player.getHand());
         }
         System.out.println(game.getTilesInBag());
+        System.out.println(game.getFxTiles());
     }
 
     // generating hand for each player
@@ -69,11 +73,13 @@ public class GameSetup {
         for (int i = 0; i < 4; i ++) {
             tilesInBag.remove(tilesInBag.size()-1);
         }
-        for (Tile tile : tilesInBag) {
-            allTiles.add(tile);
+        allTiles.addAll(tilesInBag);
+
+        for(Tile tile : allTiles){
+            FXTile fxTile = new FXTile(tile);
+            fxTiles.add(fxTile);
         }
     }
-
 
     public ArrayList<Tile> getTilesInBag() {
         return tilesInBag;
@@ -83,8 +89,11 @@ public class GameSetup {
         return allTiles;
     }
 
-
     public ArrayList<Player> getPlayers() {
         return players;
     }
+    public ArrayList<FXTile> getFxTiles() {
+        return fxTiles;
+    }
+
 }
