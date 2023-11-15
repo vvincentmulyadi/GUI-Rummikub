@@ -1,5 +1,6 @@
 import random as r
 import numpy as np
+import math
 
 class Node:
     def __init__(self, game, args, state, parent=None, action_taken=None):
