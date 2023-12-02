@@ -1,6 +1,7 @@
 package com.example.rummikubfrontscreen.setup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Player {
     ArrayList<Tile> hand;

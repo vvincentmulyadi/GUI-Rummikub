@@ -134,5 +134,13 @@ public class Board {
         System.out.println(board.checkGroup(group, t1));
         System.out.println(board.checkRun(run, t2, 2));
     }
-
+    //copies board for mcts
+    public Board copy() {
+        ArrayList<ArrayList<Tile>> copyTiles = new ArrayList<>();
+        for (ArrayList<Tile> row : currentGameBoard) {
+            ArrayList<Tile> copyRow = new ArrayList<>(row);
+            copyTiles.add(copyRow);
+        }
+        return new Board(copyTiles);
+    }
 }
