@@ -58,7 +58,7 @@ public class GameSetup {
         board = new Board(newGameBoard);
     }
 
-    private ArrayList<Tile> generateHand(){
+    ArrayList<Tile> generateHand(){
         Random rand = new Random();
         int size = tiles.size();
         ArrayList<Tile> hand = new ArrayList<>();
@@ -115,6 +115,11 @@ public class GameSetup {
         return board;
     }
     public ArrayList<Tile> getAllTiles() {
+        return allTiles;
+    }
+
+    public ArrayList<Tile> getAllTiles(ArrayList<Tile> except) {
+        // Not Implemented yet
         return allTiles;
     }
 

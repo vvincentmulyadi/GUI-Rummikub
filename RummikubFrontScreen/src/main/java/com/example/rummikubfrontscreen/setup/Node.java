@@ -6,7 +6,7 @@ public class Node {
     private MCTSGameState gameState;
     private Node parent;
     private ArrayList<Node> children;
-    double score;
+    int score;
     public int visitCount;
 
     public Node(MCTSGameState gameState, Node parent) {
@@ -73,4 +73,5 @@ public class Node {
         double explorationTerm = Math.sqrt(Math.log(child.getParent().visitCount) / child.visitCount);
         return exploitationTerm + MCTS.explorationParameter * explorationTerm;
     }
+    
 }

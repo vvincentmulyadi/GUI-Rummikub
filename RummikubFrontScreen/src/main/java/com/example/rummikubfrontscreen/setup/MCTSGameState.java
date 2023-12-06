@@ -8,8 +8,11 @@ public class MCTSGameState extends GameApp {
     private BoardOverhead hand;
     private BoardOverhead bohe;
     private Player player;
+    private Player aiPlayer;
     private int visitCount;
+    //UCT change
     private int winScore;
+
     
     public MCTSGameState() {
         board = new GameApp();
@@ -42,9 +45,22 @@ public class MCTSGameState extends GameApp {
    public void incrementVisitCount() {
     visitCount++;
    }
-   public ArrayList<Tile> getCurrentHand(Player currentPlayer)
-   {
-    ArrayList<Tile> currentHand=currentPlayer.getHand();
+
+   /*
+    * TODO Subtract AI from all tiles
+    */
+   public ArrayList<Tile> getCurrentHand(Player currentPlayer){
+    ArrayList<Tile> aıHand = aiPlayer.getHand();
+     ArrayList<Tile>  currentHand = null; 
+    if(currentPlayer == aiPlayer)
+    {
+      currentHand=aıHand;   
+    }
+    else{
+        GameSetup gs = new GameSetup();
+         currentHand= gs.generateHand();
+    }
+
     return currentHand;
    }
 public ArrayList<ArrayList<Tile>> getLegalMoves(ArrayList<Tile>currentHand,Player currentPlayer) {
@@ -60,7 +76,9 @@ public ArrayList<ArrayList<Tile>> getLegalMoves(ArrayList<Tile>currentHand,Playe
      * then check if 3 tiles form a set on the board
      * check until every tile in players hand has been iterated over and then end turn for AI
      * create another AIplayer class
+     * 
      */
+
     
     
     return legalMoves;
