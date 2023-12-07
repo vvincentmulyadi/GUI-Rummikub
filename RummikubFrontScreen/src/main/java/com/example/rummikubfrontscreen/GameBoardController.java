@@ -100,6 +100,7 @@ public class GameBoardController {
 
         for (Node node : Pane.getChildren()) {
             if (node instanceof Button){
+                System.out.println(node);
                 double buttonX = node.getLayoutX();
                 double buttonY = node.getLayoutY();
 
@@ -193,34 +194,6 @@ public class GameBoardController {
         }
     }
 
-
-    public void putButtonsBack(ArrayList<Node> buttonsToKeep){;
-        for (Node buttonNode : buttonsToKeep){
-            if (buttonNode instanceof Button){
-                Button buttonToPutBack = (Button) buttonNode;
-                Pane.getChildren().remove(buttonNode);
-                System.out.println(buttonToPutBack);
-                double initialX = 20;
-                double initialY = 350;
-
-                while (isButtonOccupyingCoordinates(initialX, initialY)) {
-                    if (initialX < 270) {
-                        initialX += 45;
-                    } else {
-                        initialX = 20;
-                        initialY = 395;
-                    }
-                }
-
-                buttonToPutBack.setLayoutX(initialX);
-                buttonToPutBack.setLayoutY(initialY);
-                Pane.getChildren().add(buttonToPutBack);
-                System.out.println("Button coordinates: "+buttonToPutBack.getLayoutX()+" "+buttonToPutBack.getLayoutY());
-                System.out.println("X, Y coordinates: "+initialX+" "+initialY);
-            }
-        }
-    }
-
     /**
      * Initializes the tiles on the hand of the next player
      */
@@ -240,6 +213,7 @@ public class GameBoardController {
             gameApp.nextPlayer();
         }
         tiles = gameApp.getCurPlr().getHand();
+        System.out.println("curr hand"+tiles);
 
         for (int i = 0; i < buttonsOnPlayingField.size(); i++) {
             buttonsOnPlayingField.get(i).setLayoutX(buttonsOnPlayingFieldPosX.get(i));
@@ -252,7 +226,7 @@ public class GameBoardController {
         for (Tile value : tiles) {
             fxTile = initFXTile(value);
             fxTiles.add(fxTile);
-            putButton();
+            putButtonHand();
         }
         initializeTileAsButton();
 
@@ -314,12 +288,33 @@ public class GameBoardController {
         tile = gameApp.draw();
         fxTile = initFXTile(tile);
         System.out.println(fxTile);
-        putButton();
+
+        putButtonHand();
         initializeTileAsButton();
 
         drawn = true;
     }
+    private void putButtonHand(){
+        double initialX = 20;
+        double initialY = 350;
 
+        while (isButtonOccupyingCoordinates(initialX, initialY)) {
+            initialX += 45;
+            if(initialX == 335){
+                initialX = 20;
+                initialY += 45;
+            }
+        }
+
+        fxTile.fxTileButton.setLayoutX(initialX);
+        fxTile.fxTileButton.setLayoutY(initialY);
+
+        fxTile.fxTileButton.setPrefWidth(33);
+        fxTile.fxTileButton.setPrefHeight(41);
+
+        Pane.getChildren().add(fxTile.fxTileButton);
+        fxTileButtons.add(fxTile.fxTileButton);
+    }
     /**
      * Handles placing the button on the game board
      */
