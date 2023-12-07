@@ -3,7 +3,13 @@ package com.example.rummikubfrontscreen.setup;
 import java.util.ArrayList;
 
 public class Player {
+
     ArrayList<Tile> hand;
+
+    public void setHand(ArrayList<Tile> hand) {
+        this.hand = hand;
+    }
+
 
     public Player (ArrayList<Tile> hand) {
         this.hand = hand;

@@ -1,8 +1,6 @@
 package com.example.rummikubfrontscreen;
 
-import com.example.rummikubfrontscreen.setup.Colour;
 import com.example.rummikubfrontscreen.setup.Tile;
-import com.example.rummikubfrontscreen.setup.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;

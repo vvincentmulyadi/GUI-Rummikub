@@ -1,21 +1,35 @@
 package com.example.rummikubfrontscreen.setup;
 
-import com.example.rummikubfrontscreen.FXTile;
-
 import java.util.ArrayList;
 import java.util.Random;
 
 public class GameSetup {
 
-    private ArrayList<Tile> tilesInBag;
+    //Tiles not in play (bag)
+    private ArrayList<Tile> tiles;
+
+    //All the existing tiles
     private ArrayList<Tile> allTiles = new ArrayList<>();
+
+
+
+    private ArrayList<Tile> tilesInPlay = new ArrayList<>();
+
     private ArrayList<Player> players = new ArrayList<>();
-    private ArrayList<FXTile> fxTiles = new ArrayList<>();
 
+    Board board;
 
-    // generating the tiles and players
+    public void setTilesInPlay(ArrayList<Tile> tilesInPlay) {
+        this.tilesInPlay = tilesInPlay;
+    }
+
+    public ArrayList<Tile> getTilesInPlay() {
+        return tilesInPlay;
+    }
+
     public GameSetup () {
         generateTiles();
+        generateBoard();
         for (int i = 0; i < 5; i++) {
             players.add(new Player(generateHand()));
         }
@@ -24,6 +38,7 @@ public class GameSetup {
         }
     }
 
+    //not main change it to method!
     public static void main(String[] args) {
         GameSetup game = new GameSetup();
         game.generateTiles();
@@ -34,66 +49,77 @@ public class GameSetup {
             player.sortByColour(player.hand);
             System.out.println(player.getHand());
         }
-        System.out.println(game.getTilesInBag());
-        System.out.println(game.getFxTiles());
+        System.out.println(game.getTiles());
+
     }
 
-    // generating hand for each player
+    private void generateBoard () {
+        ArrayList<ArrayList<Tile>> newGameBoard = new ArrayList<>();
+
+        for (int i = 0; i < 13; i++){
+            newGameBoard.add(new ArrayList());
+            newGameBoard.get(i).add(null);
+            newGameBoard.get(i).add(null);
+        }
+        board = new Board(newGameBoard);
+    }
+
     private ArrayList<Tile> generateHand(){
         Random rand = new Random();
-        int size = tilesInBag.size();
+        int size = tiles.size();
         ArrayList<Tile> hand = new ArrayList<>();
 
         for (int i = 0; i <  14; i++) {
             int index = rand.nextInt(size - i);
-            hand.add(tilesInBag.get(index));
-            tilesInBag.remove(index);
+            hand.add(tiles.get(index));
+            tiles.remove(index);
         }
         return hand;
     }
 
-    // generating the tiles for the game
+
     private void generateTiles () {
-        tilesInBag = new ArrayList<>();
+        tiles = new ArrayList<>();
 
         for (Value v : Value.values()) {
             for (Colour c: Colour.values()){
-                tilesInBag.add(new Tile(c,v));
+                tiles.add(new Tile(c,v));
             }
         }
-        for (int i = tilesInBag.size()-4; i < tilesInBag.size(); i++){
-            tilesInBag.remove(i);
+
+        for (int i = tiles.size()-4; i < tiles.size(); i++){
+            tiles.remove(i);
         }
+
+
         for (Value v : Value.values()) {
             for (Colour c: Colour.values()){
-                tilesInBag.add(new Tile(c,v));
+                tiles.add(new Tile(c,v));
             }
         }
+
         // Delete 6 Jokers
         for (int i = 0; i < 4; i ++) {
-            tilesInBag.remove(tilesInBag.size()-1);
+            tiles.remove(tiles.size()-1);
         }
-        allTiles.addAll(tilesInBag);
-
-        for(Tile tile : allTiles){
-            FXTile fxTile = new FXTile(tile);
-            fxTiles.add(fxTile);
+        for (Tile tile : tiles) {
+            allTiles.add(tile);
         }
     }
 
-    public ArrayList<Tile> getTilesInBag() {
-        return tilesInBag;
+    public ArrayList<Tile> getTiles() {
+        return tiles;
     }
 
+    public Board getBoard() {
+        return board;
+    }
     public ArrayList<Tile> getAllTiles() {
         return allTiles;
     }
 
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
-    public ArrayList<FXTile> getFxTiles() {
-        return fxTiles;
-    }
-
 }

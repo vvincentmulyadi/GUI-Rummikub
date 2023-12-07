@@ -3,11 +3,7 @@ package com.example.rummikubfrontscreen;
 import com.example.rummikubfrontscreen.setup.Colour;
 import com.example.rummikubfrontscreen.setup.Tile;
 import com.example.rummikubfrontscreen.setup.Value;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 

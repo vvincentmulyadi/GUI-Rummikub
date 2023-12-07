@@ -1,7 +1,5 @@
 package com.example.rummikubfrontscreen;
 
-import com.example.rummikubfrontscreen.setup.GameApp;
-import com.example.rummikubfrontscreen.setup.GameSetup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

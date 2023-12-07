@@ -1,6 +1,10 @@
 package com.example.rummikubfrontscreen;
-
-import com.example.rummikubfrontscreen.setup.*;
+import com.example.rummikubfrontscreen.FXTile;
+import com.example.rummikubfrontscreen.TilePositionScanner;
+import com.example.rummikubfrontscreen.setup.Colour;
+import com.example.rummikubfrontscreen.setup.GameApp;
+import com.example.rummikubfrontscreen.setup.Tile;
+import com.example.rummikubfrontscreen.setup.Board;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -31,15 +35,20 @@ public class GameBoardController {
 
     private ArrayList<Button> fxTileButtons = new ArrayList<>();
 
-    private ArrayList<FXTile> fxTiles = new ArrayList<>();
+    private ArrayList<FXTile> fxTiles = new ArrayList<FXTile>();
 
     private ArrayList<Button> buttonsOnPlayingField = new ArrayList<>();
 
     private ArrayList<Double> buttonsOnPlayingFieldPosX = new ArrayList<>();
     private ArrayList<Double> buttonsOnPlayingFieldPosY = new ArrayList<>();
-    private ArrayList<Node> buttonsToKeep;
+    private ArrayList<Double> prevButtonsOnPlayingFieldPosX;
+    private ArrayList<Double> prevButtonsOnPlayingFieldPosY;
+    private ArrayList<Node> buttonsToKeep = new ArrayList<>();
+    private ArrayList<Node> prevButtonsToKeep;
     private ArrayList<Tile> tilesInField = new ArrayList<>();
+    private ArrayList<Tile> prevTilesInField;
     private ArrayList<Tile> allTilesInField = new ArrayList<>();
+    private ArrayList<Tile> currentHand = new ArrayList<>();
     HashMap<String, Tile> all_tiles = new HashMap<>();
 
 
@@ -53,7 +62,9 @@ public class GameBoardController {
     double maxY = 285;
     boolean winner = false;
 
-
+    /**
+     * Initializes the Tile object as a Button
+     */
     @FXML
     private void initializeTileAsButton(){
         for (Button button: fxTileButtons){
@@ -74,15 +85,18 @@ public class GameBoardController {
         }
     }
 
+    /**
+     * Handles clicking event of clicking on the tile
+     **/
     @FXML
     private void handleButtonClick(ActionEvent event){
         fxTile.fxTileButton = (Button) event.getSource();
     }
 
+    /**
+     * Resets the individual buttons on the playing field
+     */
     public void resetButtonsOnField(){
-
-        buttonsToKeep = new ArrayList<>();
-        tilesInField = new ArrayList<>();
 
         for (Node node : Pane.getChildren()) {
             if (node instanceof Button){
@@ -90,7 +104,7 @@ public class GameBoardController {
                 double buttonY = node.getLayoutY();
 
                 if (buttonX >= minX && buttonX <= maxX && buttonY >= minY && buttonY <= maxY) {
-                    String id =node.getId();
+                    String id = node.getId();
                     buttonsToKeep.add(node);
                     buttonsOnPlayingFieldPosX.add(node.getLayoutX());
                     buttonsOnPlayingFieldPosY.add(node.getLayoutY());
@@ -119,7 +133,12 @@ public class GameBoardController {
             alert.setContentText("YOU WON!");
             alert.showAndWait();
         }
+
     }
+
+    /**
+     * Resets the playing field as a whole
+     */
 
     public void resetPlayingField() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -128,16 +147,31 @@ public class GameBoardController {
         ArrayList<Tile> tiles = gameApp.getGs().getAllTiles();
         System.out.println("tiles list: " + tiles);
 
+        // get the previous state of the game
+        prevButtonsToKeep = new ArrayList<>(buttonsToKeep);
+        prevButtonsOnPlayingFieldPosX = new ArrayList<>(buttonsOnPlayingFieldPosX);
+        prevButtonsOnPlayingFieldPosY = new ArrayList<>(buttonsOnPlayingFieldPosY);
+        prevTilesInField = new ArrayList<>(tilesInField);
+        currentHand = new ArrayList<>(gameApp.getCurPlr().getHand());
+
+        buttonsToKeep.clear();
+        tilesInField.clear();
         buttonsOnPlayingFieldPosX.clear();
         buttonsOnPlayingFieldPosY.clear();
 
+        // reset the field and buttons
         resetButtonsOnField();
+        System.out.println("tinf:"+tilesInField);
+        if(endTurnBlocked) return;
 
-//        if(endTurnBlocked) return;
-
+        // if the field is wrong revert to previous state
         if (!wholeProcessChecker(tilesInField)) {
-            System.out.println("Playerfield is Unnnnvalid");
-            endTurnBlocked = true;
+            System.out.println("oopsie");
+            buttonsToKeep = prevButtonsToKeep;
+            buttonsOnPlayingFieldPosX = prevButtonsOnPlayingFieldPosX;
+            buttonsOnPlayingFieldPosY = prevButtonsOnPlayingFieldPosY;
+            tilesInField = prevTilesInField;
+            gameApp.getCurPlr().setHand(currentHand);
         } else {
             System.out.println("The whole field appears to be valid");
             endTurnBlocked = false;
@@ -160,20 +194,51 @@ public class GameBoardController {
     }
 
 
+    public void putButtonsBack(ArrayList<Node> buttonsToKeep){;
+        for (Node buttonNode : buttonsToKeep){
+            if (buttonNode instanceof Button){
+                Button buttonToPutBack = (Button) buttonNode;
+                Pane.getChildren().remove(buttonNode);
+                System.out.println(buttonToPutBack);
+                double initialX = 20;
+                double initialY = 350;
+
+                while (isButtonOccupyingCoordinates(initialX, initialY)) {
+                    if (initialX < 270) {
+                        initialX += 45;
+                    } else {
+                        initialX = 20;
+                        initialY = 395;
+                    }
+                }
+
+                buttonToPutBack.setLayoutX(initialX);
+                buttonToPutBack.setLayoutY(initialY);
+                Pane.getChildren().add(buttonToPutBack);
+                System.out.println("Button coordinates: "+buttonToPutBack.getLayoutX()+" "+buttonToPutBack.getLayoutY());
+                System.out.println("X, Y coordinates: "+initialX+" "+initialY);
+            }
+        }
+    }
+
+    /**
+     * Initializes the tiles on the hand of the next player
+     */
+
     @FXML
     private void changePlayer() {
         if (!gameStarted) return;
-//        if(endTurnBlocked) {
-//            endTurnBlocked = false;
-//            return;
-//        }
+        if(endTurnBlocked) {
+            endTurnBlocked = false;
+            return;
+        }
 
         resetPlayingField();
 
-//        if(!endTurnBlocked){
-//            endTurnBlocked = false;
-//            gameApp.nextPlayer();
-//        }
+        if(!endTurnBlocked){
+            endTurnBlocked = false;
+            gameApp.nextPlayer();
+        }
         tiles = gameApp.getCurPlr().getHand();
 
         for (int i = 0; i < buttonsOnPlayingField.size(); i++) {
@@ -184,8 +249,9 @@ public class GameBoardController {
             Pane.getChildren().add(buttonsOnPlayingField.get(i));
         }
 
-        for (Tile tile : tiles) {
-            fxTile = gameApp.findTile(tile);
+        for (Tile value : tiles) {
+            fxTile = initFXTile(value);
+            fxTiles.add(fxTile);
             putButton();
         }
         initializeTileAsButton();
@@ -194,16 +260,19 @@ public class GameBoardController {
         drawn = false;
     }
 
+    /**
+     * Starts the entire game and initializes the tiles on the hand of first player
+     */
     @FXML
     private void start(){
         if (gameStarted) return;
 
         gameApp = new GameApp();
         tiles = gameApp.getCurPlr().getHand();
-        fxTiles = gameApp.getGs().getFxTiles();
 
         for (Tile tile : tiles) {
-            fxTile = gameApp.findTile(tile);
+            fxTile = initFXTile(tile);
+            fxTiles.add(fxTile);
             putButton();
         }
 
@@ -220,6 +289,9 @@ public class GameBoardController {
 
     }
 
+    /**
+     * Checks whether the matchings on the game board are valid
+     */
     private boolean wholeProcessChecker (ArrayList<Tile> unstructuredTiles) {
         System.out.println("Unstructered: "+unstructuredTiles);
         // Verifying game field
@@ -227,16 +299,20 @@ public class GameBoardController {
         ArrayList<ArrayList<Tile>> structuredTiles = tScanner.scanner(unstructuredTiles);
 
         System.out.println("The series are :"+structuredTiles);
-        return GameApp.boardVerifier(structuredTiles);
+        System.out.println(Board.boardVerifier(structuredTiles));
+        return Board.boardVerifier(structuredTiles);
     }
 
+    /**
+     * Allows a player to draw a new tile randomly
+     */
     @FXML
     private void drawButton() {
-        if (!drawn) return;
-        if (!gameStarted) return;
+        //if (!drawn) return;
+        //if (!gameStarted) return;
         System.out.println("drawn");
         tile = gameApp.draw();
-        fxTile = gameApp.findTile(tile);
+        fxTile = initFXTile(tile);
         System.out.println(fxTile);
         putButton();
         initializeTileAsButton();
@@ -244,6 +320,9 @@ public class GameBoardController {
         drawn = true;
     }
 
+    /**
+     * Handles placing the button on the game board
+     */
     private void putButton(){
 
         double initialX = 20;
@@ -269,8 +348,12 @@ public class GameBoardController {
         fxTileButtons.add(fxTile.fxTileButton);
     }
 
+    /**
+     * Checks whether a button is in a certain coordinates
+     */
+
     private boolean isButtonOccupyingCoordinates(double x, double y) {
-        for (javafx.scene.Node node : Pane.getChildren()) {
+        for (Node node : Pane.getChildren()) {
             if (node instanceof Button button) {
                 if (button.getLayoutX() == x && button.getLayoutY() == y) {
                     return true;
@@ -280,10 +363,13 @@ public class GameBoardController {
         return false;
     }
 
- /*   public FXTile initFXTile(Tile tile){
+    /**
+     * Initializes the FXTile
+     */
+    public FXTile initFXTile(Tile tile){
         FXTile fxTile = new FXTile(tile);
         return fxTile;
-    }*/
+    }
 
     private Colour paintToColour(Paint paint){
         if (paint == Color.CRIMSON){

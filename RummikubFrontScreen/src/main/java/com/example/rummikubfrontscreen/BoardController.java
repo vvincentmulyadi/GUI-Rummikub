@@ -1,10 +1,12 @@
 package com.example.rummikubfrontscreen;
 
-import java.util.Random;
+import com.example.rummikubfrontscreen.GameBoardController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+
+import java.util.Random;
 
 public class BoardController {
     @FXML
@@ -47,7 +49,7 @@ public class BoardController {
 
     @FXML
     private void handleButtonClick(ActionEvent e) {
-        GameBoardController gc = new GameBoardController();
+        com.example.rummikubfrontscreen.GameBoardController gc = new GameBoardController();
         Button clickedButton = (Button)e.getSource();
 //        gc.setButton(clickedButton);
         String buttonValue = clickedButton.getText();
@@ -58,7 +60,7 @@ public class BoardController {
             this.label.setText(buttonValue);
             clickedButton.setText("");
         }
-     }
+    }
 
 }
 
