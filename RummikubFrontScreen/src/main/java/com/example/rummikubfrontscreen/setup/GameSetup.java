@@ -11,8 +11,6 @@ public class GameSetup {
     //All the existing tiles
     private ArrayList<Tile> allTiles = new ArrayList<>();
 
-
-
     private ArrayList<Tile> tilesInPlay = new ArrayList<>();
 
     private ArrayList<Player> players = new ArrayList<>();
@@ -26,11 +24,12 @@ public class GameSetup {
     public ArrayList<Tile> getTilesInPlay() {
         return tilesInPlay;
     }
+    private int numOfPlayers = 4;
 
     public GameSetup () {
         generateTiles();
         generateBoard();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < numOfPlayers; i++) {
             players.add(new Player(generateHand()));
         }
         for (Player player : players) {
@@ -38,20 +37,19 @@ public class GameSetup {
         }
     }
 
-    //not main change it to method!
-    public static void main(String[] args) {
-        GameSetup game = new GameSetup();
-        game.generateTiles();
-        for (int i = 0; i < 4; i++) {
-            game.players.add(new Player(game.generateHand()));
-        }
-        for (Player player : game.players) {
-            player.sortByColour(player.hand);
-            System.out.println(player.getHand());
-        }
-        System.out.println(game.getTiles());
 
-    }
+//    public static void main(String[] args) {
+//        GameSetup game = new GameSetup();
+//        game.generateTiles();
+//        for (int i = 0; i < 4; i++) {
+//            game.players.add(new Player(game.generateHand()));
+//        }
+//        for (Player player : game.players) {
+//            player.sortByColour(player.hand);
+//            System.out.println(player.getHand());
+//        }
+//        System.out.println(game.getTiles());
+//    }
 
     private void generateBoard () {
         ArrayList<ArrayList<Tile>> newGameBoard = new ArrayList<>();

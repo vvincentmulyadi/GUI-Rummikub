@@ -23,7 +23,7 @@ public class Main extends Application {
             Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
             Scene scene1 = new Scene(root);
             stage.setScene(scene1);
-            stage.show();
+             stage.show();
 
         } catch (Exception e){
             e.printStackTrace();

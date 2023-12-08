@@ -100,7 +100,6 @@ public class GameBoardController {
 
         for (Node node : Pane.getChildren()) {
             if (node instanceof Button){
-                System.out.println(node);
                 double buttonX = node.getLayoutX();
                 double buttonY = node.getLayoutY();
 
@@ -117,6 +116,8 @@ public class GameBoardController {
                     if (!allTilesInField.contains(curTile)){
                         allTilesInField.add(curTile);
                     }
+
+                    gameApp.getGs().setTilesInPlay(tilesInField);
 
                     curTile.setX(buttonX);
                     curTile.setY(buttonY);
@@ -137,24 +138,33 @@ public class GameBoardController {
 
     }
 
+    // getting the previous state of the game
+    public void previousState(){
+        buttonsToKeep = prevButtonsToKeep;
+        buttonsOnPlayingFieldPosX = prevButtonsOnPlayingFieldPosX;
+        buttonsOnPlayingFieldPosY = prevButtonsOnPlayingFieldPosY;
+        tilesInField = prevTilesInField;
+        gameApp.getCurPlr().setHand(currentHand);
+    }
+
+
     /**
      * Resets the playing field as a whole
      */
-
     public void resetPlayingField() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("YOU WON!");
 
         ArrayList<Tile> tiles = gameApp.getGs().getAllTiles();
-        System.out.println("tiles list: " + tiles);
 
         // get the previous state of the game
         prevButtonsToKeep = new ArrayList<>(buttonsToKeep);
         prevButtonsOnPlayingFieldPosX = new ArrayList<>(buttonsOnPlayingFieldPosX);
         prevButtonsOnPlayingFieldPosY = new ArrayList<>(buttonsOnPlayingFieldPosY);
-        prevTilesInField = new ArrayList<>(tilesInField);
+        prevTilesInField = new ArrayList<>(gameApp.getGs().getTilesInPlay());
         currentHand = new ArrayList<>(gameApp.getCurPlr().getHand());
 
+        // clear the lists for the new scanning of the field
         buttonsToKeep.clear();
         tilesInField.clear();
         buttonsOnPlayingFieldPosX.clear();
@@ -162,20 +172,18 @@ public class GameBoardController {
 
         // reset the field and buttons
         resetButtonsOnField();
-        System.out.println("tinf:"+tilesInField);
-        if(endTurnBlocked) return;
 
         // if the field is wrong revert to previous state
         if (!wholeProcessChecker(tilesInField)) {
             System.out.println("oopsie");
-            buttonsToKeep = prevButtonsToKeep;
-            buttonsOnPlayingFieldPosX = prevButtonsOnPlayingFieldPosX;
-            buttonsOnPlayingFieldPosY = prevButtonsOnPlayingFieldPosY;
-            tilesInField = prevTilesInField;
-            gameApp.getCurPlr().setHand(currentHand);
+            previousState();
+            endTurnBlocked = true;
+
         } else {
             System.out.println("The whole field appears to be valid");
             endTurnBlocked = false;
+            // the player did not draw but the move was valid
+            drawn = true;
         }
 
         for (Button fxTileButton : fxTileButtons) {
@@ -201,6 +209,8 @@ public class GameBoardController {
     @FXML
     private void changePlayer() {
         if (!gameStarted) return;
+
+        // if the move was not valid revert to previous state
         if(endTurnBlocked) {
             endTurnBlocked = false;
             return;
@@ -208,10 +218,11 @@ public class GameBoardController {
 
         resetPlayingField();
 
-        if(!endTurnBlocked){
-            endTurnBlocked = false;
+        // if the player made a valid move, move to the next player
+        if(!endTurnBlocked && drawn){
             gameApp.nextPlayer();
         }
+
         tiles = gameApp.getCurPlr().getHand();
         System.out.println("curr hand"+tiles);
 
@@ -253,7 +264,6 @@ public class GameBoardController {
         initializeTileAsButton();
         gameStarted = true;
 
-
         // allbuttons
 
         for (Tile tile : gameApp.getGs().getAllTiles()) {
@@ -271,9 +281,7 @@ public class GameBoardController {
         // Verifying game field
         TilePositionScanner tScanner = new TilePositionScanner();
         ArrayList<ArrayList<Tile>> structuredTiles = tScanner.scanner(unstructuredTiles);
-
         System.out.println("The series are :"+structuredTiles);
-        System.out.println(Board.boardVerifier(structuredTiles));
         return Board.boardVerifier(structuredTiles);
     }
 
@@ -282,8 +290,7 @@ public class GameBoardController {
      */
     @FXML
     private void drawButton() {
-        //if (!drawn) return;
-        //if (!gameStarted) return;
+
         System.out.println("drawn");
         tile = gameApp.draw();
         fxTile = initFXTile(tile);

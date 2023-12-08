@@ -23,7 +23,11 @@ public class GameApp {
 
     public void nextPlayer () {
         int i = plrs.indexOf(curPlr);
-        curPlr = plrs.get((i+1)%(plrs.size()-1));
+        if(i==plrs.size()-1){
+            curPlr = plrs.get(0);
+        }else{
+            curPlr = plrs.get(i+1);
+        }
     }
 
     public void previousPlayer(){

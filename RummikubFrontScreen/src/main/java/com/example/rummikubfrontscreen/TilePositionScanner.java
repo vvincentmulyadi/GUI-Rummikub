@@ -2,23 +2,22 @@ package com.example.rummikubfrontscreen;
 
 import com.example.rummikubfrontscreen.setup.Tile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class TilePositionScanner {
 
 
     public static ArrayList<ArrayList<Tile>> scanner (ArrayList<Tile> unstructuredTiles) {
         // first scanning the y positions
+        Collections.sort(unstructuredTiles, Comparator.comparing(Tile::getX));
         HashMap<Integer, ArrayList<Tile>> map = yScanner(unstructuredTiles);
-        System.out.println(map);
         // then seperating tiles into runs and rows
         ArrayList<ArrayList<Tile>> structeredTiles = xScanner(map);
-        for (ArrayList<Tile> structeredTile : structeredTiles) {
-            for (Tile tile : structeredTile) {
-                System.out.println("Coordinates: " + tile.getY()+ " "+tile.getX());
-            }
-        }
+//        for (ArrayList<Tile> structeredTile : structeredTiles) {
+//            for (Tile tile : structeredTile) {
+//                System.out.println("Coordinates: " + tile.getY()+ " "+tile.getX());
+//            }
+//        }
         return structeredTiles;
     }
 
