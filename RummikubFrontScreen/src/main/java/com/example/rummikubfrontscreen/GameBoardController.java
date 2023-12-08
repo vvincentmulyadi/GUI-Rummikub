@@ -53,7 +53,7 @@ public class GameBoardController {
 
 
     boolean gameStarted = false;
-    boolean drawn = true;
+    boolean drawn = false;
     boolean endTurnBlocked = false;
 
     double minX = 1;
@@ -178,6 +178,7 @@ public class GameBoardController {
             System.out.println("oopsie");
             previousState();
             endTurnBlocked = true;
+            drawn = false;
 
         } else {
             System.out.println("The whole field appears to be valid");
@@ -212,7 +213,9 @@ public class GameBoardController {
 
         // if the move was not valid revert to previous state
         if(endTurnBlocked) {
-            endTurnBlocked = false;
+            return;
+        }
+        if(!drawn){
             return;
         }
 
@@ -299,6 +302,7 @@ public class GameBoardController {
         putButtonHand();
         initializeTileAsButton();
 
+        endTurnBlocked = false;
         drawn = true;
     }
     private void putButtonHand(){
