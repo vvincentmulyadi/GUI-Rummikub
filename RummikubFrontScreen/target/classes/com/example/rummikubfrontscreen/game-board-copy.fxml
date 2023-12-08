@@ -9,13 +9,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="633.0" maxWidth="675.0" style="-fx-background-color: #1848A0;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rummikubfrontscreen.GameBoardController">
+<AnchorPane maxHeight="631.0" maxWidth="607.0" prefHeight="631.0" prefWidth="607.0" style="-fx-background-color: #1848A0;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rummikubfrontscreen.GameBoardController">
     <children>
-        <Pane fx:id="Pane" onMouseClicked="#handlePaneClick" prefHeight="631.0" prefWidth="676.0" style="-fx-background-color: #1848A0;">
+        <Pane fx:id="Pane" onMouseClicked="#handlePaneClick" prefHeight="631.0" prefWidth="607.0" style="-fx-background-color: #1848A0;">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#214484" height="316.0" layoutX="11.0" layoutY="54.0" stroke="TRANSPARENT" strokeType="INSIDE" width="649.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#214484" height="316.0" layoutX="11.0" layoutY="54.0" stroke="TRANSPARENT" strokeType="INSIDE" width="579.0" />
          </children></Pane>
-        <Pane layoutX="432.0" layoutY="371.0" prefHeight="88.0" prefWidth="230.0">
+        <Pane layoutX="359.0" layoutY="371.0" prefHeight="88.0" prefWidth="230.0">
             <children>
                 <Button fx:id="endturn" layoutX="120.0" layoutY="49.0" mnemonicParsing="false" onAction="#changePlayer" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" text="END TURN" textFill="#214484">
                     <font>
@@ -39,24 +39,7 @@
                 </Button>
             </children>
         </Pane>
-        <Text fill="WHITE" layoutX="564.0" layoutY="628.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project 2-1 @Group 5">
-            <font>
-                <Font size="11.0" />
-            </font>
-        </Text>
-        <Button layoutX="10.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="24.0" style="-fx-background-color: #FFFFFF;" textFill="#cd1111">
-            <font>
-                <Font name="Segoe UI Bold" size="12.0" />
-            </font>
-            <graphic>
-                <ImageView fitHeight="15.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@img/back_icon.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        <AnchorPane layoutX="556.0" layoutY="9.0" prefHeight="34.0" prefWidth="106.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10;">
+        <AnchorPane layoutX="482.0" layoutY="9.0" prefHeight="34.0" prefWidth="106.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10;">
             <children>
                 <ImageView fitHeight="25.0" fitWidth="83.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -65,5 +48,10 @@
                 </ImageView>
             </children>
         </AnchorPane>
+        <Text fill="WHITE" layoutX="499.0" layoutY="628.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project 2-1 @Group 5">
+            <font>
+                <Font size="11.0" />
+            </font>
+        </Text>
     </children>
 </AnchorPane>

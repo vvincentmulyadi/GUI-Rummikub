@@ -302,24 +302,24 @@ public class GameBoardController {
         drawn = true;
     }
     private void putButtonHand(){
-        double initialX = 12;
+        double initialX = 20;
         double initialY = 380;
 
         while (isButtonOccupyingCoordinates(initialX, initialY)) {
-            initialX += 50;
-            if(initialX == 362){
-                initialX = 12;
-                initialY += 70;
+            initialX += 45;
+            if(initialX == 335){
+                initialX = 20;
+                initialY += 45;
             }
         }
 
         fxTile.fxTileButton.setLayoutX(initialX);
         fxTile.fxTileButton.setLayoutY(initialY);
 
-        fxTile.fxTileButton.setPrefHeight(56);
-        fxTile.fxTileButton.setPrefWidth(46);
+        fxTile.fxTileButton.setPrefHeight(41);
+        fxTile.fxTileButton.setPrefWidth(33);
 
-        fxTile.fxTileButton.setFont(javafx.scene.text.Font.font("Segoe UI Black", 16));
+        fxTile.fxTileButton.setFont(javafx.scene.text.Font.font("Segoe UI Black", 10));
         fxTile.fxTileButton.setStyle("-fx-background-color: #EDE8C9; -fx-border-color: #B8B09F; -fx-border-width: 1; -fx-background-radius: 5; -fx-border-radius: 5;");
         Pane.getChildren().add(fxTile.fxTileButton);
         fxTileButtons.add(fxTile.fxTileButton);
@@ -329,25 +329,25 @@ public class GameBoardController {
      */
     private void putButton(){
 
-        double initialX = 12;
+        double initialX = 20;
         double initialY = 380;
 
         while (isButtonOccupyingCoordinates(initialX, initialY)) {
-            if (initialX < 362) {
-                initialX += 50;
+            if (initialX < 270) {
+                initialX += 45;
             } else {
-                initialX = 12;
-                initialY = 450;
+                initialX = 20;
+                initialY = 425;
             }
         }
 
         fxTile.fxTileButton.setLayoutX(initialX);
         fxTile.fxTileButton.setLayoutY(initialY);
 
-        fxTile.fxTileButton.setPrefHeight(56);
-        fxTile.fxTileButton.setPrefWidth(46);
+        fxTile.fxTileButton.setPrefHeight(41);
+        fxTile.fxTileButton.setPrefWidth(33);
 
-        fxTile.fxTileButton.setFont(javafx.scene.text.Font.font("Segoe UI Black", 16));
+        fxTile.fxTileButton.setFont(javafx.scene.text.Font.font("Segoe UI Black", 10));
         fxTile.fxTileButton.setStyle("-fx-background-color: #EDE8C9; -fx-border-color: #B8B09F; -fx-border-width: 1; -fx-background-radius: 5; -fx-border-radius: 5;");
         Pane.getChildren().add(fxTile.fxTileButton);
         fxTileButtons.add(fxTile.fxTileButton);
