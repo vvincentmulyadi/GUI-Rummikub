@@ -42,8 +42,6 @@ public class GameSetup {
 
 
         Board board = new Board();
-        BoardOverhead overHead = new BoardOverhead(board,game.players);
-
 
     }
 

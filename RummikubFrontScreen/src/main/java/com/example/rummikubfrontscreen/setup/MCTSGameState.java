@@ -5,8 +5,6 @@ import java.util.*;
 
 public class MCTSGameState {
     private GameApp board;
-    private BoardOverhead hand;
-    private BoardOverhead bohe;
     private Player player;
     private Player aiPlayer;
     private int visitCount;
@@ -39,13 +37,11 @@ public class MCTSGameState {
    {
       return winScore;
    }
-   public BoardOverhead getGameState()
-   {
-    return board.getBohe();
-   }
+
    public void incrementVisitCount() {
     visitCount++;
    }
+
 
    /*
     * TODO Subtract AI from all tiles

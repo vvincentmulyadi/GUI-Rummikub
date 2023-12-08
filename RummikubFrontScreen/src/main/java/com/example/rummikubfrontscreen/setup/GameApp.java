@@ -15,15 +15,13 @@ import java.util.Random;
 public class GameApp {
 
     GameSetup gs;
-    BoardOverhead bohe;
     ArrayList<Player> plrs;
     private Player curPlr;
     public ArrayList<Tile> tiles;
 
     public GameApp() {
         gs = new GameSetup();
-        bohe = new BoardOverhead(gs.getBoard(), gs.getPlayers());
-        plrs = bohe.getPlayers();
+        plrs = gs.getPlayers();
         curPlr = plrs.get(0);
         tiles = gs.getTiles();
     }
@@ -54,8 +52,5 @@ public class GameApp {
         return gs;
     }
 
-    public BoardOverhead getBohe() {
-        return bohe;
-    }
 
 }
