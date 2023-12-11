@@ -68,7 +68,7 @@ public class Board {
         return true;
     }
 
-    private static boolean checkGroup(ArrayList<Tile> group, Tile tile1) {
+    public static boolean checkGroup(ArrayList<Tile> group, Tile tile1) {
         Value v = tile1.getValue();
         ArrayList<Colour> coloursUsed = new ArrayList<>();
         if (group.size() > 4)
@@ -86,7 +86,7 @@ public class Board {
         return true;
     }
 
-    private static boolean checkRun(ArrayList<Tile> run, Tile tile1, int indexOfTile1) {
+    public static boolean checkRun(ArrayList<Tile> run, Tile tile1, int indexOfTile1) {
         Colour c = tile1.getColour();
         for (int i = 0; i < run.size(); i++) {
             if (run.get(i).getValue() == Value.JOKER)
