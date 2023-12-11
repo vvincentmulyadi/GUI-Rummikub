@@ -72,7 +72,7 @@ public class MCTS {
     private void backPropagate(Node node, int playoutResult) {
         while (node != null) {
             node.visitCount++;
-            node.score += playoutResult;
+            node.uctValue += playoutResult;
             node = node.getParent();
         }
     }

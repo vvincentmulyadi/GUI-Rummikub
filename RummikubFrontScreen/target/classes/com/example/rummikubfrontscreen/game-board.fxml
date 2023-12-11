@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane prefHeight="466.0" prefWidth="519.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rummikubfrontscreen.GameBoardController">
+   <children>
+      <Pane fx:id="Pane" onMouseClicked="#handlePaneClick" prefHeight="466.0" prefWidth="519.0" style="-fx-background-color: GRAY;" xmlns:fx="http://javafx.com/fxml/1">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="139.0" layoutY="327.0" stroke="WHITE" strokeType="INSIDE" width="343.0" />
+            <Button fx:id="button1" layoutX="20.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn2" layoutX="65.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn3" layoutX="112.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn4" layoutX="156.0" layoutY="350.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn5" layoutX="199.0" layoutY="350.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn6" layoutX="242.0" layoutY="350.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn51" layoutX="286.0" layoutY="350.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn8" layoutX="20.0" layoutY="402.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn9" layoutX="65.0" layoutY="402.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn31" layoutX="112.0" layoutY="402.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn41" layoutX="156.0" layoutY="402.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn52" layoutX="199.0" layoutY="402.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn61" layoutX="242.0" layoutY="402.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
+            <Button fx:id="btn511" layoutX="285.0" layoutY="402.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="33.0" />
+         </children></Pane>
+      <Pane layoutX="339.0" layoutY="329.0" prefHeight="126.0" prefWidth="179.0">
+         <children>
+            <Rectangle fill="WHITE" height="139.0" layoutX="2.0" layoutY="-2.0" stroke="TRANSPARENT" strokeType="INSIDE" width="179.0" />
+            <Button fx:id="draw" layoutX="14.0" layoutY="73.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="73.0" text="Draw" />
+            <Button fx:id="draw1" layoutX="96.0" layoutY="73.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="73.0" text="End Turn" />
+            <Button fx:id="draw21" layoutX="96.0" layoutY="27.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="73.0" text="Draw" />
+            <MenuButton alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="30.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" text="Sort">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

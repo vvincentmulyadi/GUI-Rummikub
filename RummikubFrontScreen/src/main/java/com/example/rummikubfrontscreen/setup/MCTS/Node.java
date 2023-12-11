@@ -7,7 +7,7 @@ public class Node {
     private Node parent;
     private ArrayList<Node> children;
     private ArrayList<Double> playoutScores;
-    private double uctValue;//UCT Score
+    double uctValue;//UCT Score
     public int visitCount;
     private boolean isTerminal;
     private double explorationParameter=1.4;
