@@ -2,7 +2,8 @@ package com.example.rummikubfrontscreen.setup;
 
 public class Tile {
 
-    public Tile() {}
+    public Tile() {
+    }
 
     private Colour colour;
     private Value value;
@@ -16,26 +17,28 @@ public class Tile {
     private int id;
     private static int counter = 0;
 
-
-    public Tile(Colour colour, Value value){
+    public Tile(Colour colour, Value value) {
         this.colour = colour;
         this.value = value;
         id = counter++;
     }
 
-
-
-    public Colour getColour(){
+    public Colour getColour() {
         return colour;
     }
 
-    public Value getValue(){
+    public Value getValue() {
         return value;
     }
 
-    public String toString(){
+    public int getInt() {
+        return value.getValue();
+    }
+
+    public String toString() {
         return getValue().getValue() + " " + getColour().toString();
     }
+
     public double getX() {
         return x;
     }
