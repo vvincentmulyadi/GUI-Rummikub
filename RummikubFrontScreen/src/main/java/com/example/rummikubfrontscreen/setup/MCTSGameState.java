@@ -3,13 +3,12 @@ import com.example.rummikubfrontscreen.GameBoardController;
 import com.example.rummikubfrontscreen.setup.*;
 import java.util.*;
 
-public class MCTSGameState extends GameApp {
+public class MCTSGameState {
     private GameApp board;
-    private BoardOverhead hand;
-    private BoardOverhead bohe;
     private Player player;
     private Player aiPlayer;
     private int visitCount;
+    private GameApp gameApp;
     //UCT change
     private int winScore;
 
@@ -31,20 +30,18 @@ public class MCTSGameState extends GameApp {
    }
    public Player getPlayer()
    {
-    Player currentPlayer=getCurPlr();
+    Player currentPlayer=gameApp.getCurPlr();
     return currentPlayer;
    }
    public int getWinScore()
    {
       return winScore;
    }
-   public BoardOverhead getGameState()
-   {
-    return board.getBohe();
-   }
+
    public void incrementVisitCount() {
     visitCount++;
    }
+
 
    /*
     * TODO Subtract AI from all tiles
@@ -78,6 +75,9 @@ public ArrayList<ArrayList<Tile>> getLegalMoves(ArrayList<Tile>currentHand,Playe
      * create another AIplayer class
      * 
      */
+    
+    
+
 
     
     
@@ -85,5 +85,68 @@ public ArrayList<ArrayList<Tile>> getLegalMoves(ArrayList<Tile>currentHand,Playe
 }
 
 }
+public ArrayList<ArrayList<Tile>> simpleMove(ArrayList<Tile> currentHand,Player currentPlayer,Board board)
+{
+    ArrayList<ArrayList<Tile>> lines = board.getBoard();
+    //lines series in board
+    for(ArrayList<Tile> line:lines)
+    {
+     for(Tile tile:currentHand)
+     {
+            ArrayList<Tile>newLine= new ArrayList<Tile>(line);
+            newLine.add(tile);
+             //index of a first tl which is not a joker
+             int indexTile1 = 0;
+             Tile tile1 = null;
+        for(int j = 0; j < newLine.size();j++){
+            if(line.get(j).getValue().equals(Value.JOKER)) continue;
+            if (line == null) {
+                tile1 = line.get(j);
+                indexTile1 = j;
+            }
+        }
+        if(board.checkGroup(newLine,tile))
+        {
+         lines.indexOf(line);
+         lines.set(lines.indexOf(line),newLine);
+         return lines;
+        }
+        if(board.checkRun(newLine,tile,indexTile1))
+        { 
+            ArrayList<Tile> newHand=new ArrayList<Tile>(currentHand);
+            newHand.remove(tile);
+            lines.indexOf(line);
+            lines.set(lines.indexOf(line),newLine);
+            outerloop:
+            while(true)
+              {
+                for(Tile newTile:newHand)
+                {
+                newLine.add(newTile);
+                for(int j = 0; j < newLine.size();j++){
+                if(line.get(j).getValue().equals(Value.JOKER)) continue;
+                if (line == null) {
+                    tile1 = line.get(j);
+                    indexTile1 = j;
+                }
+                }
+                if(!board.checkRun(newLine,tile1,indexTile1))
+                {
+                    break outerloop;
+                }
+                lines.indexOf(line);
+                lines.set(lines.indexOf(line),newLine);
+              }
+            newHand=new ArrayList<Tile>(currentHand);
+                newHand.remove(tile);
+            return lines;
+                }
+            
+            }
 
+        }
+     }
+     return lines;
+    }
 }
+
