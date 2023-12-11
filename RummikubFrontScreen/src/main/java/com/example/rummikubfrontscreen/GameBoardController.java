@@ -212,21 +212,23 @@ public class GameBoardController {
         if (!gameStarted) return;
 
         // if the move was not valid revert to previous state
-        if (endTurnBlocked) {
-            endTurnBlocked = false;
-            return;
-        } else if(!drawn){
+        if(!drawn){
+            if (endTurnBlocked) {
+                endTurnBlocked = false;
+                return;
+            }
+            drawn = true;
             return;
         }
 
         resetPlayingField();
 
+
         // if the player made a valid move, move to the next player
         if(!endTurnBlocked){
             gameApp.nextPlayer();
-        } else if (drawn){
+        } else if(drawn){
             gameApp.nextPlayer();
-            drawn = false;
         }
 
         tiles = gameApp.getCurPlr().getHand();
@@ -296,6 +298,10 @@ public class GameBoardController {
      */
     @FXML
     private void drawButton() {
+
+        if(drawn){
+            return;
+        }
 
         System.out.println("drawn");
         tile = gameApp.draw();
