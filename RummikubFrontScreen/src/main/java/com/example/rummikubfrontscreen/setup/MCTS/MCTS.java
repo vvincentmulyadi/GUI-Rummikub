@@ -45,7 +45,8 @@ public class MCTS {
         Node bestNode = null;
         ArrayList<Node> children = node.getChildren();
         for (Node child : children) {
-            double ucbValue = calcUCTValue(child, explorationParameter);
+            // ımplentatıon todo
+            double ucbValue = 0 ;// calcUCTValue(child, explorationParameter);
             if (ucbValue > maxScore) {
                 maxScore = ucbValue;
                 bestNode = child;
@@ -55,7 +56,7 @@ public class MCTS {
     }
 
     private void expand(Node node, MCTSGameState gameState) {
-        ArrayList<MCTSGameState> legalMoves = gameState.getLegalMoves(); // Implement this method
+        ArrayList<MCTSGameState> legalMoves = null;// gameState.getLegalMoves(); // Implement this method
         for (MCTSGameState move : legalMoves) {
             Node childNode = new Node(move, node);
             node.addChild(childNode);

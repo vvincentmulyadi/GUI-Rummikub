@@ -89,7 +89,7 @@ public class Node {
         this.uctValue = (totalUctValue/playoutScores.size());
         this.uctValue = this.explorationParameter*Math.log(parent.getVisitCount())/this.getVisitCount();
     }
-    public void simulateRandomPlayout(){
+    /*public void simulateRandomPlayout(){
     Move randomMove=new Move(this.MCTSGameState.)
-    }
+    } */
 }

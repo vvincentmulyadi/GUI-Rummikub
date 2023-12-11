@@ -9,7 +9,7 @@ public class Move {
     private ArrayList<ArrayList<Tile>>initialBoard;
     private ArrayList<Tile> initialHand;
     private ArrayList<Tile>outputHand;
-    private ArrayList<ArrayList<Tile>>outputboard;
+    private ArrayList<ArrayList<Tile>>outputBoard;
     private ArrayList<ArrayList<Tile>>possibleCombos;
     private ArrayList<ArrayList<Tile>>allPossibleCombos;
     private ArrayList<Tile>deck;
@@ -19,9 +19,10 @@ public class Move {
 public Move(ArrayList<ArrayList<Tile>>board, ArrayList<Tile>hand){
 endTurn=false;
 randomizer=new Random();
+
 this.initialBoard=board;
 this.initialHand=hand;
-this.outputboard=new ArrayList<ArrayList<Tile>>();
+this.outputBoard=new ArrayList<>();
 this.outputHand=new ArrayList<Tile>();
 this.possibleCombos=possibleMoves(convert(board),this.initialHand);
 
@@ -33,7 +34,7 @@ public ArrayList<ArrayList<Tile>> getRandomMoves()
         return this.randomMove;
     }
 
-public void makeRandomMove(ArrayList<ArrayList<Tile>>currentBoard, ArrayList<Tile>currentHand, ArrayList<Tile> deck,int setIndex){
+/*public void makeRandomMove(ArrayList<ArrayList<Tile>>currentBoard, ArrayList<Tile>currentHand, ArrayList<Tile> deck,int setIndex){
     if(setIndex==this.possibleCombos.size()&&Board.boardVerifier(currentBoard))
     {
         endTurn=true;
@@ -49,8 +50,25 @@ public void makeRandomMove(ArrayList<ArrayList<Tile>>currentBoard, ArrayList<Til
         {
             continue;
         }
+        ArrayList<ArrayList<Tile>>copyBoard=copy(currentBoard);
+        copyBoard.add(this.possibleCombos.get(i));
+        ArrayList<Tile> currentAvailableTiles=new ArrayList<Tile>(deck);
+        remove(deck, currentAvailableTiles);
+        if(Board.boardVerifier(copyBoard))
+        {
+            outputBoard.addAll(copyBoard);
+        }
+        return makeRandomMove(copyBoard, currentAvailableTiles,i);
     }
 
+} */
+public ArrayList<ArrayList<Tile>> copy(ArrayList<ArrayList<Tile>>original){
+    ArrayList<ArrayList<Tile>> copyArrayList=new ArrayList<>();
+    for(ArrayList<Tile>inArrayList:original){
+        ArrayList<Tile>tempCopy=new ArrayList<>(inArrayList);
+        copyArrayList.add(tempCopy);
+    }
+    return copyArrayList;
 }
 public ArrayList<Tile> convert(ArrayList<ArrayList<Tile>> currentBoard)
 {
@@ -67,7 +85,7 @@ public ArrayList<Tile> convert(ArrayList<ArrayList<Tile>> currentBoard)
 private ArrayList<ArrayList<Tile>> possibleMoves(ArrayList<Tile> convertedBoard,ArrayList<Tile>initialHand)
 {
     ArrayList<Tile>checkedTiles=new ArrayList<>();
-    ArrayList<ArrayList<Tile>> possibleSets=new ArrayList<>();
+    
     for(Tile tile:initialHand)
     {
         checkedTiles.add(tile);
@@ -76,13 +94,17 @@ private ArrayList<ArrayList<Tile>> possibleMoves(ArrayList<Tile> convertedBoard,
     {
         checkedTiles.add(tile);
     }
-    for(ArrayList<Tile> series:checkedTiles)
+    ArrayList<ArrayList<Tile>> possibleSets=new ArrayList<>();
+    for(ArrayList<Tile> series:possibleSets)
     {
-        
+        if(isSetPresent(checkedTiles, series))
+        {
+            possibleSets.add(series); //
+        }
     }
-    
+    return possibleSets;
 }
-public boolean isSetPresent(ArrayList<Tile> hand, ArrayList<Tile> set)
+private static boolean isSetPresent(ArrayList<Tile> hand, ArrayList<Tile> set)
 {
     if(hand.isEmpty())
     {
@@ -98,16 +120,7 @@ private static void remove(List<Tile> tileList, ArrayList<Tile> elementsToRemove
         tileList.remove(tile);
     }
 }
-private ArrayList<ArrayList<Tile>> copy(ArrayList<ArrayList<Tile>>  original) {
-    ArrayList<ArrayList<Tile>>  boardCopy = new ArrayList<>();
-    for (ArrayList<ArrayList<Tile>>  row : original) {
-        ArrayList<ArrayList<Tile>> rowCopy = new ArrayList<>();
-        for (Tile tile : row) {
-            rowCopy.add(tile.deepCopy()); // Assuming Tile has a deepCopy() method
-        }
-        boardCopy.add(rowCopy);
-    }
-    return new Board(boardCopy);
-}   
+
+
 
 }

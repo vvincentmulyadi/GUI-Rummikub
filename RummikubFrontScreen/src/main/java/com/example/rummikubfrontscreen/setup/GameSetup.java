@@ -62,7 +62,7 @@ public class GameSetup {
         board = new Board(newGameBoard);
     }
 
-    private ArrayList<Tile> generateHand(){
+    public ArrayList<Tile> generateHand(){
         Random rand = new Random();
         int size = tiles.size();
         ArrayList<Tile> hand = new ArrayList<>();

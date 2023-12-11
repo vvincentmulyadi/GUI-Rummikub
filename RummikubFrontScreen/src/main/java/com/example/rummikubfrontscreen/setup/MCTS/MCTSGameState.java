@@ -4,8 +4,8 @@ import com.example.rummikubfrontscreen.setup.GameSetup;
 import com.example.rummikubfrontscreen.setup.*;
 import java.util.*;
 
-public class MCTSGameState extends GameApp{
-    private GameApp board;
+public class MCTSGameState{
+    private ArrayList<ArrayList<Tile>> board;
     private Player player;
     private List<Player> listofplayers;
     private Player aiPlayer;
@@ -16,28 +16,14 @@ public class MCTSGameState extends GameApp{
     private int winScore;
 
     
-    public MCTSGameState() {
-        board = new GameApp();
-        
-    }
-    public MCTSGameState(MCTSGameState state)
+    public MCTSGameState(Player player, ArrayList<ArrayList<Tile>> board,MCTSGameState state)
     {
-        this.board = new GameApp();
+        this.board = board;
         this.player = state.getPlayer();
         this.visitCount = state.getVisits();
         this.winScore=state.getWinScore();
     }
-   public int updateState(GameApp newBoard, Player player)
-   {
-    if(gameApp.isWinner())
-    {
-        this.winnerIndex=player;
-        this.board=newBoard;
-        return 1;
-
-    }
-    else if()
-   }
+   
    public int getVisits() {
     return visitCount;
    }
@@ -54,7 +40,12 @@ public class MCTSGameState extends GameApp{
    public void incrementVisitCount() {
     visitCount++;
    }
+   private int updateGameState(ArrayList<ArrayList<Tile>> newBoard,List<Player> playerList){
+    /*just an integer update if players turn is finished and board is valid
+     * if player won 
+     */return 0;
 
+   }
 
    /*
     * TODO Subtract AI from all tiles
@@ -74,7 +65,7 @@ public class MCTSGameState extends GameApp{
     return currentHand;
    }
 public ArrayList<ArrayList<Tile>> getLegalMoves(ArrayList<Tile>currentHand,Player currentPlayer) {
-{   GameSetup gameSetup = new GameSetup();
+   GameSetup gameSetup = new GameSetup();
     Board curBoard= gameSetup.getBoard();
     ArrayList<ArrayList<Tile>> legalMoves = new ArrayList<ArrayList<Tile>>();
     /*
@@ -97,7 +88,7 @@ public ArrayList<ArrayList<Tile>> getLegalMoves(ArrayList<Tile>currentHand,Playe
     return legalMoves;
 }
 
-}
+
 public ArrayList<ArrayList<Tile>> simpleMove(ArrayList<Tile> currentHand,Player currentPlayer,Board board)
 {
     ArrayList<ArrayList<Tile>> lines = board.getCurrentGameBoard();
@@ -162,5 +153,11 @@ public ArrayList<ArrayList<Tile>> simpleMove(ArrayList<Tile> currentHand,Player 
      return lines;
     }
 
+public boolean isWinner() {
+    return false;
 }
+}
+
+
+
 
