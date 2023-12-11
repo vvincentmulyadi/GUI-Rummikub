@@ -54,7 +54,7 @@ public class GameBoardController {
 
     boolean gameStarted = false;
     boolean drawn = false;
-    boolean endTurnBlocked = false;
+    boolean endTurnBlocked = true;
 
     double minX = 1;
     double minY = 1;
@@ -212,18 +212,21 @@ public class GameBoardController {
         if (!gameStarted) return;
 
         // if the move was not valid revert to previous state
-        if(endTurnBlocked) {
+        if (endTurnBlocked) {
+            endTurnBlocked = false;
             return;
-        }
-        if(!drawn){
+        } else if(!drawn){
             return;
         }
 
         resetPlayingField();
 
         // if the player made a valid move, move to the next player
-        if(!endTurnBlocked && drawn){
+        if(!endTurnBlocked){
             gameApp.nextPlayer();
+        } else if (drawn){
+            gameApp.nextPlayer();
+            drawn = false;
         }
 
         tiles = gameApp.getCurPlr().getHand();
@@ -302,7 +305,6 @@ public class GameBoardController {
         putButtonHand();
         initializeTileAsButton();
 
-        endTurnBlocked = false;
         drawn = true;
     }
     private void putButtonHand(){
