@@ -34,10 +34,7 @@ public class MCTSAction {
         // ArrayList<ArrayList<Tile>> legalMoves) {
 
         // RED, BLUE, YELLOW, BLACK
-
         ArrayList<ArrayList<Tile>> currentSepHand = partitionByColors(currentHand);
-        // Exp
-
         ArrayList<ArrayList<Tile>> groups = new ArrayList<>();
         for (ArrayList<Tile> color : currentSepHand) {
 
@@ -71,10 +68,66 @@ public class MCTSAction {
         return groups;
     }
 
-    private ArrayList<ArrayList<Tile>> ownMoveGroup(ArrayList<Tile> currentHand) {
+    public ArrayList<ArrayList<Tile>> ownMoveGroup(ArrayList<Tile> currentHand) {
         // ArrayList<ArrayList<Tile>> legalMoves) {
-        // currentHand = partitionAlreadySortedColors(currentHand);
-        return null;
+        ArrayList<ArrayList<Tile>> currentSepHand = partitionByNumbers(currentHand);
+        ArrayList<ArrayList<Tile>> groups = new ArrayList<>();
+        System.out.println(currentSepHand);
+        for (ArrayList<Tile> Number : currentSepHand) {
+            HashSet<Colour> hashSet = new HashSet<>();
+
+            if (Number.size() < 3) {
+                continue;
+            }
+
+            for (int i = 0; i < Number.size(); i++) {
+                ArrayList<Tile> currentGroup = new ArrayList<>();
+                if (hashSet.contains(Number.get(i).getColour())) {
+                    continue;
+                }
+                hashSet = new HashSet<>();
+
+                hashSet.add(Number.get(i).getColour());
+                currentGroup.add(Number.get(i));
+
+                for (int j = i + 1; j < Number.size(); j++) {
+                    if (hashSet.contains(Number.get(j).getColour())) {
+                        continue;
+                    }
+                    hashSet.add(Number.get(j).getColour());
+                    currentGroup.add(Number.get(j));
+                    System.out.println(currentGroup);
+                    if (hashSet.size() >= 3) {
+                        groups.add(currentGroup);
+                        // legalMoves.add(currentGroup);
+                        currentGroup = (ArrayList<Tile>) currentGroup.clone();
+                    }
+                }
+
+            }
+        }
+
+        return groups;
+    }
+
+    private ArrayList<ArrayList<Tile>> partitionByNumbers(ArrayList<Tile> unsortedHand) {
+
+        Player sorter = new Player(unsortedHand);
+        sorter.sortByColour();
+
+        ArrayList<ArrayList<Tile>> partitionedByNumbers = new ArrayList<>();
+        for (int i = 0; i < 13; i++) {
+            partitionedByNumbers.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < unsortedHand.size(); i++) {
+            Tile tile = unsortedHand.get(i);
+            int index = tile.getInt();
+            partitionedByNumbers.get(index - 1).add(tile);
+        }
+
+        System.out.println(partitionedByNumbers.toString());
+        return partitionedByNumbers;
     }
 
     private ArrayList<ArrayList<Tile>> partitionByColors(ArrayList<Tile> unsortedHand) {
@@ -117,7 +170,7 @@ public class MCTSAction {
         ArrayList<ArrayList<Tile>> groups = new ArrayList<>();
         groups.add(groupYe);
         MCTSAction mcts = new MCTSAction();
-        ArrayList<ArrayList<Tile>> legalMoves = mcts.ownMoverRun(groupYe);
+        ArrayList<ArrayList<Tile>> legalMoves = mcts.ownMoveGroup(groupYe);
         System.out.println("Legal moves" + legalMoves.toString());
 
         HashMap<Colour, Integer> colorMap = new HashMap<>();

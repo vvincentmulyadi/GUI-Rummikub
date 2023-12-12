@@ -48,6 +48,10 @@ public class Player {
         }
     }
 
+    public void sortByColour() {
+        sortByColour(hand);
+    }
+
     public int partitionSort(ArrayList<Tile> tilesList, int start, int end) {
         int pivot = tilesList.get(end).getValue().getValue();
         int i = start - 1;
@@ -86,7 +90,7 @@ public class Player {
         }
     }
 
-    public void sortByColour() {
+    public void sortByColour(int four) {
         sortByColour(hand);
     }
 

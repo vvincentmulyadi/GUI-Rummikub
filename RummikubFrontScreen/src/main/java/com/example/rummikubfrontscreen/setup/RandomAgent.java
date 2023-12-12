@@ -1,4 +1,5 @@
 package com.example.rummikubfrontscreen.setup;
+
 import com.example.rummikubfrontscreen.setup.MCTS.MCTS;
 import com.example.rummikubfrontscreen.setup.MCTS.MCTSAction;
 
@@ -29,9 +30,13 @@ public class RandomAgent {
         // get possible moves in the hand from elias method
         MCTSAction moveProvider = new MCTSAction();
         possibleMoves = moveProvider.ownMoverRun(player.getHand());
+        ArrayList<ArrayList<Tile>> otherPossibleMoves = moveProvider.ownMoveGroup(player.getHand());
+
+        // Combine all elements of possibleMoves and otherPossibleMoves
+        possibleMoves.addAll(otherPossibleMoves);
 
         // if not any available draw
-        if(possibleMoves.isEmpty()){
+        if (possibleMoves.isEmpty()) {
             draw = true;
             return;
         }
@@ -41,15 +46,15 @@ public class RandomAgent {
 
         // choose random moves
         ArrayList<Integer> ids = new ArrayList();
-        for(int i = 0; i<numOfMoves; i++){
+        for (int i = 0; i < numOfMoves; i++) {
             int id = generateRandomNumber(possibleMoves.size());
-            if(ids.contains(id)){
-                i-=1;
-            }else{
+            if (ids.contains(id)) {
+                i -= 1;
+            } else {
                 chosenMoves.add(possibleMoves.get(id));
             }
         }
-      
+
     }
 
     private static int generateRandomNumber(int maxValue) {
