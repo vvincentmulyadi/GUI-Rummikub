@@ -7,7 +7,7 @@ import com.example.rummikubfrontscreen.setup.Value;
 
 import java.util.*;
 
-public class MCTSAction{
+public class MCTSAction {
 
     HashMap<Colour, Integer> colorMap;
 
@@ -30,30 +30,17 @@ public class MCTSAction{
      * TODO: Sorting the current hand before executing the ownMove method
      *
      */
-    public ArrayList<ArrayList<Tile>> ownMoverRun(ArrayList<Tile> currentHand){
-                                                   //ArrayList<ArrayList<Tile>> legalMoves) {
-        ArrayList<Tile> blueTiles = new ArrayList<>();
-        ArrayList<Tile> blackTiles = new ArrayList<>();
-        ArrayList<Tile> greenTiles = new ArrayList<>();
-        ArrayList<Tile> yellowTiles = new ArrayList<>();
+    public ArrayList<ArrayList<Tile>> ownMoverRun(ArrayList<Tile> currentHand) {
+        // ArrayList<ArrayList<Tile>> legalMoves) {
 
-        ArrayList<ArrayList<Tile>> allTiles = new ArrayList<>();
-
-        allTiles.add(blueTiles);
-        allTiles.add(blackTiles);
-        allTiles.add(greenTiles);
-        allTiles.add(yellowTiles);
-
-        Player sorter = new Player(currentHand);
         // RED, BLUE, YELLOW, BLACK
-        sorter.sortByColour(currentHand);
-        System.out.println(currentHand);
 
+        ArrayList<ArrayList<Tile>> currentSepHand = partitionByColors(currentHand);
         // Exp
-        allTiles.add(currentHand);
 
         ArrayList<ArrayList<Tile>> groups = new ArrayList<>();
-        for (ArrayList<Tile> color : allTiles) {
+        for (ArrayList<Tile> color : currentSepHand) {
+
             // we try to find a possible series of 3 at least tiles
             if (color.size() < 3) {
                 continue;
@@ -69,10 +56,11 @@ public class MCTSAction{
                             && color.get(j).getInt() != currentGroup.get(currentGroup.size() - 1).getInt() - 1) {
                         break;
                     }
+
                     currentGroup.add(color.get(j));
                     if (currentGroup.size() >= 3) {
                         groups.add(currentGroup);
-                        //legalMoves.add(currentGroup);
+                        // legalMoves.add(currentGroup);
                         currentGroup = (ArrayList<Tile>) currentGroup.clone();
                     }
                 }
@@ -83,16 +71,18 @@ public class MCTSAction{
         return groups;
     }
 
-    private ArrayList<ArrayList<Tile>> ownMoveGroup(ArrayList<ArrayList<Tile>> currentHand,
-                                                    ArrayList<ArrayList<Tile>> legalMoves) {
-
+    private ArrayList<ArrayList<Tile>> ownMoveGroup(ArrayList<Tile> currentHand) {
+        // ArrayList<ArrayList<Tile>> legalMoves) {
+        // currentHand = partitionAlreadySortedColors(currentHand);
         return null;
     }
 
-    private ArrayList<ArrayList<Tile>> partitionAlreadySortedColors(ArrayList<Tile> unsortedHand) {
+    private ArrayList<ArrayList<Tile>> partitionByColors(ArrayList<Tile> unsortedHand) {
+
+        Player sorter = new Player(unsortedHand);
+        sorter.sortByColour();
 
         ArrayList<ArrayList<Tile>> partitionedByColour = new ArrayList<>();
-
         for (int i = 0; i < 4; i++) {
             partitionedByColour.add(new ArrayList<>());
         }
@@ -121,22 +111,20 @@ public class MCTSAction{
         groupYe.add(new Tile(Colour.YELLOW, Value.EIGHT));
         groupYe.add(new Tile(Colour.BLACK, Value.EIGHT));
         groupYe.add(new Tile(Colour.RED, Value.EIGHT));
+        groupYe.add(new Tile(Colour.RED, Value.NINE));
         groupYe.add(new Tile(Colour.RED, Value.SEVEN));
         groupYe.add(new Tile(Colour.BLUE, Value.EIGHT));
         ArrayList<ArrayList<Tile>> groups = new ArrayList<>();
         groups.add(groupYe);
         MCTSAction mcts = new MCTSAction();
-        ArrayList<ArrayList<Tile>> legalMoves = mcts.ownMoverRun(groupYe, new ArrayList<>());
-        System.out.println(legalMoves.toString());
+        ArrayList<ArrayList<Tile>> legalMoves = mcts.ownMoverRun(groupYe);
+        System.out.println("Legal moves" + legalMoves.toString());
 
         HashMap<Colour, Integer> colorMap = new HashMap<>();
         colorMap.put(Colour.RED, 1);
         colorMap.put(Colour.BLUE, 2);
         colorMap.put(Colour.YELLOW, 3);
         colorMap.put(Colour.BLACK, 4);
-        int a = colorMap.get(Colour.RED);
-        System.out.println(a);
-        System.out.println(mcts.partitionAlreadySortedColors(groupYe));
 
     }
 
