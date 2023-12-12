@@ -233,7 +233,6 @@ public class GameBoardController {
                 endTurnBlocked = false;
                 return;
             }
-            drawn = true;
             return;
         }
 
