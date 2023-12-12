@@ -224,6 +224,7 @@ public class GameBoardController {
                 System.out.println("The agent chose:" + agent.getChosenMoves());
                 System.out.println("Please make the move for the agent");
                 System.out.println("\n");
+                endTurnBlocked = true;
             }
         }
 

@@ -126,7 +126,7 @@ public class MCTSAction{
         ArrayList<ArrayList<Tile>> groups = new ArrayList<>();
         groups.add(groupYe);
         MCTSAction mcts = new MCTSAction();
-        ArrayList<ArrayList<Tile>> legalMoves = mcts.ownMoverRun(groupYe, new ArrayList<>());
+        ArrayList<ArrayList<Tile>> legalMoves = mcts.ownMoverRun(groupYe);
         System.out.println(legalMoves.toString());
 
         HashMap<Colour, Integer> colorMap = new HashMap<>();
