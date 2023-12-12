@@ -48,7 +48,7 @@ public class GameBoardController {
     private ArrayList<Tile> currentHand = new ArrayList<>();
     HashMap<String, Tile> all_tiles = new HashMap<>();
     private RandomAgent agent;
-
+    private static boolean playAgainstAI;
 
     boolean gameStarted = false;
     boolean drawn = false;
@@ -59,6 +59,16 @@ public class GameBoardController {
     double maxX = 485;
     double maxY = 285;
     boolean winner = false;
+
+
+    public static void setPlayAgainstAI(boolean playAgainstAIBool){
+        playAgainstAI = playAgainstAIBool;
+    }
+
+    public static boolean getPlayAgainstAI(){
+        return playAgainstAI;
+    }
+
 
     /**
      * Initializes the Tile object as a Button
@@ -210,20 +220,23 @@ public class GameBoardController {
         if (!gameStarted) return;
 
         // agent is the last player
-        if(gameApp.getCurPlr().getId()==gameApp.getGs().getPlayers().size()-1){
-            drawn = true;
-            agent.takeRandomAction();
-            if(agent.getChosenMoves().isEmpty()){
-                System.out.println("\n");
-                System.out.println("Agent has drawn tile");
-                System.out.println("\n");
-                drawn = false;
-                drawButton();
-            }else{
-                System.out.println("\n");
-                System.out.println("The agent chose:" + agent.getChosenMoves());
-                System.out.println("Please make the move for the agent");
-                System.out.println("\n");
+        if (playAgainstAI) {
+            System.out.println("AI? "+playAgainstAI);
+            if (gameApp.getCurPlr().getId() == gameApp.getGs().getPlayers().size() - 1) {
+                drawn = true;
+                agent.takeRandomAction();
+                if (agent.getChosenMoves().isEmpty()) {
+                    System.out.println("\n");
+                    System.out.println("Agent has drawn tile");
+                    System.out.println("\n");
+                    drawn = false;
+                    drawButton();
+                } else {
+                    System.out.println("\n");
+                    System.out.println("The agent chose:" + agent.getChosenMoves());
+                    System.out.println("Please make the move for the agent");
+                    System.out.println("\n");
+                }
             }
         }
 
@@ -231,6 +244,7 @@ public class GameBoardController {
         if(!drawn){
             if (endTurnBlocked) {
                 endTurnBlocked = false;
+                drawn = false;
                 return;
             }
             return;
@@ -277,7 +291,9 @@ public class GameBoardController {
         if (gameStarted) return;
 
         gameApp = new GameApp();
-        agent = gameApp.getGs().getAgent();
+
+        if (playAgainstAI) agent = gameApp.getGs().getAgent();
+
         tiles = gameApp.getCurPlr().getHand();
 
         for (Tile tile : tiles) {

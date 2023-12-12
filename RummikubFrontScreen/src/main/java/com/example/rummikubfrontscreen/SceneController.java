@@ -1,15 +1,18 @@
 package com.example.rummikubfrontscreen;
 
+import com.example.rummikubfrontscreen.setup.GameSetup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class SceneController {
+
 
     public void switchToMenuScene(ActionEvent event) throws IOException{
         initializeScene(event, "Main.fxml");
@@ -19,8 +22,14 @@ public class SceneController {
         initializeScene(event, "choose-opponent.fxml");
     }
 
-    public void switchToBoardScene(ActionEvent event) throws IOException{
+    public void switchToAIBoardScene(ActionEvent event) throws IOException{
         initializeScene(event, "game-board-copy.fxml");
+        GameBoardController.setPlayAgainstAI(true);
+    }
+
+    public void switchToHumanBoardScene(ActionEvent event) throws IOException{
+        initializeScene(event, "game-board-copy.fxml");
+        GameBoardController.setPlayAgainstAI(false);
     }
 
     /*public void switchToMakeNewPlayersScene(ActionEvent event) throws IOException{

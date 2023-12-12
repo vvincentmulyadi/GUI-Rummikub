@@ -120,7 +120,7 @@ public class MCTSAction {
             partitionedByNumbers.add(new ArrayList<>());
         }
 
-        for (int i = 0; i < unsortedHand.size(); i++) {
+        for (int i = 1; i < unsortedHand.size(); i++) {
             Tile tile = unsortedHand.get(i);
             int index = tile.getInt();
             partitionedByNumbers.get(index - 1).add(tile);

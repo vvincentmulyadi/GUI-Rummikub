@@ -1,5 +1,7 @@
 package com.example.rummikubfrontscreen.setup;
 
+import com.example.rummikubfrontscreen.GameBoardController;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -37,7 +39,8 @@ public class GameSetup {
         for (int i = 0; i < numOfPlayers; i++) {
             Player player = new Player(generateHand());
             player.setId(i);
-            if(i==numOfPlayers-1){
+            if(i==numOfPlayers-1 && GameBoardController.getPlayAgainstAI()){
+                System.out.println("Agent init");
                 agent = new RandomAgent(player);
             }
             players.add(player);
