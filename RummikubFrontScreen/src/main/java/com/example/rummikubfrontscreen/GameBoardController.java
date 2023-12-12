@@ -211,6 +211,7 @@ public class GameBoardController {
 
         // agent is the last player
         if(gameApp.getCurPlr().getId()==gameApp.getGs().getPlayers().size()-1){
+            drawn = true;
             agent.takeRandomAction();
             if(agent.getChosenMoves().isEmpty()){
                 System.out.println("\n");

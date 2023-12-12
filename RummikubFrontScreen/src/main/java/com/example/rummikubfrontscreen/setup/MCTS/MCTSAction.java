@@ -1,18 +1,17 @@
 package com.example.rummikubfrontscreen.setup.MCTS;
 
-import java.lang.reflect.Array;
-import java.util.*;
-
 import com.example.rummikubfrontscreen.setup.Colour;
 import com.example.rummikubfrontscreen.setup.Player;
 import com.example.rummikubfrontscreen.setup.Tile;
 import com.example.rummikubfrontscreen.setup.Value;
 
-public class MCTSActions {
+import java.util.*;
+
+public class MCTSAction{
 
     HashMap<Colour, Integer> colorMap;
 
-    public MCTSActions() {
+    public MCTSAction() {
         colorMap = new HashMap<>();
         colorMap.put(Colour.RED, 1);
         colorMap.put(Colour.BLUE, 2);
@@ -29,10 +28,10 @@ public class MCTSActions {
     // Like git ? By only keeping track of the changes ? No to complex
     /*
      * TODO: Sorting the current hand before executing the ownMove method
-     * 
+     *
      */
-    private ArrayList<ArrayList<Tile>> ownMoverRun(ArrayList<Tile> currentHand,
-            ArrayList<ArrayList<Tile>> legalMoves) {
+    public ArrayList<ArrayList<Tile>> ownMoverRun(ArrayList<Tile> currentHand,
+                                                   ArrayList<ArrayList<Tile>> legalMoves) {
         ArrayList<Tile> blueTiles = new ArrayList<>();
         ArrayList<Tile> blackTiles = new ArrayList<>();
         ArrayList<Tile> greenTiles = new ArrayList<>();
@@ -85,7 +84,7 @@ public class MCTSActions {
     }
 
     private ArrayList<ArrayList<Tile>> ownMoveGroup(ArrayList<ArrayList<Tile>> currentHand,
-            ArrayList<ArrayList<Tile>> legalMoves) {
+                                                    ArrayList<ArrayList<Tile>> legalMoves) {
 
         return null;
     }
@@ -126,7 +125,7 @@ public class MCTSActions {
         groupYe.add(new Tile(Colour.BLUE, Value.EIGHT));
         ArrayList<ArrayList<Tile>> groups = new ArrayList<>();
         groups.add(groupYe);
-        MCTSActions mcts = new MCTSActions();
+        MCTSAction mcts = new MCTSAction();
         ArrayList<ArrayList<Tile>> legalMoves = mcts.ownMoverRun(groupYe, new ArrayList<>());
         System.out.println(legalMoves.toString());
 
