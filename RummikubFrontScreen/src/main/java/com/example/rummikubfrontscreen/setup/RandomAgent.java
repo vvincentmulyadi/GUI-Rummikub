@@ -28,7 +28,7 @@ public class RandomAgent {
 
         // get possible moves in the hand from elias method
         MCTSAction moveProvider = new MCTSAction();
-        possibleMoves = moveProvider.ownMoverRun(player.getHand(),null);
+        possibleMoves = moveProvider.ownMoverRun(player.getHand());
 
         // if not any available draw
         if(possibleMoves.isEmpty()){

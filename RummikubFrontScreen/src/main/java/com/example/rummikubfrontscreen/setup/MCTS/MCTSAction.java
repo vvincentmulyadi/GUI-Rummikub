@@ -30,8 +30,8 @@ public class MCTSAction{
      * TODO: Sorting the current hand before executing the ownMove method
      *
      */
-    public ArrayList<ArrayList<Tile>> ownMoverRun(ArrayList<Tile> currentHand,
-                                                   ArrayList<ArrayList<Tile>> legalMoves) {
+    public ArrayList<ArrayList<Tile>> ownMoverRun(ArrayList<Tile> currentHand){
+                                                   //ArrayList<ArrayList<Tile>> legalMoves) {
         ArrayList<Tile> blueTiles = new ArrayList<>();
         ArrayList<Tile> blackTiles = new ArrayList<>();
         ArrayList<Tile> greenTiles = new ArrayList<>();
@@ -72,7 +72,7 @@ public class MCTSAction{
                     currentGroup.add(color.get(j));
                     if (currentGroup.size() >= 3) {
                         groups.add(currentGroup);
-                        legalMoves.add(currentGroup);
+                        //legalMoves.add(currentGroup);
                         currentGroup = (ArrayList<Tile>) currentGroup.clone();
                     }
                 }
