@@ -87,7 +87,10 @@ public ArrayList<ArrayList<Tile>> getLegalMoves(ArrayList<Tile>currentHand,Playe
     
     return legalMoves;
 }
-
+public ArrayList<ArrayList<Tile>> getBoard()
+{
+    return this.board;
+}
 
 public ArrayList<ArrayList<Tile>> simpleMove(ArrayList<Tile> currentHand,Player currentPlayer,Board board)
 {

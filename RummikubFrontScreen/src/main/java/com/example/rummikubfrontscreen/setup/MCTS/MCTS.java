@@ -8,7 +8,7 @@ public class MCTS {
     private Node root;
     private static final int MAX_ITERATIONS = 1000;
     static double explorationParameter = 1.4;
-
+    
     public MCTS(MCTSGameState gameState) {
         this.gameState = gameState;
         this.root = new Node(gameState, null);
@@ -46,9 +46,9 @@ public class MCTS {
         ArrayList<Node> children = node.getChildren();
         for (Node child : children) {
             // ımplentatıon todo
-            double ucbValue = 0 ;// calcUCTValue(child, explorationParameter);
+            double ucbValue=child.getUCTScore();// calcUCTValue(child, explorationParameter);
             if (ucbValue > maxScore) {
-                maxScore = ucbValue;
+                maxScore=ucbValue;
                 bestNode = child;
             }
         }
@@ -64,9 +64,10 @@ public class MCTS {
     }
 
 
-    private int simulateRandomPlayout(Node node) {
+    private void simulateRandomPlayout(Node node) {
+        ArrayList<Tile> currentHand = this.gameState.getCurrentHand();
         // Implement the simulation logic based on your game rules
-        return 0; // Replace with the actual result
+        Move randMove=new Move(this.gameState.getBoard(),currentHand);// Replace with the actual result
     }
 
     private void backPropagate(Node node, int playoutResult) {
