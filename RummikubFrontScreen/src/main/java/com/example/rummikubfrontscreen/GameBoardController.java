@@ -1,10 +1,7 @@
 package com.example.rummikubfrontscreen;
 import com.example.rummikubfrontscreen.FXTile;
 import com.example.rummikubfrontscreen.TilePositionScanner;
-import com.example.rummikubfrontscreen.setup.Colour;
-import com.example.rummikubfrontscreen.setup.GameApp;
-import com.example.rummikubfrontscreen.setup.Tile;
-import com.example.rummikubfrontscreen.setup.Board;
+import com.example.rummikubfrontscreen.setup.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -50,6 +47,7 @@ public class GameBoardController {
     private ArrayList<Tile> allTilesInField = new ArrayList<>();
     private ArrayList<Tile> currentHand = new ArrayList<>();
     HashMap<String, Tile> all_tiles = new HashMap<>();
+    private RandomAgent agent;
 
 
     boolean gameStarted = false;
@@ -211,6 +209,23 @@ public class GameBoardController {
     private void changePlayer() {
         if (!gameStarted) return;
 
+        // agent is the last player
+        if(gameApp.getCurPlr().getId()==gameApp.getGs().getPlayers().size()-1){
+            agent.takeRandomAction();
+            if(agent.getChosenMoves().isEmpty()){
+                System.out.println("\n");
+                System.out.println("Agent has drawn tile");
+                System.out.println("\n");
+                drawn = false;
+                drawButton();
+            }else{
+                System.out.println("\n");
+                System.out.println("The agent chose:" + agent.getChosenMoves());
+                System.out.println("Please make the move for the agent");
+                System.out.println("\n");
+            }
+        }
+
         // if the move was not valid revert to previous state
         if(!drawn){
             if (endTurnBlocked) {
@@ -251,6 +266,7 @@ public class GameBoardController {
 
         // Setting up next round
         drawn = false;
+
     }
 
     /**
@@ -261,6 +277,7 @@ public class GameBoardController {
         if (gameStarted) return;
 
         gameApp = new GameApp();
+        agent = gameApp.getGs().getAgent();
         tiles = gameApp.getCurPlr().getHand();
 
         for (Tile tile : tiles) {

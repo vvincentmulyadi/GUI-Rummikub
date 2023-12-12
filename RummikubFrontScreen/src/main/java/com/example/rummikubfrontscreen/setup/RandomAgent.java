@@ -6,56 +6,62 @@ public class RandomAgent {
 
     private Player player;
 
-    private ArrayList<Tile> hand;
+    private ArrayList<ArrayList<Tile>> possibleMoves = new ArrayList<>();
 
+    public ArrayList<ArrayList<Tile>> getChosenMoves() {
+        return chosenMoves;
+    }
+
+    private ArrayList<ArrayList<Tile>> chosenMoves;
+    private boolean draw;
 
     public RandomAgent(Player player) {
         this.player = player;
-        this.hand = player.getHand();
+        this.draw = false;
+        chosenMoves = new ArrayList<>();
     }
 
     public void takeRandomAction() {
-        // Define a set of actions
-        ArrayList<Tile> tiles = player.getHand();
-        
-        //scan the hand of the agent
 
-        //get all the possible moves
+//        ArrayList<Tile> list1 = new ArrayList<>();
+//        list1.add(new Tile(Colour.BLACK, Value.EIGHT));
+//        list1.add(new Tile(Colour.BLACK, Value.NINE));
+//        list1.add(new Tile(Colour.BLACK, Value.TEN));
+//
+//        possibleMoves.add(list1);
+        // get possible moves in the hand from elias method
 
-        //if not any available draw
+        // if not any available draw
+        if(possibleMoves.isEmpty()){
+            draw = true;
+            return;
+        }
 
-        //choose a random move
+        // choose a random number of moves
+        int numOfMoves = generateRandomNumber(possibleMoves.size());
 
-        //place it on the board
-
-
-        // Perform the chosen action (replace this with your actual action logic)
+        // choose random moves
+        ArrayList<Integer> ids = new ArrayList();
+        for(int i = 0; i<numOfMoves; i++){
+            int id = generateRandomNumber(possibleMoves.size());
+            if(ids.contains(id)){
+                i-=1;
+            }else{
+                chosenMoves.add(possibleMoves.get(id));
+            }
+        }
       
     }
 
-    private Tile getRandomElement(ArrayList<Tile> tiles) {
-        Tile randomTile = null;
-        int randomIndex = 0;
-        while (randomIndex == 0) {
-            randomIndex = (int) (10 * Math.random());
-        }
-        for(int i = 0; i < randomIndex; i++){
-            randomTile = tiles.get(i);
-        }
-        return randomTile;
+    private static int generateRandomNumber(int maxValue) {
+        // Create a Random object
+        Random random = new Random();
+
+        // Generate a random integer between 0 (inclusive) and maxValue (exclusive)
+        // To make it inclusive, add 1 to the result
+        int randomNumber = random.nextInt(maxValue);
+
+        return randomNumber;
     }
 
-    private void performAction(String action) {
-        System.out.println("Agent performs action: " + action);
-        // Add your logic here to perform the action
-    }
-
-    public static void main(String[] args) {
-        RandomAgent randomAgent = new RandomAgent();
-
-        // Make multiple random decisions (for demonstration purposes)
-        for (int i = 0; i < 5; i++) {
-            randomAgent.takeRandomAction();
-        }
-    }
 }

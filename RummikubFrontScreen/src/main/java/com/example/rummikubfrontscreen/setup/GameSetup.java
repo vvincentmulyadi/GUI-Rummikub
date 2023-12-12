@@ -15,6 +15,9 @@ public class GameSetup {
 
     private ArrayList<Player> players = new ArrayList<>();
 
+    private RandomAgent agent;
+    private int numOfPlayers = 4;
+
     Board board;
 
     public void setTilesInPlay(ArrayList<Tile> tilesInPlay) {
@@ -24,32 +27,27 @@ public class GameSetup {
     public ArrayList<Tile> getTilesInPlay() {
         return tilesInPlay;
     }
-    private int numOfPlayers = 4;
+    public RandomAgent getAgent() {
+        return agent;
+    }
 
     public GameSetup () {
         generateTiles();
         generateBoard();
         for (int i = 0; i < numOfPlayers; i++) {
-            players.add(new Player(generateHand()));
+            Player player = new Player(generateHand());
+            player.setId(i);
+            if(i==numOfPlayers-1){
+                agent = new RandomAgent(player);
+            }
+            players.add(player);
+
         }
         for (Player player : players) {
             player.sortByColour(player.hand);
         }
     }
 
-
-//    public static void main(String[] args) {
-//        GameSetup game = new GameSetup();
-//        game.generateTiles();
-//        for (int i = 0; i < 4; i++) {
-//            game.players.add(new Player(game.generateHand()));
-//        }
-//        for (Player player : game.players) {
-//            player.sortByColour(player.hand);
-//            System.out.println(player.getHand());
-//        }
-//        System.out.println(game.getTiles());
-//    }
 
     private void generateBoard () {
         ArrayList<ArrayList<Tile>> newGameBoard = new ArrayList<>();
