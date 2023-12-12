@@ -26,7 +26,7 @@ public class MCTS {
                 nodeToExplore = candidateNode.getRandomChildNode();
             }
 
-            int playoutResult = simulateRandomPlayout(nodeToExplore);
+             int playoutResult = 0;
             backPropagate(nodeToExplore, playoutResult);
         }
         return root.selection();
@@ -64,10 +64,13 @@ public class MCTS {
     }
 
 
-    private void simulateRandomPlayout(Node node) {
-        ArrayList<Tile> currentHand = this.gameState.getCurrentHand();
+    private int simulateRandomPlayout(Node node) {
+        //ArrayList<Tile> currentHand = this.gameState.getCurrentHand();
         // Implement the simulation logic based on your game rules
-        Move randMove=new Move(this.gameState.getBoard(),currentHand);// Replace with the actual result
+        //Move randMove=new Move(this.gameState.getBoard(),currentHand);// Replace with the actual result
+        int result = 0;
+
+        return result;
     }
 
     private void backPropagate(Node node, int playoutResult) {
