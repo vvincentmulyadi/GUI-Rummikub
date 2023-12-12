@@ -12,4 +12,4 @@ Done by Group 5
 java
 maven
 # How to run
-To run our code use the Main class
+To run our code unzip the .zip file and run the start() method in the Main class located in RummikubFrontScreen/src/main/java/com/example/rummikubfrontscreen/Main.java
