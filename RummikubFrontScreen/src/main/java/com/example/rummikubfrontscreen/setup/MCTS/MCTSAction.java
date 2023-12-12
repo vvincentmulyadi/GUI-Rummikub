@@ -67,7 +67,7 @@ public class MCTSAction {
 
         return groups;
     }
-
+    
     public ArrayList<ArrayList<Tile>> ownMoveGroup(ArrayList<Tile> currentHand) {
         // ArrayList<ArrayList<Tile>> legalMoves) {
         ArrayList<ArrayList<Tile>> currentSepHand = partitionByNumbers(currentHand);
@@ -148,6 +148,7 @@ public class MCTSAction {
 
         return partitionedByColour;
     }
+
 
     public static void main(String[] args) {
 

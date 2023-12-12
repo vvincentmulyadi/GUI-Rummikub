@@ -62,11 +62,11 @@ public class MCTS {
         }
     }
 
-    private int simulateRandomPlayout(Node node) {
+    private int simulateRandomPlayout(Node node)     {
         // ArrayList<Tile> currentHand = this.gameState.getCurrentHand();
         // Implement the simulation logic based on your game rules
         // Move randMove=new Move(this.gameState.getBoard(),currentHand);// Replace with
-        // the actual result
+        // the actual result    
         int result = 0;
 
         return result;
@@ -79,4 +79,5 @@ public class MCTS {
             node = node.getParent();
         }
     }
+
 }
