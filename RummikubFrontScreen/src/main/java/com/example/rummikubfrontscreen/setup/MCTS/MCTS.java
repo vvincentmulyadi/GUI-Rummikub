@@ -1,14 +1,13 @@
 package com.example.rummikubfrontscreen.setup.MCTS;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class MCTS {
     private MCTSGameState gameState;
     private Node root;
     private static final int MAX_ITERATIONS = 1000;
     static double explorationParameter = 1.4;
-    
+
     public MCTS(MCTSGameState gameState) {
         this.gameState = gameState;
         this.root = new Node(gameState, null);
@@ -26,7 +25,7 @@ public class MCTS {
                 nodeToExplore = candidateNode.getRandomChildNode();
             }
 
-             int playoutResult = 0;
+            int playoutResult = 0;
             backPropagate(nodeToExplore, playoutResult);
         }
         return root.selection();
@@ -46,9 +45,9 @@ public class MCTS {
         ArrayList<Node> children = node.getChildren();
         for (Node child : children) {
             // ımplentatıon todo
-            double ucbValue=child.getUCTScore();// calcUCTValue(child, explorationParameter);
+            double ucbValue = child.getUCTScore();// calcUCTValue(child, explorationParameter);
             if (ucbValue > maxScore) {
-                maxScore=ucbValue;
+                maxScore = ucbValue;
                 bestNode = child;
             }
         }
@@ -63,11 +62,11 @@ public class MCTS {
         }
     }
 
-
     private int simulateRandomPlayout(Node node) {
-        //ArrayList<Tile> currentHand = this.gameState.getCurrentHand();
+        // ArrayList<Tile> currentHand = this.gameState.getCurrentHand();
         // Implement the simulation logic based on your game rules
-        //Move randMove=new Move(this.gameState.getBoard(),currentHand);// Replace with the actual result
+        // Move randMove=new Move(this.gameState.getBoard(),currentHand);// Replace with
+        // the actual result
         int result = 0;
 
         return result;
