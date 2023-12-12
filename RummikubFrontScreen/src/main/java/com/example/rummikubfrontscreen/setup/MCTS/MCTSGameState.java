@@ -1,6 +1,5 @@
 package com.example.rummikubfrontscreen.setup.MCTS;
 import com.example.rummikubfrontscreen.GameBoardController;
-import com.example.rummikubfrontscreen.setup.GameSetup;
 import com.example.rummikubfrontscreen.setup.*;
 import java.util.*;
 
@@ -68,6 +67,7 @@ public ArrayList<ArrayList<Tile>> getLegalMoves(ArrayList<Tile>currentHand,Playe
    GameSetup gameSetup = new GameSetup();
     Board curBoard= gameSetup.getBoard();
     ArrayList<ArrayList<Tile>> legalMoves = new ArrayList<ArrayList<Tile>>();
+    
     /*
      * TODO figure out how to get the size of the board and then if size is zero then use the checkers to 
      * add move to list of legal moves if value of runs and rovs are above 30 move to next tile
@@ -92,7 +92,7 @@ public ArrayList<ArrayList<Tile>> getBoard()
     return this.board;
 }
 
-public ArrayList<ArrayList<Tile>> simpleMove(ArrayList<Tile> currentHand,Player currentPlayer,Board board)
+public static ArrayList<ArrayList<Tile>> simpleMove(ArrayList<Tile> currentHand,Player currentPlayer,Board board)
 {
     ArrayList<ArrayList<Tile>> lines = board.getCurrentGameBoard();
     //lines series in board
@@ -155,7 +155,39 @@ public ArrayList<ArrayList<Tile>> simpleMove(ArrayList<Tile> currentHand,Player 
      }
      return lines;
     }
+public static void main(String[] args) {
 
+        ArrayList<Tile>testHand=new ArrayList<>();
+        Board board=new Board();
+        Player testplayer=null;
+        testHand.add(new Tile(Colour.YELLOW, Value.TWO));
+        testHand.add(new Tile(Colour.YELLOW, Value.ONE));
+        testHand.add(new Tile(Colour.YELLOW, Value.THREE));
+        testHand.add(new Tile(Colour.YELLOW, Value.SEVEN));
+        testHand.add(new Tile(Colour.YELLOW, Value.FIVE));
+        testHand.add(new Tile(Colour.YELLOW, Value.SIX));
+        testHand.add(new Tile(Colour.YELLOW, Value.SEVEN));
+        testHand.add(new Tile(Colour.YELLOW, Value.EIGHT));
+        testHand.add(new Tile(Colour.YELLOW, Value.EIGHT));
+        testHand.add(new Tile(Colour.BLACK, Value.EIGHT));
+        testHand.add(new Tile(Colour.RED, Value.EIGHT));
+        testHand.add(new Tile(Colour.RED, Value.SEVEN));
+        testHand.add(new Tile(Colour.BLUE, Value.EIGHT));
+        board.add(testHand);
+        MCTSActions mcts = new MCTSActions();
+        ArrayList<ArrayList<Tile>> legalMoves = mcts.ownMoverRun(testHand, new ArrayList<>());
+        System.out.println(legalMoves.toString());
+
+        HashMap<Colour, Integer> colorMap = new HashMap<>();
+        colorMap.put(Colour.RED, 1);
+        colorMap.put(Colour.BLUE, 2);
+        colorMap.put(Colour.YELLOW, 3);
+        colorMap.put(Colour.BLACK, 4);
+        int a = colorMap.get(Colour.RED);
+        System.out.println(a);
+        System.out.println(simpleMove(testHand,testplayer,board));
+
+    }
 public boolean isWinner() {
     return false;
 }
