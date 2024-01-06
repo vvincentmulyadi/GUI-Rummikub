@@ -5,32 +5,33 @@ import java.util.*;
 
 public class MCTSGameState{
     private ArrayList<ArrayList<Tile>> board;
+    private ArrayList<Tile> deck;
     private Player player;
     private List<Player> listofplayers;
     private Player aiPlayer;
     private int visitCount;
-    private GameApp gameApp;
+    private boolean[] playersEndTurn=new boolean[4];
     private Player winnerIndex;
     //UCT change
     private int winScore;
+    private Random randomizer;
 
     
-    public MCTSGameState(Player player, ArrayList<ArrayList<Tile>> board,MCTSGameState state)
-    {
+    public MCTSGameState(Player player, ArrayList<ArrayList<Tile>> board,ArrayList<Tile> deck,List<Player> playerList) {
         this.board = board;
-        this.player = state.getPlayer();
-        this.visitCount = state.getVisits();
-        this.winScore=state.getWinScore();
+        this.deck = deck;   
+        this.player = player;
+        this.listofplayers=playerList;
+        this.visitCount = 0;
+        this.winScore=0;
+        this.randomizer = new Random();
+        this.aiPlayer=playerList.get(0);
     }
    
    public int getVisits() {
     return visitCount;
    }
-   public Player getPlayer()
-   {
-    Player currentPlayer=gameApp.getCurPlr();
-    return currentPlayer;
-   }
+   
    public int getWinScore()
    {
       return winScore;
@@ -91,70 +92,11 @@ public ArrayList<ArrayList<Tile>> getBoard()
 {
     return this.board;
 }
-
-public static ArrayList<ArrayList<Tile>> simpleMove(ArrayList<Tile> currentHand,Player currentPlayer,Board board)
+public ArrayList<Tile> getDeck()
 {
-    ArrayList<ArrayList<Tile>> lines = board.getCurrentGameBoard();
-    //lines series in board
-    for(ArrayList<Tile> line:lines)
-    {
-     for(Tile tile:currentHand)
-     {
-            ArrayList<Tile>newLine= new ArrayList<Tile>(line);
-            newLine.add(tile);
-             //index of a first tl which is not a joker
-             int indexTile1 = 0;
-             Tile tile1 = null;
-        for(int j = 0; j < newLine.size();j++){
-            if(line.get(j).getValue().equals(Value.JOKER)) continue;
-            if (line == null) {
-                tile1 = line.get(j);
-                indexTile1 = j;
-            }
-        }
-        if(board.checkGroup(newLine,tile))
-        {
-         lines.indexOf(line);
-         lines.set(lines.indexOf(line),newLine);
-         return lines;
-        }
-        if(board.checkRun(newLine,tile,indexTile1))
-        { 
-            ArrayList<Tile> newHand=new ArrayList<Tile>(currentHand);
-            newHand.remove(tile);
-            lines.indexOf(line);
-            lines.set(lines.indexOf(line),newLine);
-            outerloop:
-            while(true)
-              {
-                for(Tile newTile:newHand)
-                {
-                newLine.add(newTile);
-                for(int j = 0; j < newLine.size();j++){
-                if(line.get(j).getValue().equals(Value.JOKER)) continue;
-                if (line == null) {
-                    tile1 = line.get(j);
-                    indexTile1 = j;
-                }
-                }
-                if(!board.checkRun(newLine,tile1,indexTile1))
-                {
-                    break outerloop;
-                }
-                lines.indexOf(line);
-                lines.set(lines.indexOf(line),newLine);
-              }
-            newHand=new ArrayList<Tile>(currentHand);
-                newHand.remove(tile);
-            return lines;
-                }
-            
-            }
+    return this.deck;
+}
 
-        }
-     }
-     return lines;
-    }
 
 public boolean isWinner() {
     return false;

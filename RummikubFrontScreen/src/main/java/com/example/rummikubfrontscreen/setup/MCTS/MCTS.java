@@ -2,13 +2,19 @@ package com.example.rummikubfrontscreen.setup.MCTS;
 
 import java.util.ArrayList;
 
+import com.example.rummikubfrontscreen.setup.Tile;
+
 public class MCTS {
     private MCTSGameState gameState;
     private Node root;
     private static final int MAX_ITERATIONS = 1000;
     static double explorationParameter = 1.4;
+    private ArrayList<ArrayList<Tile>> board;
+    private ArrayList<Tile> deck;
+    ArrayList<Tile> guessedOpponentDeck;
+    private String time;
 
-    public MCTS(MCTSGameState gameState) {
+    public MCTS(MCTSGameState gameState, ArrayList<ArrayList<Tile>> board, ArrayList<Tile> deck,int numberofTiles) {
         this.gameState = gameState;
         this.root = new Node(gameState, null);
     }

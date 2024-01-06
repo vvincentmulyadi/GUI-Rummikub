@@ -10,6 +10,16 @@ import java.util.*;
 public class MCTSAction {
 
     HashMap<Colour, Integer> colorMap;
+    private ArrayList<ArrayList<Tile>>initialBoard;
+    private ArrayList<Tile> initialHand;
+    private ArrayList<Tile>outputHand;
+    private ArrayList<ArrayList<Tile>>outputBoard;
+    private ArrayList<ArrayList<Tile>>possibleCombos;
+    private ArrayList<ArrayList<Tile>>allPossibleCombos;
+    private ArrayList<Tile>deck;
+    private ArrayList<ArrayList<Tile>> randomMove;
+    private boolean endTurn;
+    private Random randomizer;
 
     public MCTSAction() {
         colorMap = new HashMap<>();
@@ -17,6 +27,7 @@ public class MCTSAction {
         colorMap.put(Colour.BLUE, 2);
         colorMap.put(Colour.YELLOW, 3);
         colorMap.put(Colour.BLACK, 4);
+        ArrayList<Tile> initialHand = new ArrayList<>();
     }
 
     // Big problem:
@@ -148,7 +159,7 @@ public class MCTSAction {
 
         return partitionedByColour;
     }
-
+    
 
     public static void main(String[] args) {
 
