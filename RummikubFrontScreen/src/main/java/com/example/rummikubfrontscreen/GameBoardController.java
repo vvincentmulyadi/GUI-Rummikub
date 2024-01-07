@@ -199,6 +199,8 @@ public class GameBoardController {
                 buttonsOnPlayingField.add((Button) buttonsToKeep.get(i));
             }
         }
+        Board board = Board(buttonsOnPlayingField);
+        gameApp.getGs.setBoard(board);
     }
 
     /**

@@ -110,6 +110,9 @@ public class GameSetup {
     public Board getBoard() {
         return board;
     }
+    public Board setBoard(Board board) {
+        this.board = board;
+    }
     public ArrayList<Tile> getAllTiles() {
         return allTiles;
     }
