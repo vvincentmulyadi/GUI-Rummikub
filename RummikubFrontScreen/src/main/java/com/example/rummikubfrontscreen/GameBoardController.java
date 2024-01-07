@@ -199,8 +199,9 @@ public class GameBoardController {
                 buttonsOnPlayingField.add((Button) buttonsToKeep.get(i));
             }
         }
-        Board board = Board(buttonsOnPlayingField);
-        gameApp.getGs.setBoard(board);
+        TilePositionScanner tScanner = new TilePositionScanner();
+        Board board = new Board(tScanner.scanner(gameApp.getGs().getTilesInPlay()));
+        gameApp.getGs().setBoard(board);
     }
 
     /**
