@@ -34,7 +34,7 @@ public class Player {
     }
 
     //sorts the tiles by number using quicksort
-    public void sortByNum(ArrayList<Tile> tilesList, int start, int end){
+    public static void sortByNum(ArrayList<Tile> tilesList, int start, int end){
         if(start<end){
             int i = partitionSort(tilesList, start, end);
             sortByNum(tilesList, start, i-1);
@@ -42,7 +42,7 @@ public class Player {
         }
     }
 
-    public int partitionSort(ArrayList<Tile> tilesList, int start, int end){
+    public static int partitionSort(ArrayList<Tile> tilesList, int start, int end){
         int pivot = tilesList.get(end).getValue().getValue();
         int i = start - 1;
 
