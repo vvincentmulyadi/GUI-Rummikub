@@ -11,7 +11,8 @@ public class Move {
     private ArrayList<Tile> initialHand;
     private ArrayList<Tile> currentHand;
     private ArrayList<Tile>outputHand;
-    private ArrayList<ArrayList<Tile>>outputBoard;
+    
+    private ArrayList<ArrayList<ArrayList<Tile>>> resultingBoards;
     private ArrayList<ArrayList<Tile>>possibleCombos;
     private ArrayList<ArrayList<Tile>>allSets;
     private ArrayList<Tile>deck;
@@ -22,8 +23,9 @@ public class Move {
 public Move(ArrayList<ArrayList<Tile>> board,ArrayList<Tile>hand){
 this.initialBoard=board;
 this.initialHand=hand;
-this.outputBoard=new ArrayList<>();
-this.outputHand=new ArrayList<Tile>();
+this.resultingBoards = new ArrayList<>();
+this.outputHand=new ArrayList<>();
+ArrayList<ArrayList<Tile>> simulatedBoard=copy(board);
 colorMap = new HashMap<>();
 colorMap.put(Colour.RED, 1);
 colorMap.put(Colour.BLUE, 2);
@@ -57,7 +59,7 @@ private static boolean isSetPresent(ArrayList<Tile> hand, ArrayList<Tile> set)
     return checkHand.containsAll(checkSet);
 
 }
-public  ArrayList<ArrayList<Tile>> getAllSets() {
+public ArrayList<ArrayList<Tile>> getAllSets() {
     return allSets;
 }
 private static void remove(List<Tile> tileList, ArrayList<Tile> elementsToRemove){
@@ -291,6 +293,5 @@ public static void main(String[] args)
         colorMap.put(Colour.YELLOW, 3);
         colorMap.put(Colour.BLACK, 4);
 }
-
 
 }

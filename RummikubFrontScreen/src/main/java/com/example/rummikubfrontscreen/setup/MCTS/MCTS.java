@@ -1,6 +1,7 @@
 package com.example.rummikubfrontscreen.setup.MCTS;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.example.rummikubfrontscreen.setup.Tile;
 
@@ -63,7 +64,7 @@ public class MCTS {
     private void expand(Node node, MCTSGameState gameState) {
         ArrayList<MCTSGameState> legalMoves = null;// gameState.getLegalMoves(); // Implement this method
         for (MCTSGameState move : legalMoves) {
-            Node childNode = new Node(move, node);
+            Node childNode = new Node(move, node);knownTiles
             node.addChild(childNode);
         }
     }
@@ -84,6 +85,18 @@ public class MCTS {
             node.uctValue += playoutResult;
             node = node.getParent();
         }
+    }
+    public ArrayList<Double> calculateDeckProbabilities(ArrayList<Tile> knownTiles)
+    {    
+        int unknownTiles = 106;
+        ArrayList<Double> probabilities = new ArrayList<Double>();
+       
+
+    }
+    private ArrayList<Tile> getDeck()
+    {
+    ArrayList<Tile>allTiles = new ArrayList<Tile>();
+        
     }
 
 }

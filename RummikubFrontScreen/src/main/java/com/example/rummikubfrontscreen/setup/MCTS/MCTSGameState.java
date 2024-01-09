@@ -40,12 +40,7 @@ public class MCTSGameState{
    public void incrementVisitCount() {
     visitCount++;
    }
-   private int updateGameState(ArrayList<ArrayList<Tile>> newBoard,List<Player> playerList){
-    /*just an integer update if players turn is finished and board is valid
-     * if player won 
-     */return 0;
-
-   }
+  
 
    /*
     * TODO Subtract AI from all tiles
