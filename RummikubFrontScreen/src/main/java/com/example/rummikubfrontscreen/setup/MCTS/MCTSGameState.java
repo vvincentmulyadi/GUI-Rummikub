@@ -1,9 +1,10 @@
 package com.example.rummikubfrontscreen.setup.MCTS;
+
 import com.example.rummikubfrontscreen.GameBoardController;
 import com.example.rummikubfrontscreen.setup.*;
 import java.util.*;
 
-public class MCTSGameState{
+public class MCTSGameState {
     private ArrayList<ArrayList<Tile>> board;
     private ArrayList<Tile> deck;
     private Player player;
@@ -12,7 +13,7 @@ public class MCTSGameState{
     private int visitCount;
     private boolean[] playersEndTurn=new boolean[4];
     private Player winnerIndex;
-    //UCT change
+    // UCT change
     private int winScore;
     private Random randomizer;
 
@@ -93,11 +94,7 @@ public ArrayList<Tile> getDeck()
 }
 
 
-public boolean isWinner() {
-    return false;
+    public boolean isWinner() {
+        return false;
+    }
 }
-}
-
-
-
-
