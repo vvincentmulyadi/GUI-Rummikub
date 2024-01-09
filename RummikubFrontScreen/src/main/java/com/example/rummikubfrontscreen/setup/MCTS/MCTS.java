@@ -3,7 +3,9 @@ package com.example.rummikubfrontscreen.setup.MCTS;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.example.rummikubfrontscreen.setup.Colour;
 import com.example.rummikubfrontscreen.setup.Tile;
+import com.example.rummikubfrontscreen.setup.Value;
 
 public class MCTS {
     private MCTSGameState gameState;
@@ -64,7 +66,7 @@ public class MCTS {
     private void expand(Node node, MCTSGameState gameState) {
         ArrayList<MCTSGameState> legalMoves = null;// gameState.getLegalMoves(); // Implement this method
         for (MCTSGameState move : legalMoves) {
-            Node childNode = new Node(move, node);knownTiles
+            Node childNode = new Node(move, node);
             node.addChild(childNode);
         }
     }
@@ -86,17 +88,38 @@ public class MCTS {
             node = node.getParent();
         }
     }
-    public ArrayList<Double> calculateDeckProbabilities(ArrayList<Tile> knownTiles)
-    {    
-        int unknownTiles = 106;
-        ArrayList<Double> probabilities = new ArrayList<Double>();
-       
-
-    }
-    private ArrayList<Tile> getDeck()
+   /
+    public ArrayList<Tile> getGuessedOpponentDeck(ArrayList<Tile> knownTiles)
     {
-    ArrayList<Tile>allTiles = new ArrayList<Tile>();
-        
+        ArrayList<Double> probabilities = calculateDeckProbabilities(knownTiles);
+        ArrayList<Tile> guessedOpponentDeck = new ArrayList<Tile>();
+        for (int i = 0; i < probabilities.size(); i++) {
+            double probability = probabilities.get(i);
+            if (probability > 0.5) {
+                Tile tile = new Tile(Colour.values()[i / 13], Value.values()[i % 13]);
+                guessedOpponentDeck.add(tile);
+            }
+        }
+        return guessedOpponentDeck;
     }
+    private ArrayList<Tile> getDeck() {
+        ArrayList<Tile> allTiles = new ArrayList<>();
 
+        for (Colour colour : Colour.values()) {
+            for (Value value : Value.values()) {
+                Tile tile = new Tile(colour, value);
+                allTiles.add(tile);
+            }
+        }
+
+        return allTiles;
+    }
+    
+    public ArrayList<Tile> convert(ArrayList<ArrayList<Tile>> board) {
+        ArrayList<Tile> tiles = new ArrayList<>();
+        for (ArrayList<Tile> row : board) {
+            tiles.addAll(row);
+        }
+        return tiles;
+    }
 }

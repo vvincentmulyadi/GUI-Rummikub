@@ -17,7 +17,6 @@ public class Move {
     private ArrayList<ArrayList<Tile>>allSets;
     private ArrayList<Tile>deck;
     private ArrayList<ArrayList<Tile>> randomMove;
- 
     HashMap<Colour, Integer> colorMap;
 
 public Move(ArrayList<ArrayList<Tile>> board,ArrayList<Tile>hand){
@@ -293,5 +292,5 @@ public static void main(String[] args)
         colorMap.put(Colour.YELLOW, 3);
         colorMap.put(Colour.BLACK, 4);
 }
-
+   
 }
