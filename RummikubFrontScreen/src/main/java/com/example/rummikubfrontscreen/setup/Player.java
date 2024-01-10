@@ -49,7 +49,7 @@ public class Player {
     }
 
     public void sortByColour() {
-        sortByColour(hand);
+        sortByColor(hand);
     }
 
     public static int partitionSort(ArrayList<Tile> tilesList, int start, int end) {
@@ -73,7 +73,7 @@ public class Player {
     }
 
     // sorting the list of tiles first by colour and then by number
-    public static void sortByColour(ArrayList<Tile> tilesList) {
+    public static void sortByColor(ArrayList<Tile> tilesList) {
         ArrayList<ArrayList<Tile>> separated = seperateColours(tilesList);
 
         // sorting each list with separated colours
@@ -90,9 +90,6 @@ public class Player {
         }
     }
 
-    public void sortByColour(int four) {
-        sortByColour(hand);
-    }
 
     // dividing the tiles into four lists according to colour
     public static ArrayList<ArrayList<Tile>> seperateColours(ArrayList<Tile> tilesList) {

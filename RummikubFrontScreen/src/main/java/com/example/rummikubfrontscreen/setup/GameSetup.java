@@ -47,7 +47,7 @@ public class GameSetup {
 
         }
         for (Player player : players) {
-            player.sortByColour(player.hand);
+            player.sortByColor(player.hand);
         }
     }
 

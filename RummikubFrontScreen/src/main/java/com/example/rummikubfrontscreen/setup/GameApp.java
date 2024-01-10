@@ -69,7 +69,7 @@ public class GameApp {
         // gLines - valid single lines
         // we build lines with first element or proceed it with joker/jokers
         if (lineType == 0) {
-            Player.sortByColour(remainingTiles);
+            Player.sortByColor(remainingTiles);
         } else {
             Player.sortByNum(remainingTiles, 0, remainingTiles.size() - 1);
         }
@@ -87,7 +87,7 @@ public class GameApp {
                         remainingTiles.get(i).getInt() == cLine.get(cLine.size() - 1).getInt() + 1) ||
                         remainingTiles.get(i).getValue() == Value.JOKER ||
                         (remainingTiles.get(i).getColour() == cLine.get(cLine.size() - 1).getColour()
-                                && !cLine.isEmpty() &&
+                                && cLine.size()>1 &&
                                 cLine.get(cLine.size() - 1).getValue() == Value.JOKER &&
                                 remainingTiles.get(i).getInt() == cLine.get(cLine.size() - 2).getInt() + 2)) {
                     cLine.add(remainingTiles.get(i));
@@ -130,6 +130,8 @@ public class GameApp {
             }
         }
     }
+
+
 
     public static void main(String[] args) {
         long startTime = System.nanoTime();

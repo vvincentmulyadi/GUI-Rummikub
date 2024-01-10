@@ -14,7 +14,7 @@ public enum Value{
     ELEVEN("11"), 
     TWELVE("12"), 
     THIRTEEN("13"), 
-    JOKER("0");
+    JOKER("100");
 
     private String valueSymbol;
     private int value;
