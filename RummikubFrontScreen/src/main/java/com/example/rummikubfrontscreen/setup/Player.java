@@ -73,7 +73,7 @@ public class Player {
     }
 
     // sorting the list of tiles first by colour and then by number
-    public void sortByColour(ArrayList<Tile> tilesList) {
+    public static void sortByColour(ArrayList<Tile> tilesList) {
         ArrayList<ArrayList<Tile>> separated = seperateColours(tilesList);
 
         // sorting each list with separated colours
