@@ -6,6 +6,7 @@ import com.example.rummikubfrontscreen.setup.Board;
 import com.example.rummikubfrontscreen.setup.Colour;
 import com.example.rummikubfrontscreen.setup.Player;
 import com.example.rummikubfrontscreen.setup.Tile;
+import com.example.rummikubfrontscreen.setup.Utils;
 import com.example.rummikubfrontscreen.setup.Value;
 
 public class MCTSAction {
@@ -120,10 +121,28 @@ public class MCTSAction {
         return groups;
     }
 
-    public Object[] ownMoveGroup(ArrayList<Tile> currentHand, Board board) {
-        Object[] moveState = new Object[2];
+    public ArrayList<Object[]> ownMoveGroup(ArrayList<Tile> currentHand, Board board) {
+        ArrayList<Object[]> legalMoveStates = new ArrayList<>();
+        int[] handArray = Utils.aListToArray(currentHand);
         ArrayList<ArrayList<Tile>> legalMoves = ownMoveGroup(currentHand);
-        return null;
+
+        Object[] moveState = new Object[2];
+        moveState[0] = board;
+        moveState[1] = currentHand;
+
+        for (ArrayList<Tile> move : legalMoves) {
+            Object[] newMoveState = new Object[2];
+
+            int[] handArrayAfterMove = Utils.arrayMinusList(handArray, move);
+            ArrayList<Tile> newHand = Utils.ArrayToaListArray(handArrayAfterMove);
+
+            Board newBoard = board.clone();
+            newBoard.addSeries(move);
+            newMoveState[0] = newBoard;
+            newMoveState[1] = newHand;
+            legalMoveStates.add(newMoveState);
+        }
+        return legalMoveStates;
     }
 
     private ArrayList<ArrayList<Tile>> partitionByNumbers(ArrayList<Tile> unsortedHand) {

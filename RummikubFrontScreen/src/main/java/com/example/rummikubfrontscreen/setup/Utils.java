@@ -30,6 +30,17 @@ public class Utils {
         return arrayList;
     }
 
+    public static int[] arrayMinusList(int[] array, ArrayList<Tile> list) {
+        for (Tile tile : list) {
+            int i = TileProbs.tileToIndexConverter(tile);
+            array[i] -= 1;
+            if (array[i] < 0) {
+                System.out.println("Error: array has negative values");
+            }
+        }
+        return array;
+    }
+
     public static void main(String[] args) {
         ArrayList<Tile> groupYe = new ArrayList<>();
 

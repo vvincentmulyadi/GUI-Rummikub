@@ -23,6 +23,14 @@ public class Tile {
         id = counter++;
     }
 
+    @Override
+    public Tile clone() {
+        Tile tile = new Tile(colour, value);
+        tile.setX(x);
+        tile.setY(y);
+        return tile;
+    }
+
     public Colour getColour() {
         return colour;
     }

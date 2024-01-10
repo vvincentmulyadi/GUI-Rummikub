@@ -26,6 +26,16 @@ public class Board {
     public Board() {
     };
 
+    public boolean addSeries(ArrayList<Tile> series) {
+        ArrayList<ArrayList<Tile>> seriesInGame = new ArrayList<>();
+        seriesInGame.add(series);
+        if (Board.boardVerifier(seriesInGame)) {
+            currentGameBoard.add(series);
+            return true;
+        }
+        return false;
+    }
+
     public static boolean boardVerifier(ArrayList<ArrayList<Tile>> seriesInGame) {
         // convert(currentGameBoard);
         for (int i = 0; i < seriesInGame.size(); i++) {
@@ -97,6 +107,19 @@ public class Board {
                 return false;
         }
         return true;
+    }
+
+    @Override
+    public Board clone() {
+        ArrayList<ArrayList<Tile>> newBoard = new ArrayList<>();
+        for (ArrayList<Tile> series : currentGameBoard) {
+            ArrayList<Tile> newSeries = new ArrayList<>();
+            for (Tile tile : series) {
+                newSeries.add((Tile) tile.clone());
+            }
+            newBoard.add(newSeries);
+        }
+        return new Board(newBoard);
     }
 
     @Override
