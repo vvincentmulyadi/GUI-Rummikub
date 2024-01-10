@@ -1,27 +1,22 @@
 package com.example.rummikubfrontscreen.setup.MCTS;
 
-<<<<<<<< HEAD:RummikubFrontScreen/src/main/java/com/example/rummikubfrontscreen/setup/MCTS/MCTSAction.java
-========
 import java.util.*;
 
->>>>>>>> MCTSuptodate:RummikubFrontScreen/src/main/java/com/example/rummikubfrontscreen/setup/MCTS/MCTSActions.java
 import com.example.rummikubfrontscreen.setup.Colour;
 import com.example.rummikubfrontscreen.setup.Player;
 import com.example.rummikubfrontscreen.setup.Tile;
 import com.example.rummikubfrontscreen.setup.Value;
 
-import java.util.*;
-
 public class MCTSAction {
 
     HashMap<Colour, Integer> colorMap;
-    private ArrayList<ArrayList<Tile>>initialBoard;
+    private ArrayList<ArrayList<Tile>> initialBoard;
     private ArrayList<Tile> initialHand;
-    private ArrayList<Tile>outputHand;
-    private ArrayList<ArrayList<Tile>>outputBoard;
-    private ArrayList<ArrayList<Tile>>possibleCombos;
-    private ArrayList<ArrayList<Tile>>allPossibleCombos;
-    private ArrayList<Tile>deck;
+    private ArrayList<Tile> outputHand;
+    private ArrayList<ArrayList<Tile>> outputBoard;
+    private ArrayList<ArrayList<Tile>> possibleCombos;
+    private ArrayList<ArrayList<Tile>> allPossibleCombos;
+    private ArrayList<Tile> deck;
     private ArrayList<ArrayList<Tile>> randomMove;
     private boolean endTurn;
     private Random randomizer;
@@ -83,7 +78,7 @@ public class MCTSAction {
 
         return groups;
     }
-    
+
     public ArrayList<ArrayList<Tile>> ownMoveGroup(ArrayList<Tile> currentHand) {
         // ArrayList<ArrayList<Tile>> legalMoves) {
         ArrayList<ArrayList<Tile>> currentSepHand = partitionByNumbers(currentHand);
@@ -164,7 +159,6 @@ public class MCTSAction {
 
         return partitionedByColour;
     }
-    
 
     public static void main(String[] args) {
 

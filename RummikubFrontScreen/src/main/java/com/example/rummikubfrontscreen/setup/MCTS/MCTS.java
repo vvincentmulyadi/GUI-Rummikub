@@ -17,7 +17,7 @@ public class MCTS {
     ArrayList<Tile> guessedOpponentDeck;
     private String time;
 
-    public MCTS(MCTSGameState gameState, ArrayList<ArrayList<Tile>> board, ArrayList<Tile> deck,int numberofTiles) {
+    public MCTS(MCTSGameState gameState, ArrayList<ArrayList<Tile>> board, ArrayList<Tile> deck, int numberofTiles) {
         this.gameState = gameState;
         this.root = new Node(gameState, null);
     }
@@ -71,11 +71,11 @@ public class MCTS {
         }
     }
 
-    private int simulateRandomPlayout(Node node)     {
+    private int simulateRandomPlayout(Node node) {
         // ArrayList<Tile> currentHand = this.gameState.getCurrentHand();
         // Implement the simulation logic based on your game rules
         // Move randMove=new Move(this.gameState.getBoard(),currentHand);// Replace with
-        // the actual result    
+        // the actual result
         int result = 0;
 
         return result;
@@ -88,10 +88,9 @@ public class MCTS {
             node = node.getParent();
         }
     }
-   /
-    public ArrayList<Tile> getGuessedOpponentDeck(ArrayList<Tile> knownTiles)
-    {
-        ArrayList<Double> probabilities = calculateDeckProbabilities(knownTiles);
+
+    public ArrayList<Tile> getGuessedOpponentDeck(ArrayList<Tile> knownTiles) {
+        ArrayList<Double> probabilities = null;// calculateDeckProbabilities(knownTiles);
         ArrayList<Tile> guessedOpponentDeck = new ArrayList<Tile>();
         for (int i = 0; i < probabilities.size(); i++) {
             double probability = probabilities.get(i);
@@ -102,6 +101,7 @@ public class MCTS {
         }
         return guessedOpponentDeck;
     }
+
     private ArrayList<Tile> getDeck() {
         ArrayList<Tile> allTiles = new ArrayList<>();
 
@@ -114,7 +114,7 @@ public class MCTS {
 
         return allTiles;
     }
-    
+
     public ArrayList<Tile> convert(ArrayList<ArrayList<Tile>> board) {
         ArrayList<Tile> tiles = new ArrayList<>();
         for (ArrayList<Tile> row : board) {

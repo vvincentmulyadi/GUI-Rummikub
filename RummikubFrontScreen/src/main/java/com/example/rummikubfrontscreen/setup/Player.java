@@ -39,9 +39,9 @@ public class Player {
         return hand;
     }
 
-    //sorts the tiles by number using quicksort
-    public static void sortByNum(ArrayList<Tile> tilesList, int start, int end){
-        if(start<end){
+    // sorts the tiles by number using quicksort
+    public static void sortByNum(ArrayList<Tile> tilesList, int start, int end) {
+        if (start < end) {
             int i = partitionSort(tilesList, start, end);
             sortByNum(tilesList, start, i - 1);
             sortByNum(tilesList, i + 1, end);
@@ -52,7 +52,7 @@ public class Player {
         sortByColour(hand);
     }
 
-    public static int partitionSort(ArrayList<Tile> tilesList, int start, int end){
+    public static int partitionSort(ArrayList<Tile> tilesList, int start, int end) {
         int pivot = tilesList.get(end).getValue().getValue();
         int i = start - 1;
 
@@ -95,7 +95,7 @@ public class Player {
     }
 
     // dividing the tiles into four lists according to colour
-    public ArrayList<ArrayList<Tile>> seperateColours(ArrayList<Tile> tilesList) {
+    public static ArrayList<ArrayList<Tile>> seperateColours(ArrayList<Tile> tilesList) {
         ArrayList<ArrayList<Tile>> separated = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
