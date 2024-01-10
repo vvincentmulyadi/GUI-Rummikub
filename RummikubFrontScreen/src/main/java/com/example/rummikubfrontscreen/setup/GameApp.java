@@ -10,6 +10,8 @@ public class GameApp {
     ArrayList<Player> plrs;
     private Player curPlr;
     public ArrayList<Tile> tiles;
+    private ArrayList<ArrayList<Tile>> gLines = new ArrayList<>();
+
 
     public ArrayList<ArrayList<ArrayList<Tile>>> result;
 
@@ -67,6 +69,76 @@ public class GameApp {
         getAllCombinationsHelper(tiles, 0, new ArrayList<>(), result);
         return result;
     }
+
+    private void addToLineNextTile(int lineType, ArrayList<Tile> cLine, ArrayList<Tile> remainingTiles, ArrayList<ArrayList<Tile>> gLines){
+        // lineType == 0 - group, need to sortByColour
+        // lineType == 1 - run, need to sortByNum
+        // cLine - currently build line
+        // gLines - valid single lines
+        // we build lines with first element or proceed it with joker/jokers
+        if(lineType == 0){
+            Player.sortByColour(remainingTiles);
+        }else{
+            Player.sortByNum(remainingTiles, 0, remainingTiles.size()-1);
+        }
+        if (cLine.isEmpty()){
+            cLine.add(remainingTiles.get(0));
+            ArrayList<Tile> nextremainingTiles = new ArrayList<>(remainingTiles);
+            nextremainingTiles.remove(0);
+            addToLineNextTile(lineType, cLine, nextremainingTiles, gLines);
+            addToLineNextTile(lineType, cLine, nextremainingTiles,gLines);
+            cLine.remove(cLine.size()-1);
+        } else
+        if (lineType==1){
+            //it can be joker o a number with same color +1
+            for (int i =0; i<remainingTiles.size(); i++){
+                if ((remainingTiles.get(i).getColour()==cLine.get(cLine.size()-1).getColour() &&
+                        remainingTiles.get(i).getInt()==cLine.get(cLine.size()-1).getInt()+1) ||
+                        remainingTiles.get(i).getValue()==Value.JOKER ||
+                        (remainingTiles.get(i).getColour()==cLine.get(cLine.size()-1).getColour() &&!cLine.isEmpty() &&
+                        cLine.get(cLine.size()-1).getValue()==Value.JOKER &&
+                        remainingTiles.get(i).getInt()==cLine.get(cLine.size()-2).getInt()+2)){
+                    cLine.add(remainingTiles.get(i));
+                    if (cLine.size()>=3){
+                        gLines.add(new ArrayList<>(cLine));
+
+                    }
+                    ArrayList<Tile> nextremainingTiles = new ArrayList<>(remainingTiles);
+                    nextremainingTiles.remove(i);
+                    addToLineNextTile(1, cLine, nextremainingTiles, gLines);
+                    cLine.remove(cLine.size()-1);
+                }
+            }
+        }else{
+            //it can be a joker or the same number with a different colour
+            for (int i=0; i<remainingTiles.size(); i++){
+                boolean c=true;
+                for(Tile tile : cLine){
+                    if(tile.getColour()==remainingTiles.get(i).getColour() &&
+                            tile.getValue()==remainingTiles.get(i).getValue()){
+                        c=false;
+                    }
+                }
+                if ((remainingTiles.get(i).getColour()!=cLine.get(cLine.size()-1).getColour() &&
+                        remainingTiles.get(i).getValue()==cLine.get(cLine.size()-1).getValue()) ||
+                        remainingTiles.get(i).getValue()==Value.JOKER || (!cLine.isEmpty() &&
+                        cLine.get(cLine.size()-1).getValue()==Value.JOKER &&
+                        remainingTiles.get(i).getValue()==cLine.get(cLine.size()-2).getValue())){
+                    if (c) {
+                        cLine.add(remainingTiles.get(i));
+                        if (cLine.size() >= 3) {
+                            gLines.add(new ArrayList<>(cLine));
+                        }
+                        ArrayList<Tile> nextremainingTiles = new ArrayList<>(remainingTiles);
+                        nextremainingTiles.remove(i);
+                        addToLineNextTile(0, cLine, nextremainingTiles, gLines);
+                        cLine.remove(cLine.size() - 1);
+                    }
+                }
+            }
+        }
+    }
+
 
     public void getAllCombinationsHelper (ArrayList<Tile> remainingTiles, int startIndex, ArrayList<ArrayList<Tile>> currentCombination, ArrayList<ArrayList<ArrayList<Tile>>> result) {
 
@@ -142,6 +214,7 @@ public class GameApp {
     }
 
     public static void main(String[] args) {
+        long startTime = System.nanoTime();
         GameApp GA = new GameApp();
 
         ArrayList<Tile> board = new ArrayList<>();
@@ -160,17 +233,33 @@ public class GameApp {
         hand.add(new Tile(Colour.BLACK, Value.SIX));
         hand.add(new Tile(Colour.RED, Value.TEN));
         hand.add(new Tile(Colour.RED, Value.NINE));
+        hand.add(new Tile(Colour.RED, Value.FOUR));
 
         ArrayList<Tile> combined = new ArrayList<>();
         combined.addAll(board);
         combined.addAll(hand);
 
-        ArrayList<ArrayList<ArrayList<Tile>>> combinations = GA.finalAllPossibleCombinations(combined);
-        combinations = GA.validBoardStates(board, combinations);
+        GA.addToLineNextTile(0, new ArrayList<>(), combined, GA.gLines);
+        System.out.println(GA.gLines);
 
-        for(ArrayList<ArrayList<Tile>> combination : combinations){
-            System.out.println(combination);
-        }
+        GA.gLines.clear();
+        GA.addToLineNextTile(1, new ArrayList<>(), combined, GA.gLines);
+        System.out.println(GA.gLines);
+
+
+//        ArrayList<ArrayList<ArrayList<Tile>>> combinations = GA.finalAllPossibleCombinations(combined, board);
+//        combinations = GA.validBoardStates(board, combinations);
+//
+//        for(ArrayList<ArrayList<Tile>> combination : combinations){
+//            System.out.println(combination);
+//        }
+//
+//        long endTime   = System.nanoTime();
+//        long totalTime = endTime - startTime;
+//        double elapsedTimeInSecond = (double) totalTime / 1_000_000_000;
+//        System.out.println(elapsedTimeInSecond);
+
+
 
 
     }
