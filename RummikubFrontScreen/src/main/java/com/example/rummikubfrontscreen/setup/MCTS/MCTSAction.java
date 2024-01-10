@@ -2,6 +2,7 @@ package com.example.rummikubfrontscreen.setup.MCTS;
 
 import java.util.*;
 
+import com.example.rummikubfrontscreen.setup.Board;
 import com.example.rummikubfrontscreen.setup.Colour;
 import com.example.rummikubfrontscreen.setup.Player;
 import com.example.rummikubfrontscreen.setup.Tile;
@@ -119,6 +120,12 @@ public class MCTSAction {
         return groups;
     }
 
+    public Object[] ownMoveGroup(ArrayList<Tile> currentHand, Board board) {
+        Object[] moveState = new Object[2];
+        ArrayList<ArrayList<Tile>> legalMoves = ownMoveGroup(currentHand);
+        return null;
+    }
+
     private ArrayList<ArrayList<Tile>> partitionByNumbers(ArrayList<Tile> unsortedHand) {
 
         Player sorter = new Player(unsortedHand);
@@ -179,7 +186,9 @@ public class MCTSAction {
         groups.add(groupYe);
         MCTSAction mcts = new MCTSAction();
         ArrayList<ArrayList<Tile>> legalMoves = mcts.ownMoveGroup(groupYe);
+        ArrayList<ArrayList<Tile>> runLegal = mcts.ownMoverRun(groupYe);
         System.out.println("Legal moves" + legalMoves.toString());
+        System.out.println("Legal runsmoves" + runLegal.toString());
 
         HashMap<Colour, Integer> colorMap = new HashMap<>();
         colorMap.put(Colour.RED, 1);
