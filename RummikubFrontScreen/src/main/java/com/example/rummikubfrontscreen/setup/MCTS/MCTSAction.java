@@ -83,7 +83,6 @@ public class MCTSAction {
         // ArrayList<ArrayList<Tile>> legalMoves) {
         ArrayList<ArrayList<Tile>> currentSepHand = partitionByNumbers(currentHand);
         ArrayList<ArrayList<Tile>> groups = new ArrayList<>();
-        System.out.println(currentSepHand);
         for (ArrayList<Tile> Number : currentSepHand) {
             HashSet<Colour> hashSet = new HashSet<>();
 
@@ -107,7 +106,6 @@ public class MCTSAction {
                     }
                     hashSet.add(Number.get(j).getColour());
                     currentGroup.add(Number.get(j));
-                    System.out.println(currentGroup);
                     if (hashSet.size() >= 3) {
                         groups.add(currentGroup);
                         // legalMoves.add(currentGroup);
@@ -137,7 +135,6 @@ public class MCTSAction {
             partitionedByNumbers.get(index - 1).add(tile);
         }
 
-        System.out.println(partitionedByNumbers.toString());
         return partitionedByNumbers;
     }
 
