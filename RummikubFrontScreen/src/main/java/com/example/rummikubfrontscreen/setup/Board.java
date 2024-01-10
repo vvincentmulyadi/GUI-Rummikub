@@ -33,6 +33,7 @@ public class Board {
             currentGameBoard.add(series);
             return true;
         }
+        System.out.println("The AI's move was invalid");
         return false;
     }
 
@@ -115,6 +116,9 @@ public class Board {
         for (ArrayList<Tile> series : currentGameBoard) {
             ArrayList<Tile> newSeries = new ArrayList<>();
             for (Tile tile : series) {
+                // System.out.println(tile);
+                if (tile == null)
+                    continue;
                 newSeries.add((Tile) tile.clone());
             }
             newBoard.add(newSeries);

@@ -2,15 +2,20 @@ package com.example.rummikubfrontscreen.setup.MCTS;
 
 import java.util.ArrayList;
 
+import com.example.rummikubfrontscreen.setup.Board;
+import com.example.rummikubfrontscreen.setup.Player;
+import com.example.rummikubfrontscreen.setup.Utils;
+import com.example.rummikubfrontscreen.setup.Tile;
+
 public class Node {
     private MCTSGameState gameState;
     private Node parent;
     private ArrayList<Node> children;
     private ArrayList<Double> playoutScores;
-    double uctValue;//UCT Score
+    double uctValue;// UCT Score
     public int visitCount;
     private boolean isTerminal;
-    private double explorationParameter=1.4;
+    private double explorationParameter = 1.4;
 
     public Node(MCTSGameState gameState, Node parent) {
         this.gameState = gameState;
@@ -21,11 +26,36 @@ public class Node {
         this.isTerminal = false;
     }
 
+    /**
+     * Makes new nodes by looking at the possible moves from the current state
+     * we are missing that the drawing of the tile but we would only need to
+     * implement it in the first part of
+     * the ownMove group.
+     */
+    public void expandOwnMovesOnly() {
+        ArrayList<Object[]> ownMoveStates = gameState.getOwnMoveStates();
+        String movestaeString = Utils.MoveStatetoString(ownMoveStates.get(0));
+
+        Player prevPlayer = gameState.getCurPlayer();
+        int indexOfNextPlayer = (gameState.getPlayers().indexOf(prevPlayer) + 1) % gameState.getPlayers().size();
+        Player nextPlayer = gameState.getPlayers().get(indexOfNextPlayer);
+
+        for (Object[] state : ownMoveStates) {
+            Board board = (Board) state[0];
+            ArrayList<Tile> newHand = (ArrayList<Tile>) state[1];
+
+            MCTSGameState newGameState = gameState.copyAndNextPlayer(board, newHand);
+            Node child = new Node(newGameState, this);
+            this.addChild(child);
+        }
+    }
+
     public Node getParent() {
         return parent;
     }
-    public double getUCTScore(){
-      return this.uctValue;
+
+    public double getUCTScore() {
+        return this.uctValue;
     }
 
     public ArrayList<Node> getChildren() {
@@ -59,7 +89,7 @@ public class Node {
         for (Node child : children) {
             if (child.getUCTScore() > bestValue) {
                 selected = child;
-               
+
             }
         }
         return selected.selection();
@@ -68,29 +98,32 @@ public class Node {
     public void incrementVisitCount() {
         this.gameState.incrementVisitCount();
     }
-    public int getVisitCount()
-    {
+
+    public int getVisitCount() {
         return this.visitCount;
     }
 
     public boolean isLeafNode() {
         return children.isEmpty();
     }
-   /*sets the uct value for all playouts */
+
+    /* sets the uct value for all playouts */
     public void calcUCTValue() {
         if (visitCount == 0) {
-            this.uctValue=Double.MIN_VALUE;
+            this.uctValue = Double.MIN_VALUE;
             return;
         }
         double totalUctValue = 0;
-        for (double UctValue: playoutScores){
+        for (double UctValue : playoutScores) {
             totalUctValue += UctValue;
         }
-        this.uctValue = (totalUctValue/playoutScores.size());
-        this.uctValue = this.explorationParameter*Math.log(parent.getVisitCount())/this.getVisitCount();
+        this.uctValue = (totalUctValue / playoutScores.size());
+        this.uctValue = this.explorationParameter * Math.log(parent.getVisitCount()) / this.getVisitCount();
     }
-    /*public void simulateRandomPlayout(){
-    Move randomMove=new Move(this.MCTSGameState.)
-    } */
-    
+
+    @Override
+    public String toString() {
+        return "Node [gameState=" + gameState + "]";
+    }
+
 }

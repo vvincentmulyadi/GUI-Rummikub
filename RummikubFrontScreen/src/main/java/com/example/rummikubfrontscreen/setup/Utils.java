@@ -15,27 +15,36 @@ public class Utils {
         int[] array = new int[53];
         for (Tile tile : arrayList) {
             int tileIndex = TileProbs.tileToIndexConverter(tile);
-            System.out.println(tileIndex);
             array[tileIndex] += 1;
         }
         return array;
     }
 
-    public static ArrayList<Tile> ArrayToaListArray(int[] array) {
+    public static String MoveStatetoString(Object[] moveState) {
+        Board board = (Board) moveState[0];
+        ArrayList<Tile> hand = (ArrayList<Tile>) moveState[1];
+        return "Board: \n" + board.toString() + " Hand: " + hand.toString();
+    }
+
+    public static ArrayList<Tile> ArrayToArrayList(int[] array) {
         ArrayList<Tile> arrayList = new ArrayList<Tile>();
-        for (int i : array) {
-            Tile tile = TileProbs.indexToTileConverter(i);
-            arrayList.add(tile);
+        for (int i = 0; i < array.length; i++) {
+            for (int j = array[i]; j > 0; j--) {
+                Tile tile = TileProbs.indexToTileConverter(i);
+                arrayList.add(tile);
+            }
         }
         return arrayList;
     }
 
-    public static int[] arrayMinusList(int[] array, ArrayList<Tile> list) {
+    public static int[] arrayMinusList(int[] arrayc, ArrayList<Tile> list) {
+        int[] array = arrayc.clone();
         for (Tile tile : list) {
             int i = TileProbs.tileToIndexConverter(tile);
             array[i] -= 1;
             if (array[i] < 0) {
-                System.out.println("Error: array has negative values");
+                System.out.print("Error: array has negative values");
+                System.out.println(tile);
             }
         }
         return array;
@@ -60,7 +69,18 @@ public class Utils {
         groupYe.add(new Tile(Colour.BLUE, Value.EIGHT));
         ArrayList<Tile> groups = new ArrayList<>();
 
-        System.out.println(Arrays.toString(aListToArray(groupYe)));
+        System.out.println(groupYe.toString());
+        int[] a = aListToArray(groupYe);
+        System.out.println(Arrays.toString(a));
+        ArrayList<Tile> group = ArrayToArrayList(a);
+        System.out.println(group.toString());
+
+        int[] ac = { 1, 2, 3 };
+        System.out.println(Arrays.toString(a));
+        int[] b = a.clone();
+        b[0] = 5;
+        System.out.println(Arrays.toString(a));
+        System.out.println(Arrays.toString(b));
 
     }
 

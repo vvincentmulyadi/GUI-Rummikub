@@ -81,7 +81,7 @@ public class MCTSAction {
         return groups;
     }
 
-    public ArrayList<ArrayList<Tile>> ownMoveGroup(ArrayList<Tile> currentHand) {
+    public static ArrayList<ArrayList<Tile>> ownMoveGroup(ArrayList<Tile> currentHand) {
         // ArrayList<ArrayList<Tile>> legalMoves) {
         ArrayList<ArrayList<Tile>> currentSepHand = partitionByNumbers(currentHand);
         ArrayList<ArrayList<Tile>> groups = new ArrayList<>();
@@ -121,23 +121,28 @@ public class MCTSAction {
         return groups;
     }
 
-    public ArrayList<Object[]> ownMoveGroup(ArrayList<Tile> currentHand, Board board) {
+    public static ArrayList<Object[]> ownMoveGroup(ArrayList<Tile> currentHand, Board board) {
         ArrayList<Object[]> legalMoveStates = new ArrayList<>();
         int[] handArray = Utils.aListToArray(currentHand);
-        ArrayList<ArrayList<Tile>> legalMoves = ownMoveGroup(currentHand);
 
         Object[] moveState = new Object[2];
         moveState[0] = board;
         moveState[1] = currentHand;
+        legalMoveStates.add(moveState);
 
-        for (ArrayList<Tile> move : legalMoves) {
+        ArrayList<ArrayList<Tile>> legalMoves = ownMoveGroup(currentHand);
+        for (int i = 0; i < legalMoves.size(); i++) {
+
+            ArrayList<Tile> move = legalMoves.get(i);
             Object[] newMoveState = new Object[2];
 
             int[] handArrayAfterMove = Utils.arrayMinusList(handArray, move);
-            ArrayList<Tile> newHand = Utils.ArrayToaListArray(handArrayAfterMove);
+
+            ArrayList<Tile> newHand = Utils.ArrayToArrayList(handArrayAfterMove);
 
             Board newBoard = board.clone();
-            newBoard.addSeries(move);
+            // System.out.println("Move Added: " + newBoard.addSeries(move));
+            // System.out.println("Board: \n" + newBoard.toString());
             newMoveState[0] = newBoard;
             newMoveState[1] = newHand;
             legalMoveStates.add(newMoveState);
@@ -145,13 +150,13 @@ public class MCTSAction {
         return legalMoveStates;
     }
 
-    private ArrayList<ArrayList<Tile>> partitionByNumbers(ArrayList<Tile> unsortedHand) {
+    private static ArrayList<ArrayList<Tile>> partitionByNumbers(ArrayList<Tile> unsortedHand) {
 
         Player sorter = new Player(unsortedHand);
         sorter.sortByColour();
 
         ArrayList<ArrayList<Tile>> partitionedByNumbers = new ArrayList<>();
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < 100; i++) {
             partitionedByNumbers.add(new ArrayList<>());
         }
 
@@ -176,6 +181,8 @@ public class MCTSAction {
 
         for (int i = 0; i < unsortedHand.size(); i++) {
             Tile tile = unsortedHand.get(i);
+            if (tile == null)
+                continue;
             int index = colorMap.get(tile.getColour());
             partitionedByColour.get(index - 1).add(tile);
         }

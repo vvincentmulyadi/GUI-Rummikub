@@ -6,9 +6,8 @@ import java.util.*;
 
 public class MCTSGameState {
     private Board board;
-    private ArrayList<Tile> deck;
     private Player player;
-    private List<Player> listofplayers;
+    private ArrayList<Player> listofplayers;
     private Player aiPlayer;
     private int visitCount;
     private boolean[] playersEndTurn = new boolean[4];
@@ -17,15 +16,36 @@ public class MCTSGameState {
     private int winScore;
     private Random randomizer;
 
-    public MCTSGameState(Player player, Board board, ArrayList<Tile> AIDeck, List<Player> playerList) {
+    public MCTSGameState(Player player, Board board, ArrayList<Player> playerList) {
         this.board = board;
-        this.deck = AIDeck;
         this.player = player;
         this.listofplayers = playerList;
         this.visitCount = 0;
         this.winScore = 0;
         this.randomizer = new Random();
         this.aiPlayer = playerList.get(0);
+    }
+
+    public MCTSGameState copyAndNextPlayer(Board newBoard, ArrayList<Tile> newHand) {
+        int indexOfCurrentPlayer = listofplayers.indexOf(player);
+        ArrayList<Player> newPlayerList = (ArrayList<Player>) listofplayers.clone();
+        Player clonedPlayer = player.clone(newHand);
+        newPlayerList.set(indexOfCurrentPlayer, clonedPlayer);
+
+        MCTSGameState gs = new MCTSGameState(clonedPlayer, newBoard, newPlayerList);
+        gs.changeCurrentPlayersHand(newHand);
+
+        gs.nextPlayer();
+        return gs;
+    }
+
+    public void changeCurrentPlayersHand(ArrayList<Tile> newHand) {
+        player.setHand(newHand);
+    }
+
+    private void nextPlayer() {
+        int indexOfNextPlayer = (this.getPlayers().indexOf(player) + 1) % this.getPlayers().size();
+        player = this.getPlayers().get(indexOfNextPlayer);
     }
 
     public int getVisits() {
@@ -44,16 +64,24 @@ public class MCTSGameState {
      * TODO Subtract AI from all tiles
      */
     public ArrayList<Tile> getCurrentHand(Player currentPlayer) {
-        ArrayList<Tile> aıHand = aiPlayer.getHand();
+        ArrayList<Tile> aiHand = aiPlayer.getHand();
         ArrayList<Tile> currentHand = null;
-        if (currentPlayer == aiPlayer) {
-            currentHand = aıHand;
+        // return player hand right now because we would run it with dmcts where the
+        // hands are known
+        if (currentPlayer == currentPlayer) {
+            currentHand = aiHand;
         } else {
             GameSetup gs = new GameSetup();
             currentHand = gs.generateHand();
         }
 
-        return currentHand;
+        return currentPlayer.getHand();
+    }
+
+    public ArrayList<Object[]> getOwnMoveStates() {
+
+        ArrayList<Object[]> ownMoveStates = MCTSAction.ownMoveGroup(getCurrentHand(player), board);
+        return ownMoveStates;
     }
 
     public ArrayList<ArrayList<Tile>> getLegalMoves(ArrayList<Tile> currentHand, Player currentPlayer) {
@@ -83,11 +111,27 @@ public class MCTSGameState {
         return this.board;
     }
 
-    public ArrayList<Tile> getDeck() {
-        return this.deck;
-    }
-
     public boolean isWinner() {
         return false;
+    }
+
+    public Player getCurPlayer() {
+        return this.player;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return this.listofplayers;
+    }
+
+    @Override
+    public MCTSGameState clone() {
+        MCTSGameState gs = new MCTSGameState(this.player, this.board.clone(),
+                (ArrayList<Player>) this.listofplayers.clone());
+        return gs;
+    }
+
+    @Override
+    public String toString() {
+        return "Board: \n" + board.toString() + " Hand: " + aiPlayer.getHand().toString();
     }
 }

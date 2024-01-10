@@ -35,9 +35,9 @@ public class TileProbs {
         ArrayList<Tile> groupYe = new ArrayList<>();
 
         groupYe.add(new Tile(Colour.YELLOW, Value.ONE));
-        groupYe.add(new Tile(Colour.YELLOW, Value.ONE));
-        groupYe.add(new Tile(Colour.YELLOW, Value.THREE));
-        groupYe.add(new Tile(Colour.YELLOW, Value.SEVEN));
+        groupYe.add(new Tile(Colour.RED, Value.ONE));
+        groupYe.add(new Tile(Colour.BLUE, Value.ONE));
+        groupYe.add(new Tile(Colour.BLACK, Value.ONE));
         groupYe.add(new Tile(Colour.YELLOW, Value.FIVE));
         groupYe.add(new Tile(Colour.YELLOW, Value.SIX));
         groupYe.add(new Tile(Colour.YELLOW, Value.SEVEN));
@@ -48,12 +48,13 @@ public class TileProbs {
         groupYe.add(new Tile(Colour.RED, Value.NINE));
         groupYe.add(new Tile(Colour.RED, Value.SEVEN));
         groupYe.add(new Tile(Colour.BLUE, Value.EIGHT));
-        ArrayList<ArrayList<Tile>> groups = new ArrayList<>();
-        groups.add(groupYe);
-        MCTSAction mcts = new MCTSAction();
-        ArrayList<ArrayList<Tile>> legalMoves = mcts.ownMoveGroup(groupYe);
-
-        System.out.println(Arrays.toString(allTilesPros(groupYe, legalMoves)));
+        System.out.println("start");
+        for (Tile tile : groupYe) {
+            System.out.println(tile);
+            System.out.println(tileToIndexConverter(tile));
+            System.out.println(indexToTileConverter(tileToIndexConverter(tile)));
+            System.out.println();
+        }
 
     }
 
@@ -92,28 +93,23 @@ public class TileProbs {
             tileProbsUniform[tileIndex] = tileProbsUniform[tileIndex] - 0.5;
     }
 
-    public void adjustTileNumProbs(int tileValue) {
-
-    }
-
     public static Tile indexToTileConverter(int i) {
         int col = 1 + i % 4;
-        int val = 1 + i / 4;
+        int val = i / 4;
         if (i == 0) {
             return new Tile(Colour.BLACK, Value.JOKER);
         }
         switch (col) {
             case 1:
-                return new Tile(Colour.YELLOW, Value.values()[val]);
+                return new Tile(Colour.BLACK, Value.values()[val - 1]);
             case 2:
-                return new Tile(Colour.RED, Value.values()[val]);
+                return new Tile(Colour.YELLOW, Value.values()[val]);
             case 3:
-                return new Tile(Colour.BLUE, Value.values()[val]);
+                return new Tile(Colour.RED, Value.values()[val]);
             case 4:
-                return new Tile(Colour.BLACK, Value.values()[val]);
+                return new Tile(Colour.BLUE, Value.values()[val]);
         }
         return null;
-
     }
 
     public static int tileToIndexConverter(Tile tile) {

@@ -10,6 +10,32 @@ public class Player {
         return id;
     }
 
+    /**
+     * A way of deep cloning the player
+     */
+    @Override
+    public Player clone() {
+        ArrayList<Tile> newHand = new ArrayList<>();
+        for (Tile tile : hand) {
+            newHand.add(tile.clone());
+        }
+        Player newPlayer = new Player(newHand);
+        newPlayer.setId(this.id);
+        return newPlayer;
+    }
+
+    /**
+     * A way of deep cloning the player with a different hand
+     * 
+     * @param hand
+     * @return
+     */
+    public Player clone(ArrayList<Tile> hand) {
+        Player newPlayer = new Player(hand);
+        newPlayer.setId(this.id);
+        return newPlayer;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -40,12 +66,13 @@ public class Player {
     }
 
     // sorts the tiles by number using quicksort
-    public static void sortByNum(ArrayList<Tile> tilesList, int start, int end) {
+    public static ArrayList<Tile> sortByNum(ArrayList<Tile> tilesList, int start, int end) {
         if (start < end) {
             int i = partitionSort(tilesList, start, end);
             sortByNum(tilesList, start, i - 1);
             sortByNum(tilesList, i + 1, end);
         }
+        return tilesList;
     }
 
     public void sortByColour() {
@@ -90,7 +117,6 @@ public class Player {
         }
     }
 
-
     // dividing the tiles into four lists according to colour
     public static ArrayList<ArrayList<Tile>> seperateColours(ArrayList<Tile> tilesList) {
         ArrayList<ArrayList<Tile>> separated = new ArrayList<>();
@@ -122,14 +148,11 @@ public class Player {
 
     @Override
     public String toString() {
-        String str = "";
-        str += "Index " + 0 + ":  " + hand.get(0).toString() + "  ";
-        for (int i = 1; i < hand.size(); i++) {
-            str += "Index " + i + ":  " + hand.get(i).toString() + "  ";
-            if (hand.get(i).getColour() == hand.get(i - 1).getColour())
-                str += "\n";
+        String str = "Player " + id + ": \n";
+        for (Tile tile : hand) {
+            str += tile.toString() + " ";
         }
-        return str;
+        return str + "\n";
     }
 
 }

@@ -7,10 +7,10 @@ import java.util.Random;
 
 public class GameSetup {
 
-    //Tiles not in play (bag)
+    // Tiles not in play (bag)
     private ArrayList<Tile> tiles;
 
-    //All the existing tiles
+    // All the existing tiles
     private ArrayList<Tile> allTiles = new ArrayList<>();
 
     private ArrayList<Tile> tilesInPlay = new ArrayList<>();
@@ -29,17 +29,18 @@ public class GameSetup {
     public ArrayList<Tile> getTilesInPlay() {
         return tilesInPlay;
     }
+
     public RandomAgent getAgent() {
         return agent;
     }
 
-    public GameSetup () {
+    public GameSetup() {
         generateTiles();
         generateBoard();
         for (int i = 0; i < numOfPlayers; i++) {
             Player player = new Player(generateHand());
             player.setId(i);
-            if(i==numOfPlayers-1 && GameBoardController.getPlayAgainstAI()){
+            if (i == numOfPlayers - 1 && GameBoardController.getPlayAgainstAI()) {
                 System.out.println("Agent init");
                 agent = new RandomAgent(player);
             }
@@ -51,11 +52,10 @@ public class GameSetup {
         }
     }
 
-
-    private void generateBoard () {
+    private void generateBoard() {
         ArrayList<ArrayList<Tile>> newGameBoard = new ArrayList<>();
 
-        for (int i = 0; i < 13; i++){
+        for (int i = 0; i < 4; i++) {
             newGameBoard.add(new ArrayList());
             newGameBoard.get(i).add(null);
             newGameBoard.get(i).add(null);
@@ -63,12 +63,12 @@ public class GameSetup {
         board = new Board(newGameBoard);
     }
 
-    public ArrayList<Tile> generateHand(){
+    public ArrayList<Tile> generateHand() {
         Random rand = new Random();
         int size = tiles.size();
         ArrayList<Tile> hand = new ArrayList<>();
 
-        for (int i = 0; i <  14; i++) {
+        for (int i = 0; i < 14; i++) {
             int index = rand.nextInt(size - i);
             hand.add(tiles.get(index));
             tiles.remove(index);
@@ -76,30 +76,28 @@ public class GameSetup {
         return hand;
     }
 
-
-    private void generateTiles () {
+    private void generateTiles() {
         tiles = new ArrayList<>();
 
         for (Value v : Value.values()) {
-            for (Colour c: Colour.values()){
-                tiles.add(new Tile(c,v));
+            for (Colour c : Colour.values()) {
+                tiles.add(new Tile(c, v));
             }
         }
 
-        for (int i = tiles.size()-4; i < tiles.size(); i++){
+        for (int i = tiles.size() - 4; i < tiles.size(); i++) {
             tiles.remove(i);
         }
 
-
         for (Value v : Value.values()) {
-            for (Colour c: Colour.values()){
-                tiles.add(new Tile(c,v));
+            for (Colour c : Colour.values()) {
+                tiles.add(new Tile(c, v));
             }
         }
 
         // Delete 6 Jokers
-        for (int i = 0; i < 4; i ++) {
-            tiles.remove(tiles.size()-1);
+        for (int i = 0; i < 4; i++) {
+            tiles.remove(tiles.size() - 1);
         }
         for (Tile tile : tiles) {
             allTiles.add(tile);
@@ -113,13 +111,14 @@ public class GameSetup {
     public Board getBoard() {
         return board;
     }
+
     public void setBoard(Board board) {
         this.board = board;
     }
+
     public ArrayList<Tile> getAllTiles() {
         return allTiles;
     }
-
 
     public ArrayList<Player> getPlayers() {
         return players;
