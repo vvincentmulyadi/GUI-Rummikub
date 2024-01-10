@@ -1,55 +1,102 @@
 package com.example.rummikubfrontscreen.setup.MCTS;
 
-
 import com.example.rummikubfrontscreen.setup.Colour;
 import com.example.rummikubfrontscreen.setup.Tile;
+import com.example.rummikubfrontscreen.setup.Value;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TileProbs {
-    private double [] tileProbsUniform;
-    private double [] tileValueProbs;
-    private double [] tileColourProbs;
-    private double [][] tileProbsPredicted;
+    private double[] tileProbsUniform;
+    private double[] tileValueProbs;
+    private double[] tileColourProbs;
+    private double[][] tileProbsPredicted;
 
     private int numOfTiles = 53;
 
-    public TileProbs(){
+    public TileProbs() {
         tileProbsUniform = new double[numOfTiles];
-        for (int i = 0; i < numOfTiles; i++){
+        for (int i = 0; i < numOfTiles; i++) {
             tileProbsUniform[i] = 1;
         }
         tileValueProbs = new double[14];
-        for (int i = 0; i < 14; i++){
+        for (int i = 0; i < 14; i++) {
             tileValueProbs[i] = 1;
         }
         tileColourProbs = new double[4];
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             tileColourProbs[i] = 1;
         }
+    }
+
+    public static void main(String[] args) {
+
+        ArrayList<Tile> groupYe = new ArrayList<>();
+
+        groupYe.add(new Tile(Colour.YELLOW, Value.ONE));
+        groupYe.add(new Tile(Colour.YELLOW, Value.ONE));
+        groupYe.add(new Tile(Colour.YELLOW, Value.THREE));
+        groupYe.add(new Tile(Colour.YELLOW, Value.SEVEN));
+        groupYe.add(new Tile(Colour.YELLOW, Value.FIVE));
+        groupYe.add(new Tile(Colour.YELLOW, Value.SIX));
+        groupYe.add(new Tile(Colour.YELLOW, Value.SEVEN));
+        groupYe.add(new Tile(Colour.YELLOW, Value.EIGHT));
+        groupYe.add(new Tile(Colour.YELLOW, Value.EIGHT));
+        groupYe.add(new Tile(Colour.BLACK, Value.EIGHT));
+        groupYe.add(new Tile(Colour.RED, Value.EIGHT));
+        groupYe.add(new Tile(Colour.RED, Value.NINE));
+        groupYe.add(new Tile(Colour.RED, Value.SEVEN));
+        groupYe.add(new Tile(Colour.BLUE, Value.EIGHT));
+        ArrayList<ArrayList<Tile>> groups = new ArrayList<>();
+        groups.add(groupYe);
+        MCTSAction mcts = new MCTSAction();
+        ArrayList<ArrayList<Tile>> legalMoves = mcts.ownMoveGroup(groupYe);
+
+        System.out.println(Arrays.toString(allTilesPros(groupYe, legalMoves)));
 
     }
 
-    public double[] getTileProbsUniform(){
+    public static double[] allTilesPros(ArrayList<Tile> hand, ArrayList<ArrayList<Tile>> board) {
+        // To be implemented
+        double[] array = new double[53];
+
+        for (int i = 0; i < array.length; i++) {
+            array[i] = 1;
+        }
+
+        for (Tile tile : hand) {
+            int tileIndex = tileToIndexConverter(tile);
+            array[tileIndex] -= 0.5;
+        }
+
+        for (ArrayList<Tile> meld : board) {
+            for (Tile tile : meld) {
+                int tileIndex = tileToIndexConverter(tile);
+                array[tileIndex] -= 0.5;
+            }
+        }
+        return array;
+    }
+
+    public double[] getTileProbsUniform() {
         return tileProbsUniform;
     }
 
-    public double[] getTileProbsPredicted(){
+    public double[] getTileProbsPredicted() {
         return tileProbsUniform;
     }
 
-    public void adjustUniformProbs(int tileIndex){
+    public void adjustUniformProbs(int tileIndex) {
         if (tileProbsUniform[tileIndex] != 0)
             tileProbsUniform[tileIndex] = tileProbsUniform[tileIndex] - 0.5;
     }
 
-    public void adjustTileNumProbs(int tileValue){
+    public void adjustTileNumProbs(int tileValue) {
 
     }
 
-
-
-    public int tileToIndexConverter(Tile tile){
+    public static int tileToIndexConverter(Tile tile) {
         int value = tile.getInt();
         Colour colour = tile.getColour();
         switch (value) {
