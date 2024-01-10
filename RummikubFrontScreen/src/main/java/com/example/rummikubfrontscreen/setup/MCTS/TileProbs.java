@@ -96,6 +96,26 @@ public class TileProbs {
 
     }
 
+    public static Tile indexToTileConverter(int i) {
+        int col = 1 + i % 4;
+        int val = 1 + i / 4;
+        if (i == 0) {
+            return new Tile(Colour.BLACK, Value.JOKER);
+        }
+        switch (col) {
+            case 1:
+                return new Tile(Colour.YELLOW, Value.values()[val]);
+            case 2:
+                return new Tile(Colour.RED, Value.values()[val]);
+            case 3:
+                return new Tile(Colour.BLUE, Value.values()[val]);
+            case 4:
+                return new Tile(Colour.BLACK, Value.values()[val]);
+        }
+        return null;
+
+    }
+
     public static int tileToIndexConverter(Tile tile) {
         int value = tile.getInt();
         Colour colour = tile.getColour();

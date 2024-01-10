@@ -2,6 +2,7 @@ package com.example.rummikubfrontscreen.setup.MCTS;
 
 import java.util.*;
 
+import com.example.rummikubfrontscreen.setup.Board;
 import com.example.rummikubfrontscreen.setup.Colour;
 import com.example.rummikubfrontscreen.setup.Player;
 import com.example.rummikubfrontscreen.setup.Tile;
@@ -83,7 +84,6 @@ public class MCTSAction {
         // ArrayList<ArrayList<Tile>> legalMoves) {
         ArrayList<ArrayList<Tile>> currentSepHand = partitionByNumbers(currentHand);
         ArrayList<ArrayList<Tile>> groups = new ArrayList<>();
-        System.out.println(currentSepHand);
         for (ArrayList<Tile> Number : currentSepHand) {
             HashSet<Colour> hashSet = new HashSet<>();
 
@@ -107,7 +107,6 @@ public class MCTSAction {
                     }
                     hashSet.add(Number.get(j).getColour());
                     currentGroup.add(Number.get(j));
-                    System.out.println(currentGroup);
                     if (hashSet.size() >= 3) {
                         groups.add(currentGroup);
                         // legalMoves.add(currentGroup);
@@ -119,6 +118,12 @@ public class MCTSAction {
         }
 
         return groups;
+    }
+
+    public Object[] ownMoveGroup(ArrayList<Tile> currentHand, Board board) {
+        Object[] moveState = new Object[2];
+        ArrayList<ArrayList<Tile>> legalMoves = ownMoveGroup(currentHand);
+        return null;
     }
 
     private ArrayList<ArrayList<Tile>> partitionByNumbers(ArrayList<Tile> unsortedHand) {
@@ -137,7 +142,6 @@ public class MCTSAction {
             partitionedByNumbers.get(index - 1).add(tile);
         }
 
-        System.out.println(partitionedByNumbers.toString());
         return partitionedByNumbers;
     }
 
@@ -182,7 +186,9 @@ public class MCTSAction {
         groups.add(groupYe);
         MCTSAction mcts = new MCTSAction();
         ArrayList<ArrayList<Tile>> legalMoves = mcts.ownMoveGroup(groupYe);
+        ArrayList<ArrayList<Tile>> runLegal = mcts.ownMoverRun(groupYe);
         System.out.println("Legal moves" + legalMoves.toString());
+        System.out.println("Legal runsmoves" + runLegal.toString());
 
         HashMap<Colour, Integer> colorMap = new HashMap<>();
         colorMap.put(Colour.RED, 1);

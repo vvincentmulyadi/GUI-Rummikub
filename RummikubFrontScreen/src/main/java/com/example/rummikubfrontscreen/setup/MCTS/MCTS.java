@@ -17,7 +17,7 @@ public class MCTS {
     ArrayList<Tile> guessedOpponentDeck;
     private String time;
 
-    public MCTS(MCTSGameState gameState, ArrayList<ArrayList<Tile>> board, ArrayList<Tile> deck, int numberofTiles) {
+    public MCTS(MCTSGameState gameState) {
         this.gameState = gameState;
         this.root = new Node(gameState, null);
     }
