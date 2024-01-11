@@ -1,5 +1,6 @@
 package com.example.rummikubfrontscreen.setup;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -20,7 +21,7 @@ public class GameApp {
     // valid board states (not taking back to hand)
     private ArrayList<ArrayList<ArrayList<Tile>>> vBoard = new ArrayList<>();
 
-    public ArrayList<ArrayList<ArrayList<Tile>>> result;
+    private ArrayList<Object[]> states = new ArrayList<>();
 
     public GameApp() {
         gs = new GameSetup();
@@ -137,6 +138,7 @@ public class GameApp {
         }
     }
 
+    // combining the made runs and groups into all possible board states they can create
     public void makeBoardState(ArrayList<ArrayList<Tile>> cBoard,ArrayList<ArrayList<Tile>> remainingSeq, ArrayList<ArrayList<ArrayList<Tile>>> gBoard){
         if(cBoard.isEmpty()){
             cBoard.add(remainingSeq.get(0));
@@ -167,31 +169,90 @@ public class GameApp {
         }
     }
 
-    public void makeValidBoardState(ArrayList<ArrayList<ArrayList<Tile>>> gBoard, ArrayList<Tile> board){
+    // making valid board states, checking if we don't take anything back to our hand
+    public void makeValidBoardState(ArrayList<ArrayList<ArrayList<Tile>>> gBoard, Board board){
+        ArrayList<ArrayList<Tile>> bList = board.getCurrentGameBoard();
+        ArrayList<Tile> boardList = new ArrayList<>();
+        for(ArrayList<Tile> sequence : bList){
+            boardList.addAll(sequence);
+        }
         for(ArrayList<ArrayList<Tile>> state : gBoard){
             ArrayList<Tile> tilesOnBoard = new ArrayList<>();
             for(ArrayList<Tile> seq : state){
                 tilesOnBoard.addAll(seq);
             }
-            if(tilesOnBoard.containsAll(board)){
+            if(tilesOnBoard.containsAll(boardList)){
                 vBoard.add(state);
             }
         }
+    }
+
+    // getting possible moves in a structure of an arrayList of Object array that contains board and hand
+    public void possibleMoves(Board board, ArrayList<Tile> hand){
+        ArrayList<Tile> combined = new ArrayList<>();
+        ArrayList<ArrayList<Tile>> bList = board.getCurrentGameBoard();
+        ArrayList<Tile> b = new ArrayList<>();
+        for(ArrayList<Tile> sequence : bList){
+            combined.addAll(sequence);
+        }
+        combined.addAll(hand);
+        addToLineNextTile(0, new ArrayList<>(), combined, gLines);
+        addToLineNextTile(1, new ArrayList<>(), combined, gLines);
+        makeBoardState(new ArrayList<>(), gLines, gBoard);
+        makeValidBoardState(gBoard, board);
+        for(int i=0;i<vBoard.size();i++){
+            ArrayList<Tile> hl = getHandFromBoard(vBoard.get(i), new ArrayList<>(hand));
+            Object[] arr = new Object[2];
+            arr[0] = new Board(vBoard.get(i));
+            arr[1] = hl;
+            states.add(arr);
+        }
+    }
+
+    public ArrayList<Tile> getHandFromBoard(ArrayList<ArrayList<Tile>> board, ArrayList<Tile> h){
+        ArrayList<Tile> b = new ArrayList<>();
+        for(ArrayList<Tile> seq : board){
+            b.addAll(seq);
+        }
+        for (Tile tile : b) {
+            h.remove(tile);
+        }
+        return h;
+    }
+
+    @Override
+    public String toString(){
+       String s = "";
+        for(int i =0; i<states.size();i++){
+            s += "board:\n";
+            s += states.get(i)[0].toString();
+            s += "hand:\n";
+            s += states.get(i)[1].toString();
+            s += "\n";
+            s += "\n";
+        }
+        return s;
     }
 
     public static void main(String[] args) {
         long startTime = System.nanoTime();
         GameApp GA = new GameApp();
 
-        ArrayList<Tile> board = new ArrayList<>();
+        ArrayList<ArrayList<Tile>> board = new ArrayList<>();
+        ArrayList<Tile> seq = new ArrayList<>();
 
-        board.add(new Tile(Colour.YELLOW, Value.TWO));
-        board.add(new Tile(Colour.YELLOW, Value.ONE));
-        board.add(new Tile(Colour.YELLOW, Value.FOUR));
-        board.add(new Tile(Colour.BLACK, Value.FOUR));
-        board.add(new Tile(Colour.RED, Value.FOUR));
-        board.add(new Tile(Colour.YELLOW, Value.THREE));
-        board.add(new Tile(Colour.YELLOW, Value.JOKER));
+        seq.add(new Tile(Colour.YELLOW, Value.TWO));
+        seq.add(new Tile(Colour.YELLOW, Value.ONE));
+        seq.add(new Tile(Colour.YELLOW, Value.THREE));
+        board.add(seq);
+        ArrayList<Tile> seq2 = new ArrayList<>();
+        seq2.add(new Tile(Colour.YELLOW, Value.FOUR));
+        seq2.add(new Tile(Colour.BLACK, Value.FOUR));
+        seq2.add(new Tile(Colour.RED, Value.FOUR));
+        seq2.add(new Tile(Colour.YELLOW, Value.JOKER));
+        board.add(seq2);
+
+        Board b = new Board(board);
 
         ArrayList<Tile> hand = new ArrayList<>();
 
@@ -201,25 +262,33 @@ public class GameApp {
         hand.add(new Tile(Colour.RED, Value.NINE));
         hand.add(new Tile(Colour.BLUE, Value.FOUR));
 
-        ArrayList<Tile> combined = new ArrayList<>();
-        combined.addAll(board);
-        combined.addAll(hand);
+        GA.possibleMoves(b, hand);
+        System.out.println(GA);
 
-        GA.addToLineNextTile(0, new ArrayList<>(), combined, GA.gLines);
-        System.out.println(GA.gLines);
 
-        GA.addToLineNextTile(1, new ArrayList<>(), combined, GA.gLines);
-        System.out.println(GA.gLines);
-
-        GA.makeBoardState(new ArrayList<>(), GA.gLines, GA.gBoard);
+//        ArrayList<Tile> combined = new ArrayList<>();
+//        ArrayList<ArrayList<Tile>> bList = b.getCurrentGameBoard();
+//        for(ArrayList<Tile> sequence : bList){
+//            combined.addAll(sequence);
+//        }
+//        combined.addAll(hand);
+//        System.out.println(combined);
+//
+//        GA.addToLineNextTile(0, new ArrayList<>(), combined, GA.gLines);
+//        //System.out.println(GA.gLines);
+//
+//        GA.addToLineNextTile(1, new ArrayList<>(), combined, GA.gLines);
+//        System.out.println(GA.gLines);
+//
+//        GA.makeBoardState(new ArrayList<>(), GA.gLines, GA.gBoard);
 //        for(int i = 0; i<GA.gBoard.size(); i++) {
 //            System.out.println(GA.gBoard.get(i));
 //        }
 
-        GA.makeValidBoardState(GA.gBoard, board);
-        for(int i = 0; i<GA.vBoard.size(); i++) {
-            System.out.println(GA.vBoard.get(i));
-        }
+//        GA.makeValidBoardState(GA.gBoard, b);
+//        for(int i = 0; i<GA.vBoard.size(); i++) {
+//            System.out.println(GA.vBoard.get(i));
+//        }
 
         // ArrayList<ArrayList<ArrayList<Tile>>> combinations =
         // GA.finalAllPossibleCombinations(combined, board);
