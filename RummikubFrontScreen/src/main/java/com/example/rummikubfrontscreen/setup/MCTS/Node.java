@@ -32,22 +32,61 @@ public class Node {
      * implement it in the first part of
      * the ownMove group.
      */
-    public void expandOwnMovesOnly() {
-        ArrayList<Object[]> ownMoveStates = gameState.getOwnMoveStates();
-        String movestaeString = Utils.MoveStatetoString(ownMoveStates.get(0));
+    public boolean expandOwnMovesOnly() {
+        // Get MoveStates (Board, Hand)
 
-        Player prevPlayer = gameState.getCurPlayer();
-        int indexOfNextPlayer = (gameState.getPlayers().indexOf(prevPlayer) + 1) % gameState.getPlayers().size();
-        Player nextPlayer = gameState.getPlayers().get(indexOfNextPlayer);
+        ArrayList<Object[]> ownMoveStates = gameState.getOwnMoveStates();
+        if (ownMoveStates == null) {
+            return false;
+        }
+        if (ownMoveStates.isEmpty()) {
+            System.out.println("No more moves");
+            return false;
+        }
 
         for (Object[] state : ownMoveStates) {
+            // Separate the board and the hand
             Board board = (Board) state[0];
             ArrayList<Tile> newHand = (ArrayList<Tile>) state[1];
 
+            // Create a new game state with the new board and hand
+            // and let the next player be the current player
             MCTSGameState newGameState = gameState.copyAndNextPlayer(board, newHand);
+
             Node child = new Node(newGameState, this);
             this.addChild(child);
         }
+        return true;
+    }
+
+    static int i = 0;
+
+    public Node depthFirstSearch(Node node) {
+        i++;
+        if (node.getGameState().getCurPlayer().getHand().isEmpty()) {
+            System.out.println("NO FUCKING WAY WE GOT A WINNER");
+            System.out.println(node.getGameState());
+            children.get(-1);
+        }
+        if (node == null) {
+            return null;
+        }
+
+        // System.out.println("Visiting node: " + node.getGameState().toString());
+
+        if (!node.expandOwnMovesOnly()) {
+            return node;
+        }
+        // Recursive case: Visit each child node in depth-first order
+        for (Node child : node.getChildren()) {
+
+            Node result = depthFirstSearch(child);
+            // System.out.println("i: " + i);
+            if (result != null) {
+                return result;
+            }
+        }
+        return null;
     }
 
     public Node getParent() {
@@ -60,6 +99,11 @@ public class Node {
 
     public ArrayList<Node> getChildren() {
         return children;
+    }
+
+    public Node getRandomChildren() {
+        int randomIndex = (int) (Math.random() * this.children.size());
+        return this.children.get(randomIndex);
     }
 
     public void setParent(Node parent) {
@@ -76,6 +120,11 @@ public class Node {
 
     public Node getRandomChildNode() {
         int randomIndex = (int) (Math.random() * this.children.size());
+        System.out.println("Children size " + this.children.size());
+        if (this.children.size() > 1) {
+            System.out.println("\n\n Here are Children!!!" + getChildren().toString() + "\n\n\n");
+            randomIndex = 1;
+        }
         return this.children.get(randomIndex);
     }
 

@@ -1,6 +1,5 @@
 package com.example.rummikubfrontscreen.setup.MCTS;
 
-import com.example.rummikubfrontscreen.GameBoardController;
 import com.example.rummikubfrontscreen.setup.*;
 import java.util.*;
 
@@ -10,11 +9,8 @@ public class MCTSGameState {
     private ArrayList<Player> listofplayers;
     private Player aiPlayer;
     private int visitCount;
-    private boolean[] playersEndTurn = new boolean[4];
-    private Player winnerIndex;
     // UCT change
     private int winScore;
-    private Random randomizer;
 
     public MCTSGameState(Player player, Board board, ArrayList<Player> playerList) {
         this.board = board;
@@ -22,7 +18,6 @@ public class MCTSGameState {
         this.listofplayers = playerList;
         this.visitCount = 0;
         this.winScore = 0;
-        this.randomizer = new Random();
         this.aiPlayer = playerList.get(0);
     }
 
@@ -80,7 +75,12 @@ public class MCTSGameState {
 
     public ArrayList<Object[]> getOwnMoveStates() {
 
-        ArrayList<Object[]> ownMoveStates = MCTSAction.ownMoveGroup(getCurrentHand(player), board);
+        ArrayList<Object[]> ownMoveStates;// = MCTSAction.ownMoveGroup(board, getCurrentHand(player));
+
+        // For efficiency we will need to change the method to static
+        GameApp gameApp = new GameApp();
+        ownMoveStates = gameApp.possibleMoves(board, getCurrentHand(player));
+
         return ownMoveStates;
     }
 
@@ -132,6 +132,7 @@ public class MCTSGameState {
 
     @Override
     public String toString() {
-        return "Board: \n" + board.toString() + " Hand: " + aiPlayer.getHand().toString();
+        return "Player " + player.getId() + " is playing and the Board looks like: \n" + board.toString() + " Hand: "
+                + aiPlayer.getHand().toString();
     }
 }

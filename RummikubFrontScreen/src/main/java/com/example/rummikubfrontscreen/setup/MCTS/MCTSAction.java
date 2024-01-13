@@ -12,16 +12,6 @@ import com.example.rummikubfrontscreen.setup.Value;
 public class MCTSAction {
 
     HashMap<Colour, Integer> colorMap;
-    private ArrayList<ArrayList<Tile>> initialBoard;
-    private ArrayList<Tile> initialHand;
-    private ArrayList<Tile> outputHand;
-    private ArrayList<ArrayList<Tile>> outputBoard;
-    private ArrayList<ArrayList<Tile>> possibleCombos;
-    private ArrayList<ArrayList<Tile>> allPossibleCombos;
-    private ArrayList<Tile> deck;
-    private ArrayList<ArrayList<Tile>> randomMove;
-    private boolean endTurn;
-    private Random randomizer;
 
     public MCTSAction() {
         colorMap = new HashMap<>();
@@ -29,7 +19,6 @@ public class MCTSAction {
         colorMap.put(Colour.BLUE, 2);
         colorMap.put(Colour.YELLOW, 3);
         colorMap.put(Colour.BLACK, 4);
-        ArrayList<Tile> initialHand = new ArrayList<>();
     }
 
     // Big problem:
@@ -121,16 +110,48 @@ public class MCTSAction {
         return groups;
     }
 
-    public static ArrayList<Object[]> ownMoveGroup(ArrayList<Tile> currentHand, Board board) {
-        ArrayList<Object[]> legalMoveStates = new ArrayList<>();
-        int[] handArray = Utils.aListToArray(currentHand);
+    public static Object[] drawTileFromBoard(Board board, ArrayList<Tile> currentHand) {
+        Board drawBoard = board.clone();
+
+        Tile drawTile = drawBoard.drawTile();
+        if (drawTile == null) {
+            Object[] moveState = new Object[2];
+            moveState[0] = board;
+            moveState[1] = currentHand;
+            System.out.println("Error: drawTile is null");
+            return null;
+        }
+        currentHand.add(drawTile);
 
         Object[] moveState = new Object[2];
         moveState[0] = board;
         moveState[1] = currentHand;
-        legalMoveStates.add(moveState);
+        return moveState;
+    }
 
+    public static ArrayList<Object[]> ownMoveGroup(Board board, ArrayList<Tile> currentHand) {
+        ArrayList<Object[]> legalMoveStates = new ArrayList<>();
+        int[] handArray = Utils.aListToArray(currentHand);
         ArrayList<ArrayList<Tile>> legalMoves = ownMoveGroup(currentHand);
+
+        // First move is drawing a tile
+        if (!board.getDrawPile().isEmpty()) {
+
+            Board drawBoard = board.clone();
+            // System.out.println("Hand before drawing tile: " + currentHand.toString());
+            Tile drawTile = drawBoard.drawTile();
+
+            currentHand.add(drawTile);
+            // System.out.println("Board before finding moves");
+            // System.out.println(currentHand.toString());
+            // System.out.println(board.toString());
+
+            Object[] moveState = new Object[2];
+            moveState[0] = board;
+            moveState[1] = currentHand;
+            legalMoveStates.add(moveState);
+        }
+
         for (int i = 0; i < legalMoves.size(); i++) {
 
             ArrayList<Tile> move = legalMoves.get(i);
@@ -141,8 +162,8 @@ public class MCTSAction {
             ArrayList<Tile> newHand = Utils.ArrayToArrayList(handArrayAfterMove);
 
             Board newBoard = board.clone();
-            // System.out.println("Move Added: " + newBoard.addSeries(move));
-            // System.out.println("Board: \n" + newBoard.toString());
+            System.out.println("\nThe new added Move Added: \n" + newBoard.addSeries(move));
+            System.out.println("Board: \n" + newBoard.toString());
             newMoveState[0] = newBoard;
             newMoveState[1] = newHand;
             legalMoveStates.add(newMoveState);

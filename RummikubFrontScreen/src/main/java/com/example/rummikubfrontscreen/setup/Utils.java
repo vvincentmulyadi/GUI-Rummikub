@@ -20,10 +20,14 @@ public class Utils {
         return array;
     }
 
-    public static String MoveStatetoString(Object[] moveState) {
+    public static void print(Board board, ArrayList<Tile> hand) {
+        System.out.println("\nPRINTING STATE \nBoard: \n" + board.toString() + " Hand: " + hand.toString());
+    }
+
+    public static void print(Object[] moveState) {
         Board board = (Board) moveState[0];
         ArrayList<Tile> hand = (ArrayList<Tile>) moveState[1];
-        return "Board: \n" + board.toString() + " Hand: " + hand.toString();
+        System.out.println("Board: \n" + board.toString() + " Hand: " + hand.toString());
     }
 
     public static ArrayList<Tile> ArrayToArrayList(int[] array) {

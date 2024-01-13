@@ -31,9 +31,12 @@ public class MCTSmain {
     // What is the difference between mcts and mncts gamestate ?
     public static void main(String[] args) {
         MCTSmain mcmain = new MCTSmain();
-        ArrayList<Tile> hand = mcmain.getRoot().getGameState().getCurPlayer().getHand();
-        addGoodTiles(hand);
+
         mcmain.getRoot().expandOwnMovesOnly();
+
+        mcmain.mcts.deepFirstSearch();
+        mcmain.getRoot().depthFirstSearch(mcmain.getRoot());
+
         // String movestaeString = Utils.MoveStatetoString(args)
         System.out.println(mcmain.getRoot().getChildren().toString());
     }
@@ -44,11 +47,9 @@ public class MCTSmain {
         hand.add(new Tile(Colour.YELLOW, Value.ONE));
         hand.add(new Tile(Colour.RED, Value.ONE));
         hand.add(new Tile(Colour.BLACK, Value.ONE));
-
     }
 
     private Node getRoot() {
         return root;
     }
-
 }

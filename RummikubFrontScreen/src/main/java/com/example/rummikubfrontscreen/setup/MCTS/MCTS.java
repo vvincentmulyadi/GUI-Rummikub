@@ -40,6 +40,14 @@ public class MCTS {
         return root.selection();
     }
 
+    public void deepFirstSearch() {
+
+        Node cur = root;
+        while (cur.expandOwnMovesOnly()) {
+            cur = cur.getRandomChildNode();
+        }
+    }
+
     private Node selectCandidateNode(Node root) {
         Node node = root;
         while (!node.isLeafNode()) {

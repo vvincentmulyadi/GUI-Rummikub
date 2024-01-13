@@ -1,30 +1,58 @@
 package com.example.rummikubfrontscreen.setup;
 
-//import javax.naming.PartialResultException;
-//import javax.swing.*;
-
+import java.util.Random;
 import java.util.ArrayList;
 
 public class Board {
 
     // 2D arraylist grid representing the runs and rows
     private ArrayList<ArrayList<Tile>> currentGameBoard;
+    private ArrayList<Tile> drawPile;
 
     public ArrayList<ArrayList<Tile>> getCurrentGameBoard() {
         return currentGameBoard;
     }
 
-    public void setCurrentGameBoard(ArrayList<ArrayList<Tile>> currentGameBoard) {
-        this.currentGameBoard = currentGameBoard;
+    // Constructor for the board
+    public Board(ArrayList<ArrayList<Tile>> listOfTiles) {
+        System.out.println("Warning You are using the deprecated version of the board constructor");
+        System.out.println(
+                "If you are using this board for any type of ai I would recommend using the \nconstructor that takes in the drawPile");
+        currentGameBoard = listOfTiles;
     }
 
     // Constructor for the board
-    public Board(ArrayList<ArrayList<Tile>> listOfTiles) {
+    public Board(ArrayList<ArrayList<Tile>> listOfTiles, ArrayList<Tile> drawPile) {
+        this.drawPile = drawPile;
         currentGameBoard = listOfTiles;
     }
 
     public Board() {
     };
+
+    public ArrayList<Tile> getDrawPile() {
+        return drawPile;
+    }
+
+    public Tile drawTile() {
+
+        Random rand = new Random();
+        if (drawPile.size() == 1)
+            return drawPile.remove(0);
+
+        if (drawPile == null) {
+            System.out.println("!!! The draw pile is null in the board class !!!");
+        }
+        System.out.println("Drawpile size: " + drawPile.size());
+        if (drawPile.size() == 0) {
+            System.out.println("!!! The draw pile is empty !!!");
+            return null;
+        }
+        int i = rand.nextInt(drawPile.size() - 1);
+        Tile tile = drawPile.get(i);
+        drawPile.remove(i);
+        return tile;
+    }
 
     public boolean addSeries(ArrayList<Tile> series) {
         ArrayList<ArrayList<Tile>> seriesInGame = new ArrayList<>();
@@ -123,16 +151,19 @@ public class Board {
             }
             newBoard.add(newSeries);
         }
-        return new Board(newBoard);
+        // This clone doesnt deep clone the drawpile since if it most often stays the
+        // same
+        return new Board(newBoard, drawPile);
     }
 
     @Override
     public String toString() {
         String str = "";
         for (int i = 0; i < currentGameBoard.size(); i++) {
+            // if (currentGameBoard.get(i).size() == 0)
+            // continue;
             str += i + "  ";
             str += currentGameBoard.get(i).toString() + "  ";
-
             str += "\n";
         }
         return str;
