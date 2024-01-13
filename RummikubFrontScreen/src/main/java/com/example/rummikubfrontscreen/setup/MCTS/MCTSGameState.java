@@ -75,11 +75,11 @@ public class MCTSGameState {
 
     public ArrayList<Object[]> getOwnMoveStates() {
 
-        ArrayList<Object[]> ownMoveStates;// = MCTSAction.ownMoveGroup(board, getCurrentHand(player));
+        ArrayList<Object[]> ownMoveStates = MCTSAction.ownMoveGroup(board, getCurrentHand(player));
 
         // For efficiency we will need to change the method to static
         GameApp gameApp = new GameApp();
-        ownMoveStates = gameApp.possibleMoves(board, getCurrentHand(player));
+        // ownMoveStates = gameApp.possibleMoves(board, getCurrentHand(player));
 
         return ownMoveStates;
     }
