@@ -51,6 +51,23 @@ public class GameSetup {
             player.sortByColor(player.hand);
         }
     }
+    public GameSetup(int numOfPlayers) {
+        generateTiles();
+        generateBoard2();
+        for (int i = 0; i < numOfPlayers; i++) {
+            Player player = new Player(generateHand());
+            player.setId(i);
+            if (i == numOfPlayers - 1 && GameBoardController.getPlayAgainstAI()) {
+                System.out.println("Agent init");
+                agent = new RandomAgent(player);
+            }
+            players.add(player);
+
+        }
+        for (Player player : players) {
+            player.sortByColor(player.hand);
+        }
+    }
 
     private void generateBoard() {
         ArrayList<ArrayList<Tile>> newGameBoard = new ArrayList<>();
@@ -61,6 +78,10 @@ public class GameSetup {
             newGameBoard.get(i).add(null);
         }
         board = new Board(newGameBoard);
+    }
+
+    private void generateBoard2() {
+        board = new Board(new ArrayList<>());
     }
 
     public ArrayList<Tile> generateHand() {

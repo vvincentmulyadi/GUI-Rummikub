@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class GameApp {
 
@@ -13,6 +14,8 @@ public class GameApp {
     public ArrayList<Tile> tiles;
 
     // valid lines
+    private ArrayList<ArrayList<Tile>> gLinesG = new ArrayList<>();
+    private ArrayList<ArrayList<Tile>> gLinesR = new ArrayList<>();
     private ArrayList<ArrayList<Tile>> gLines = new ArrayList<>();
 
     // possible board states
@@ -21,10 +24,21 @@ public class GameApp {
     // valid board states (not taking back to hand)
     private ArrayList<ArrayList<ArrayList<Tile>>> vBoard = new ArrayList<>();
 
+    public ArrayList<Object[]> getStates() {
+        return states;
+    }
+
     private ArrayList<Object[]> states = new ArrayList<>();
 
     public GameApp() {
         gs = new GameSetup();
+        plrs = gs.getPlayers();
+        curPlr = plrs.get(0);
+        tiles = gs.getTiles();
+    }
+
+    public GameApp(GameSetup gs) {
+        this.gs = gs;
         plrs = gs.getPlayers();
         curPlr = plrs.get(0);
         tiles = gs.getTiles();
@@ -55,12 +69,17 @@ public class GameApp {
 
     public Tile draw() {
         Random rand = new Random();
+        if((tiles.size() - 1)<1){
+            System.out.println("No more tiles to draw!");
+            return null;
+        }
         int i = rand.nextInt(tiles.size() - 1);
         Tile tile = tiles.get(i);
         curPlr.addTile(tile);
         tiles.remove(i);
         return tile;
     }
+
 
     public Player getCurPlr() {
         return curPlr;
@@ -76,21 +95,21 @@ public class GameApp {
         // cLine - currently build line
         // gLines - valid single lines
         // we build lines with first element or proceed it with joker/jokers
-        if (lineType == 0) {
-            Player.sortByColor(remainingTiles);
-        } else {
-            Player.sortByNum(remainingTiles, 0, remainingTiles.size() - 1);
-        }
         if (cLine.isEmpty()) {
+            Player.sortByColor(remainingTiles);
             cLine.add(remainingTiles.get(0));
             ArrayList<Tile> nextremainingTiles = new ArrayList<>(remainingTiles);
             nextremainingTiles.remove(0);
             addToLineNextTile(lineType, cLine, nextremainingTiles, gLines);
-            //addToLineNextTile(lineType, cLine, nextremainingTiles, gLines);
+            if(!nextremainingTiles.isEmpty()) {
+                addToLineNextTile(lineType, new ArrayList<>(), nextremainingTiles, gLines);
+            }
             cLine.remove(cLine.size() - 1);
         } else if (lineType == 1) {
             // it can be joker o a number with same color +1
+            ArrayList<Tile> nextremainingTiles = new ArrayList<>(remainingTiles);
             for (int i = 0; i < remainingTiles.size(); i++) {
+                nextremainingTiles.remove(0);
                 if ((remainingTiles.get(i).getColour() == cLine.get(cLine.size() - 1).getColour() &&
                         remainingTiles.get(i).getInt() == cLine.get(cLine.size() - 1).getInt() + 1) ||
                         remainingTiles.get(i).getValue() == Value.JOKER ||
@@ -102,16 +121,18 @@ public class GameApp {
                     if (cLine.size() >= 3) {
                         gLines.add(new ArrayList<>(cLine));
                     }
-                    ArrayList<Tile> nextremainingTiles = new ArrayList<>(remainingTiles);
-                    nextremainingTiles.remove(i);
+
+
                     addToLineNextTile(1, cLine, nextremainingTiles, gLines);
                     cLine.remove(cLine.size() - 1);
                 }
             }
         } else {
             // it can be a joker or the same number with a different colour
+            ArrayList<Tile> nextremainingTiles = new ArrayList<>(remainingTiles);
             for (int i = 0; i < remainingTiles.size(); i++) {
                 boolean c = true;
+                nextremainingTiles.remove(0);
                 for (Tile tile : cLine) {
                     if (tile.getColour() == remainingTiles.get(i).getColour() &&
                             tile.getValue() == remainingTiles.get(i).getValue()) {
@@ -120,7 +141,7 @@ public class GameApp {
                 }
                 if ((remainingTiles.get(i).getColour() != cLine.get(cLine.size() - 1).getColour() &&
                         remainingTiles.get(i).getValue() == cLine.get(cLine.size() - 1).getValue()) ||
-                        remainingTiles.get(i).getValue() == Value.JOKER || (!cLine.isEmpty() &&
+                        remainingTiles.get(i).getValue() == Value.JOKER || (cLine.size()>2 &&
                                 cLine.get(cLine.size() - 1).getValue() == Value.JOKER &&
                                 remainingTiles.get(i).getValue() == cLine.get(cLine.size() - 2).getValue())) {
                     if (c) {
@@ -128,8 +149,6 @@ public class GameApp {
                         if (cLine.size() >= 3 && cLine.size() < 5) {
                             gLines.add(new ArrayList<>(cLine));
                         }
-                        ArrayList<Tile> nextremainingTiles = new ArrayList<>(remainingTiles);
-                        nextremainingTiles.remove(i);
                         addToLineNextTile(0, cLine, nextremainingTiles, gLines);
                         cLine.remove(cLine.size() - 1);
                     }
@@ -147,8 +166,10 @@ public class GameApp {
             makeBoardState(cBoard, nextRemainingSeq, gBoard);
             cBoard.remove(cBoard.size()-1);
         }
+        ArrayList<ArrayList<Tile>> nextRemainingSeq = new ArrayList<>(remainingSeq);
         for(int i=0; i<remainingSeq.size(); i++){
             boolean c = true;
+            nextRemainingSeq.remove(0);
             for(Tile tile : remainingSeq.get(i)){
                 if(!cBoard.isEmpty()) {
                     for (ArrayList<Tile> seq : cBoard) {
@@ -161,8 +182,6 @@ public class GameApp {
             if(c){
                 cBoard.add(remainingSeq.get(i));
                 gBoard.add(new ArrayList<>(cBoard));
-                ArrayList<ArrayList<Tile>> nextRemainingSeq = new ArrayList<>(remainingSeq);
-                nextRemainingSeq.remove(i);
                 makeBoardState(cBoard, nextRemainingSeq, gBoard);
                 cBoard.remove(cBoard.size() - 1);
             }
@@ -171,45 +190,67 @@ public class GameApp {
 
     // making valid board states, checking if we don't take anything back to our hand
     public void makeValidBoardState(ArrayList<ArrayList<ArrayList<Tile>>> gBoard, Board board){
-        ArrayList<ArrayList<Tile>> bList = board.getCurrentGameBoard();
+        ArrayList<ArrayList<Tile>> bList = new ArrayList<>(board.getCurrentGameBoard());
         ArrayList<Tile> boardList = new ArrayList<>();
         for(ArrayList<Tile> sequence : bList){
             boardList.addAll(sequence);
         }
+        System.out.println("boardList: "+boardList);
         for(ArrayList<ArrayList<Tile>> state : gBoard){
             ArrayList<Tile> tilesOnBoard = new ArrayList<>();
             for(ArrayList<Tile> seq : state){
                 tilesOnBoard.addAll(seq);
             }
-            if(tilesOnBoard.containsAll(boardList)){
+            //System.out.println("tiles from move: "+tilesOnBoard);
+            if(tilesOnBoard.containsAll(boardList) && tilesOnBoard.size()>=boardList.size()){
+                //System.out.println("tiles from move: "+tilesOnBoard);
                 vBoard.add(state);
             }
         }
     }
 
     // getting possible moves in a structure of an arrayList of Object array that contains board and hand
-    public void possibleMoves(Board board, ArrayList<Tile> hand){
+    public void possibleMoves(Board b, ArrayList<Tile> hand){
         ArrayList<Tile> combined = new ArrayList<>();
-        ArrayList<ArrayList<Tile>> bList = board.getCurrentGameBoard();
-        ArrayList<Tile> b = new ArrayList<>();
+        ArrayList<ArrayList<Tile>> bList = b.getCurrentGameBoard();
+        ArrayList<Tile> boa = new ArrayList<>();
         for(ArrayList<Tile> sequence : bList){
             combined.addAll(sequence);
+            boa.addAll(sequence);
         }
         combined.addAll(hand);
-        addToLineNextTile(0, new ArrayList<>(), combined, gLines);
-        addToLineNextTile(1, new ArrayList<>(), combined, gLines);
+        //System.out.println(combined);
+        addToLineNextTile(1, new ArrayList<>(), combined, gLinesR);
+        //System.out.println(combined);
+        addToLineNextTile(0, new ArrayList<>(), combined, gLinesG);
+        gLines.clear();
+        gLines.addAll(gLinesG);
+        gLines.addAll(gLinesR);
+        //System.out.println("glines "+ gLines);
+        if(gLines.isEmpty()){
+            return;
+        }
+        gBoard.clear();
         makeBoardState(new ArrayList<>(), gLines, gBoard);
-        makeValidBoardState(gBoard, board);
+        vBoard.clear();
+        makeValidBoardState(gBoard, b);
         for(int i=0;i<vBoard.size();i++){
-            ArrayList<Tile> hl = getHandFromBoard(vBoard.get(i), new ArrayList<>(hand));
-            Object[] arr = new Object[2];
-            arr[0] = new Board(vBoard.get(i));
-            arr[1] = hl;
-            states.add(arr);
+            ArrayList<Tile> bo = new ArrayList<>();
+            ArrayList<Tile> hl = getHandFromBoard(vBoard.get(i), hand);
+            for(ArrayList<Tile> seq : vBoard.get(i)){
+                bo.addAll(seq);
+            }
+            if(!(bo.size() == boa.size())){
+                Object[] arr = new Object[2];
+                arr[0] = new Board((ArrayList<ArrayList<Tile>>) vBoard.get(i).stream().map(ArrayList::new).collect(Collectors.toList()));
+                arr[1] = new ArrayList<>(hl);
+                states.add(arr);
+            }
         }
     }
 
-    public ArrayList<Tile> getHandFromBoard(ArrayList<ArrayList<Tile>> board, ArrayList<Tile> h){
+    public ArrayList<Tile> getHandFromBoard(ArrayList<ArrayList<Tile>> board, ArrayList<Tile> hand){
+        ArrayList<Tile> h = new ArrayList<>(hand);
         ArrayList<Tile> b = new ArrayList<>();
         for(ArrayList<Tile> seq : board){
             b.addAll(seq);
@@ -246,21 +287,29 @@ public class GameApp {
         seq.add(new Tile(Colour.YELLOW, Value.THREE));
         board.add(seq);
         ArrayList<Tile> seq2 = new ArrayList<>();
+        seq2.add(new Tile(Colour.BLUE, Value.TWO));
+        seq2.add(new Tile(Colour.BLACK, Value.TWO));
+        seq2.add(new Tile(Colour.RED, Value.TWO));
+        board.add(seq2);
+        seq2 = new ArrayList<>();
+        seq2.add(new Tile(Colour.YELLOW, Value.ONE));
+        seq2.add(new Tile(Colour.YELLOW, Value.TWO));
+        seq2.add(new Tile(Colour.YELLOW, Value.THREE));
         seq2.add(new Tile(Colour.YELLOW, Value.FOUR));
-        seq2.add(new Tile(Colour.BLACK, Value.FOUR));
-        seq2.add(new Tile(Colour.RED, Value.FOUR));
-        seq2.add(new Tile(Colour.YELLOW, Value.JOKER));
+        seq2.add(new Tile(Colour.YELLOW, Value.FIVE));
+        seq2.add(new Tile(Colour.YELLOW, Value.SIX));
         board.add(seq2);
 
         Board b = new Board(board);
 
         ArrayList<Tile> hand = new ArrayList<>();
 
-        hand.add(new Tile(Colour.BLACK, Value.FIVE));
-        hand.add(new Tile(Colour.BLACK, Value.SIX));
-        hand.add(new Tile(Colour.RED, Value.TEN));
-        hand.add(new Tile(Colour.RED, Value.NINE));
-        hand.add(new Tile(Colour.BLUE, Value.FOUR));
+        hand.add(new Tile(Colour.BLACK, Value.FOUR));
+        hand.add(new Tile(Colour.RED, Value.ONE));
+        hand.add(new Tile(Colour.YELLOW, Value.SEVEN));
+        hand.add(new Tile(Colour.BLUE, Value.TWELVE));
+        hand.add(new Tile(Colour.BLUE, Value.JOKER));
+
 
         GA.possibleMoves(b, hand);
         System.out.println(GA);

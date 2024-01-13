@@ -1,6 +1,5 @@
 package com.example.rummikubfrontscreen.setup.ANN;
 
-package briscola.game_logic.ANN;
 
 import org.ejml.simple.SimpleMatrix;
 import java.util.Random;

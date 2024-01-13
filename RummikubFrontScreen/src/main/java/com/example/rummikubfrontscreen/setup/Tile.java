@@ -1,5 +1,5 @@
 package com.example.rummikubfrontscreen.setup;
-
+import java.util.*;
 public class Tile {
 
     public Tile() {
@@ -17,10 +17,17 @@ public class Tile {
     private int id;
     private static int counter = 0;
 
+    private int idToColorSort;
+
     public Tile(Colour colour, Value value) {
         this.colour = colour;
         this.value = value;
         id = counter++;
+        if (value==Value.JOKER){
+            idToColorSort=value.ordinal()+colour.ordinal();
+        }else
+            idToColorSort=colour.ordinal()*13+value.ordinal();
+
     }
 
     @Override
@@ -43,6 +50,8 @@ public class Tile {
         return value.getValue();
     }
 
+    public int getIdToColorSort(){return idToColorSort; }
+
     public String toString() {
         return getValue().getValue() + " " + getColour().toString();
     }
@@ -63,4 +72,17 @@ public class Tile {
         this.y = y;
     }
 
+}
+class TileComparator implements Comparator<Tile> {
+
+    // override the compare() method
+    public int compare(Tile s1, Tile s2)
+    {
+        if (s1.getIdToColorSort() == s2.getIdToColorSort())
+            return 0;
+        else if (s1.getIdToColorSort() > s2.getIdToColorSort())
+            return 1;
+        else
+            return -1;
+    }
 }
