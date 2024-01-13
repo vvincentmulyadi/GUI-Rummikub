@@ -34,6 +34,10 @@ public class Board {
         return drawPile;
     }
 
+    public void setCurrentGameBoard(ArrayList<ArrayList<Tile>> currentGameBoard) {
+        this.currentGameBoard = currentGameBoard;
+    }
+
     public Tile drawTile() {
 
         Random rand = new Random();
