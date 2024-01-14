@@ -1,7 +1,5 @@
 package com.example.rummikubfrontscreen.setup.ANN;
 
-
-import org.ejml.simple.SimpleMatrix;
 import java.util.Random;
 
 public class MatrixUtilities {
