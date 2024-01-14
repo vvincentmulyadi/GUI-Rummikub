@@ -119,6 +119,11 @@ public class MCTSGameState {
     }
 
     public boolean isWinner() {
+        for (Player player : listofplayers) {
+            if (player.getHand().isEmpty()) {
+                return true;
+            }
+        }
         return false;
     }
 
