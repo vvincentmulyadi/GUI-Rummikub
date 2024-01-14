@@ -178,12 +178,8 @@ public class Node {
             this.uctValue = Double.MIN_VALUE;
             return;
         }
-        double totalUctValue = 0;
-        for (double UctValue : playoutScores) {
-            totalUctValue += UctValue;
-        }
-        this.uctValue = (totalUctValue / playoutScores.size());
-        this.uctValue = this.explorationParameter * Math.log(parent.getVisitCount()) / this.getVisitCount();
+        double winRate = (double) winCount / (double) visitCount;
+        this.uctValue = winRate + this.explorationParameter * Math.log(parent.getVisitCount()) / this.getVisitCount();
     }
 
     @Override
