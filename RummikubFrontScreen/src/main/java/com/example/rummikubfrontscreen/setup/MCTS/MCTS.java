@@ -3,6 +3,7 @@ package com.example.rummikubfrontscreen.setup.MCTS;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.example.rummikubfrontscreen.setup.Board;
 import com.example.rummikubfrontscreen.setup.Colour;
 import com.example.rummikubfrontscreen.setup.GameApp;
 import com.example.rummikubfrontscreen.setup.Tile;
@@ -73,12 +74,17 @@ public class MCTS {
     }
 
     private void expand(Node node, MCTSGameState gameState) {
-        ArrayList<MCTSGameState> legalMoves = null;// gameState.getLegalMoves(); // Implement this method
-        for (MCTSGameState move : legalMoves) {
-            Node childNode = new Node(move, node);
+
+        GameApp gameApp = new GameApp();
+        ArrayList<Object[]> moveStates = gameApp.possibleMoves(gameState.getBoard(), gameState.getCurrentHand());
+        MCTSGameState nodeGameState = node.getGameState();
+        for (Object[] moveState : moveStates) {
+            MCTSGameState newGameState = nodeGameState.copyAndNextPlayer((Board) moveState[0],
+                    (ArrayList<Tile>) moveState[1]);
+            Node childNode = new Node(newGameState, node);
             node.addChild(childNode);
         }
-        ArrayList<Object[]> moveStates = GameApp.possibleMoves(gameState.getBoard(), gameState.getCurrentHand());
+        System.out.println("\n\nYou just ran expand check pls if the right player is playing in this node");
     }
 
     private int simulateRandomPlayout(Node node) {

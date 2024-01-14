@@ -11,10 +11,13 @@ public class Node {
     private MCTSGameState gameState;
     private Node parent;
     private ArrayList<Node> children;
-    private ArrayList<Double> playoutScores;
+
     double uctValue;// UCT Score
-    public int visitCount;
-    private boolean isTerminal;
+    // Total Number of playouts or simulations
+    private int visitCount;
+    // Number of childnodes that resulted in a win
+    private int winCount;
+
     private double explorationParameter = 1.4;
 
     public Node(MCTSGameState gameState, Node parent) {
@@ -23,7 +26,6 @@ public class Node {
         this.uctValue = 0;
         this.visitCount = 1;
         this.parent = parent;
-        this.isTerminal = false;
     }
 
     /**
@@ -97,6 +99,18 @@ public class Node {
         return this.uctValue;
     }
 
+    /**
+     * 
+     * @param node
+     * @param playoutResult either 0 or 1 depening on win or loss
+     */
+    public void addPlayout(int playoutResult) {
+
+        this.winCount += playoutResult;
+        this.visitCount++;
+
+    }
+
     public ArrayList<Node> getChildren() {
         return children;
     }
@@ -156,7 +170,9 @@ public class Node {
         return children.isEmpty();
     }
 
-    /* sets the uct value for all playouts */
+    /**
+     * sets the uct value for all playouts
+     */
     public void calcUCTValue() {
         if (visitCount == 0) {
             this.uctValue = Double.MIN_VALUE;
