@@ -3,7 +3,7 @@ package com.example.rummikubfrontscreen.setup.ANN;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
-import org.ejml.simple.SimpleMatrix;
+
 
 
 public class NeuralNetwork {
@@ -82,6 +82,17 @@ public class NeuralNetwork {
                 // hidden layer to hidden layer
                 weights[i] = SimpleMatrix.random64(hiddenNodes, hiddenNodes, -1, 1, rand);
             }
+        }
+    }
+
+    private void initializeWeights() {
+        weights = new SimpleMatrix[hiddenLayers + 1];
+        double heInitRange = Math.sqrt(2.0 / inputNodes);
+    
+        for (int i = 0; i < weights.length; i++) {
+            int inSize = i == 0 ? inputNodes : hiddenNodes;
+            int outSize = i == weights.length - 1 ? outputNodes : hiddenNodes;
+            weights[i] = SimpleMatrix.random64(outSize, inSize, -heInitRange, heInitRange, rand);
         }
     }
 
