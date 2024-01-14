@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.example.rummikubfrontscreen.setup.Colour;
+import com.example.rummikubfrontscreen.setup.GameApp;
 import com.example.rummikubfrontscreen.setup.Tile;
 import com.example.rummikubfrontscreen.setup.Value;
 
@@ -77,6 +78,7 @@ public class MCTS {
             Node childNode = new Node(move, node);
             node.addChild(childNode);
         }
+        ArrayList<Object[]> moveStates = GameApp.possibleMoves(gameState.getBoard(), gameState.getCurrentHand());
     }
 
     private int simulateRandomPlayout(Node node) {
@@ -84,15 +86,20 @@ public class MCTS {
         // Implement the simulation logic based on your game rules
         // Move randMove=new Move(this.gameState.getBoard(),currentHand);// Replace with
         // the actual result
+
         int result = 0;
 
         return result;
     }
 
+    /**
+     * 
+     * @param node
+     * @param playoutResult either 0 or 1 depening on win or loss
+     */
     private void backPropagate(Node node, int playoutResult) {
         while (node != null) {
-            node.visitCount++;
-            node.uctValue += playoutResult;
+            node.addPlayout(playoutResult);
             node = node.getParent();
         }
     }
@@ -108,19 +115,6 @@ public class MCTS {
             }
         }
         return guessedOpponentDeck;
-    }
-
-    private ArrayList<Tile> getDeck() {
-        ArrayList<Tile> allTiles = new ArrayList<>();
-
-        for (Colour colour : Colour.values()) {
-            for (Value value : Value.values()) {
-                Tile tile = new Tile(colour, value);
-                allTiles.add(tile);
-            }
-        }
-
-        return allTiles;
     }
 
     public ArrayList<Tile> convert(ArrayList<ArrayList<Tile>> board) {

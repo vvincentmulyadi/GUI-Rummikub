@@ -73,6 +73,13 @@ public class MCTSGameState {
         return currentPlayer.getHand();
     }
 
+    /*
+     * TODO Subtract AI from all tiles
+     */
+    public ArrayList<Tile> getCurrentHand() {
+        return player.getHand();
+    }
+
     public ArrayList<Object[]> getOwnMoveStates() {
 
         ArrayList<Object[]> ownMoveStates = MCTSAction.ownMoveGroup(board, getCurrentHand(player));
