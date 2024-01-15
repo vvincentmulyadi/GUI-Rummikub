@@ -87,14 +87,27 @@ public class MCTS {
         System.out.println("\n\nYou just ran expand check pls if the right player is playing in this node");
     }
 
-    private int simulateRandomPlayout(Node node) {
-        // ArrayList<Tile> currentHand = this.gameState.getCurrentHand();
-        // Implement the simulation logic based on your game rules
-        // Move randMove=new Move(this.gameState.getBoard(),currentHand);// Replace with
-        // the actual result
+    public static void main(String[] args) {
+        MCTSmain mcmain = new MCTSmain();
 
-        int result = 0;
+        MCTS mcts = mcmain.getMcts();
 
+        Node node = mcmain.getRoot();
+        System.out.println(simulateRandomPlayout(node));
+        System.out.println("The best move is: " + node.getGameState().getBoard().toString());
+    }
+
+    private static int simulateRandomPlayout(Node node) {
+
+        MCTSGameState gameState = node.getGameState();
+        while (!gameState.isWinner()) {
+            GameApp gameApp = new GameApp();
+            ArrayList<Object[]> moveStates = gameApp.possibleMoves(gameState.getBoard(), gameState.getCurrentHand());
+            Object[] moveState = moveStates.get((int) (Math.random() * moveStates.size()));
+            gameState = gameState.copyAndNextPlayer((Board) moveState[0], (ArrayList<Tile>) moveState[1]);
+        }
+
+        int result = gameState.isAIPlayerWinner();
         return result;
     }
 
