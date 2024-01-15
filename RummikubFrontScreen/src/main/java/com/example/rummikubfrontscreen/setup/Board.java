@@ -34,6 +34,10 @@ public class Board {
         return drawPile;
     }
 
+    public void addDrawPile(ArrayList<Tile> drawPile){
+        this.drawPile = drawPile;
+    }
+
     public void setCurrentGameBoard(ArrayList<ArrayList<Tile>> currentGameBoard) {
         this.currentGameBoard = currentGameBoard;
     }

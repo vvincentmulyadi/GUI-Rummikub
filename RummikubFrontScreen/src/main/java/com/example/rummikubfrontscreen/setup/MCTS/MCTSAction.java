@@ -135,7 +135,7 @@ public class MCTSAction {
         ArrayList<ArrayList<Tile>> legalMoves = ownMoveGroup(currentHand);
 
         // First move is drawing a tile
-        if (!board.getDrawPile().isEmpty()) {
+        if (board.getDrawPile() == null || !board.getDrawPile().isEmpty()) {
 
             Board drawBoard = board.clone();
             // System.out.println("Hand before drawing tile: " + currentHand.toString());

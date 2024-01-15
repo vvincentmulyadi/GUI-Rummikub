@@ -21,10 +21,14 @@ public class MCTSmain {
         gameApp = new GameApp();
         gameInfo = gameApp.getGs();
         // System.out.println(gameInfo.getBoard().toString());
+        System.out.println(gameInfo.getTiles());
+        gameInfo.getBoard().addDrawPile(gameInfo.getTiles());
+
 
         MCTSGameState gameState = new MCTSGameState(gameApp.getCurPlr(), gameInfo.getBoard(), gameInfo.getPlayers());
         mcts = new MCTS(gameState);
         root = new Node(gameState, null);
+        System.out.println(gameState.getBoard().getDrawPile());
         // apply move to board
     }
 
@@ -49,7 +53,11 @@ public class MCTSmain {
         hand.add(new Tile(Colour.BLACK, Value.ONE));
     }
 
-    private Node getRoot() {
+    public Node getRoot() {
         return root;
+    }
+
+    public MCTS getMcts(){
+        return mcts;
     }
 }

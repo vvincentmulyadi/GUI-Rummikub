@@ -82,11 +82,11 @@ public class MCTSGameState {
 
     public ArrayList<Object[]> getOwnMoveStates() {
 
-        ArrayList<Object[]> ownMoveStates = MCTSAction.ownMoveGroup(board, getCurrentHand(player));
+        ArrayList<Object[]> ownMoveStates;// = MCTSAction.ownMoveGroup(board, getCurrentHand(player));
 
         // For efficiency we will need to change the method to static
-        GameApp gameApp = new GameApp();
-        // ownMoveStates = gameApp.possibleMoves(board, getCurrentHand(player));
+        //GameApp gameApp = new GameApp();
+        ownMoveStates = PossibleMoves.possibleMoves(board, getCurrentHand(player));
 
         return ownMoveStates;
     }
@@ -125,6 +125,28 @@ public class MCTSGameState {
             }
         }
         return false;
+    }
+
+    public Player getWinner() {
+        for (Player player : listofplayers) {
+            if (player.getHand().isEmpty()) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public int isAIPlayerWinner() {
+        if (!isWinner()) {
+            System.out.println("You are asking if the AI is the winner but the game is not over yet");
+            System.out.println("So check that first");
+            listofplayers.get(-1);
+        }
+
+        if (aiPlayer.getHand().isEmpty()) {
+            return 1;
+        }
+        return 0;
     }
 
     public Player getCurPlayer() {

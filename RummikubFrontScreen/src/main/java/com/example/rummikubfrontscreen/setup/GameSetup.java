@@ -9,6 +9,7 @@ public class GameSetup {
 
     // Tiles not in play (bag)
     private ArrayList<Tile> tiles;
+    
 
     // All the existing tiles
     private ArrayList<Tile> allTiles = new ArrayList<>();
@@ -73,9 +74,8 @@ public class GameSetup {
         ArrayList<ArrayList<Tile>> newGameBoard = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
-            newGameBoard.add(new ArrayList());
-            newGameBoard.get(i).add(null);
-            newGameBoard.get(i).add(null);
+            // newGameBoard.add(new ArrayList());
+            // newGameBoard.get(i).add(null);
         }
         board = new Board(newGameBoard);
     }
