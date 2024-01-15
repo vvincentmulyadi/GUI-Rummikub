@@ -182,7 +182,9 @@ public class GameApp {
             }
             if (c) {
                 cBoard.add(remainingSeq.get(i));
-                gBoard.add(new ArrayList<>(cBoard));
+                if(makeValidBoardState(cBoard, gs.getBoard())) {
+                    gBoard.add(new ArrayList<>(cBoard));
+                }
                 makeBoardState(cBoard, nextRemainingSeq, gBoard);
                 cBoard.remove(cBoard.size() - 1);
             }
@@ -191,24 +193,23 @@ public class GameApp {
 
     // making valid board states, checking if we don't take anything back to our
     // hand
-    public void makeValidBoardState(ArrayList<ArrayList<ArrayList<Tile>>> gBoard, Board board) {
+    public boolean makeValidBoardState(ArrayList<ArrayList<Tile>> gBoard, Board board) {
         ArrayList<ArrayList<Tile>> bList = new ArrayList<>(board.getCurrentGameBoard());
         ArrayList<Tile> boardList = new ArrayList<>();
         for (ArrayList<Tile> sequence : bList) {
             boardList.addAll(sequence);
         }
         System.out.println("boardList: " + boardList);
-        for (ArrayList<ArrayList<Tile>> state : gBoard) {
-            ArrayList<Tile> tilesOnBoard = new ArrayList<>();
-            for (ArrayList<Tile> seq : state) {
-                tilesOnBoard.addAll(seq);
-            }
-            // System.out.println("tiles from move: "+tilesOnBoard);
-            if (tilesOnBoard.containsAll(boardList) && tilesOnBoard.size() >= boardList.size()) {
-                // System.out.println("tiles from move: "+tilesOnBoard);
-                vBoard.add(state);
-            }
+        ArrayList<Tile> tilesOnBoard = new ArrayList<>();
+        for (ArrayList<Tile> seq : gBoard) {
+            tilesOnBoard.addAll(seq);
         }
+        // System.out.println("tiles from move: "+tilesOnBoard);
+        if (tilesOnBoard.containsAll(boardList) && tilesOnBoard.size() >= boardList.size()) {
+            // System.out.println("tiles from move: "+tilesOnBoard);
+            return true;
+        }
+        return false;
     }
 
     // getting possible moves in a structure of an arrayList of Object array that
@@ -236,17 +237,15 @@ public class GameApp {
         }
         gBoard.clear();
         makeBoardState(new ArrayList<>(), gLines, gBoard);
-        vBoard.clear();
-        makeValidBoardState(gBoard, b);
-        for (int i = 0; i < vBoard.size(); i++) {
+        for (int i = 0; i < gBoard.size(); i++) {
             ArrayList<Tile> bo = new ArrayList<>();
-            ArrayList<Tile> hl = getHandFromBoard(vBoard.get(i), hand);
-            for (ArrayList<Tile> seq : vBoard.get(i)) {
+            ArrayList<Tile> hl = getHandFromBoard(gBoard.get(i), hand);
+            for (ArrayList<Tile> seq : gBoard.get(i)) {
                 bo.addAll(seq);
             }
             if (!(bo.size() == boa.size())) {
                 Object[] arr = new Object[2];
-                arr[0] = new Board((ArrayList<ArrayList<Tile>>) vBoard.get(i).stream().map(ArrayList::new)
+                arr[0] = new Board((ArrayList<ArrayList<Tile>>) gBoard.get(i).stream().map(ArrayList::new)
                         .collect(Collectors.toList()));
                 arr[1] = new ArrayList<>(hl);
                 states.add(arr);
