@@ -18,6 +18,9 @@ public class Board {
         System.out.println("Warning You are using the deprecated version of the board constructor");
         System.out.println(
                 "If you are using this board for any type of ai I would recommend using the \nconstructor that takes in the drawPile");
+        System.out.println(
+                "The Proble is that most possibleMoves finder also include the move of drawing a tile but for that the board needs a copy of the tiles which you are not providing here");
+
         currentGameBoard = listOfTiles;
     }
 

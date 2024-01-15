@@ -55,6 +55,28 @@ public class MCTSGameState {
         visitCount++;
     }
 
+    public Player getWinner() {
+        for (Player player : listofplayers) {
+            if (player.getHand().isEmpty()) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public int isAIPlayerWinner() {
+        if (!isWinner()) {
+            System.out.println("You are asking if the AI is the winner but the game is not over yet");
+            System.out.println("So check that first");
+            listofplayers.get(-1);
+        }
+
+        if (aiPlayer.getHand().isEmpty()) {
+            return 1;
+        }
+        return 0;
+    }
+
     /*
      * TODO Subtract AI from all tiles
      */
