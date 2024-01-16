@@ -76,6 +76,24 @@ public class Tile {
         this.y = y;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(colour, value, x, y, id, idToColorSort);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Tile tile = (Tile) obj;
+        return id == tile.id &&
+                Double.compare(tile.x, x) == 0 &&
+                Double.compare(tile.y, y) == 0 &&
+                idToColorSort == tile.idToColorSort &&
+                colour == tile.colour &&
+                value == tile.value;
+    }
+
 }
 
 class TileComparator implements Comparator<Tile> {
