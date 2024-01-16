@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import com.example.rummikubfrontscreen.setup.MCTS.MCTSAction;
 
 public class PossibleMoves {
-    
+
     private static void addToLineNextTile(int lineType, ArrayList<Tile> cLine, ArrayList<Tile> remainingTiles,
             ArrayList<ArrayList<Tile>> gLines) {
         // lineType == 0 - group, need to sortByColour
@@ -32,7 +32,7 @@ public class PossibleMoves {
         } else if (lineType == 1) {
             // it can be joker o a number with same color +1
             ArrayList<Tile> nextremainingTiles = new ArrayList<>(remainingTiles);
-            for (Tile remainingTile : remainingTiles) {         
+            for (Tile remainingTile : remainingTiles) {
                 nextremainingTiles.remove(0);
 
                 if ((remainingTile.getColour() == cLine.get(cLine.size() - 1).getColour() &&
@@ -54,10 +54,10 @@ public class PossibleMoves {
         } else {
             // it can be a joker or the same number with a different colour
             ArrayList<Tile> nextremainingTiles = new ArrayList<>(remainingTiles);
-            for (Tile remainingTile : remainingTiles) {    
+            for (Tile remainingTile : remainingTiles) {
 
                 nextremainingTiles.remove(0);
-                
+
                 boolean c = true;
                 for (Tile tile : cLine) {
                     if (tile.getColour() == remainingTile.getColour() &&
@@ -86,14 +86,16 @@ public class PossibleMoves {
 
     // combining the made runs and groups into all possible board states they can
     // create
-    public static void makeBoardState(ArrayList<ArrayList<Tile>> cBoard, ArrayList<ArrayList<Tile>> remainingSeq, ArrayList<ArrayList<ArrayList<Tile>>> gBoard, Board b) {
-        
-        if(cBoard.isEmpty()){
+    public static void makeBoardState(ArrayList<ArrayList<Tile>> cBoard, ArrayList<ArrayList<Tile>> remainingSeq,
+            ArrayList<ArrayList<ArrayList<Tile>>> gBoard, Board b) {
+
+        if (cBoard.isEmpty()) {
             cBoard.add(remainingSeq.get(0));
             ArrayList<ArrayList<Tile>> nextRemainingSeq = new ArrayList<>(remainingSeq);
             nextRemainingSeq.remove(0);
-            // ArrayList<ArrayList<Tile>> nextRemainingSeq = getValidLines(remainingSeq.get(0), remainingSeq, hashLines);
-            //makeBoardState(cBoard, nextRemainingSeq, gBoard, b);
+            // ArrayList<ArrayList<Tile>> nextRemainingSeq =
+            // getValidLines(remainingSeq.get(0), remainingSeq, hashLines);
+            // makeBoardState(cBoard, nextRemainingSeq, gBoard, b);
             if (makeValidBoardState(cBoard, b)) {
                 gBoard.add(new ArrayList<>(cBoard));
             }
@@ -105,17 +107,18 @@ public class PossibleMoves {
             nextRemainingSeq.remove(0);
             for (Tile tile : remainingSeq.get(i)) {
                 if (!cBoard.isEmpty() && containsTile(cBoard, tile)) {
-                        c = false;
-                        break;
-                    }
+                    c = false;
+                    break;
                 }
-            
+            }
+
             if (c) {
                 cBoard.add(remainingSeq.get(i));
-                if(makeValidBoardState(cBoard, b)) {
+                if (makeValidBoardState(cBoard, b)) {
                     gBoard.add(new ArrayList<>(cBoard));
                 }
-                //nextRemainingSeq = getValidLines(remainingSeq.get(i), remainingSeq, hashLines);
+                // nextRemainingSeq = getValidLines(remainingSeq.get(i), remainingSeq,
+                // hashLines);
                 makeBoardState(cBoard, nextRemainingSeq, gBoard, b);
                 cBoard.remove(cBoard.size() - 1);
             }
@@ -131,11 +134,15 @@ public class PossibleMoves {
         return false;
     }
 
-
     // making couple board states for random playout
-    public static Object[] makeCoupleBoardStates(ArrayList<ArrayList<Tile>> cBoard, ArrayList<ArrayList<Tile>> remainingSeq, ArrayList<ArrayList<ArrayList<Tile>>> gBoard, Board b, ArrayList<Tile> hand) {
-        
-        if(cBoard.isEmpty()){
+    public static Object[] makeCoupleBoardStates(ArrayList<ArrayList<Tile>> cBoard,
+            ArrayList<ArrayList<Tile>> remainingSeq, ArrayList<ArrayList<ArrayList<Tile>>> gBoard, Board b,
+            ArrayList<Tile> hand) {
+        if (remainingSeq == null || remainingSeq.isEmpty()) {
+            return null;
+        }
+
+        if (cBoard.isEmpty()) {
             cBoard.add(remainingSeq.get(0));
             ArrayList<ArrayList<Tile>> nextRemainingSeq = new ArrayList<>(remainingSeq);
             nextRemainingSeq.remove(0);
@@ -156,17 +163,17 @@ public class PossibleMoves {
             }
             if (c) {
                 cBoard.add(remainingSeq.get(i));
-                if(makeValidBoardState(cBoard, b)) {
+                if (makeValidBoardState(cBoard, b)) {
                     gBoard.add(new ArrayList<>(cBoard));
-                    if(gBoard.size()==1){
+                    if (gBoard.size() == 1) {
                         Object[] oneBoard = new Object[2];
                         oneBoard[0] = new Board(gBoard.get(0));
                         oneBoard[1] = getHandFromBoard(gBoard.get(0), hand);
                         return oneBoard;
-                        
+
                     }
                 }
-                if(gBoard.isEmpty()){
+                if (gBoard.isEmpty()) {
                     makeCoupleBoardStates(cBoard, nextRemainingSeq, gBoard, b, hand);
                 }
                 cBoard.remove(cBoard.size() - 1);
@@ -175,21 +182,21 @@ public class PossibleMoves {
         return null;
     }
 
-    public static ArrayList<ArrayList<Tile>> getValidLines(ArrayList<Tile> usedSeq, ArrayList<ArrayList<Tile>> remainingSeq, HashMap<Tile, ArrayList<ArrayList<Tile>>> hashLines){
+    public static ArrayList<ArrayList<Tile>> getValidLines(ArrayList<Tile> usedSeq,
+            ArrayList<ArrayList<Tile>> remainingSeq, HashMap<Tile, ArrayList<ArrayList<Tile>>> hashLines) {
         ArrayList<ArrayList<Tile>> nextRemainingSeq = new ArrayList<>(remainingSeq);
         ArrayList<ArrayList<Tile>> sequencesToRemove = new ArrayList<>();
         nextRemainingSeq.remove(0);
-        for(Tile tile : usedSeq){
+        for (Tile tile : usedSeq) {
             ArrayList<ArrayList<Tile>> tilesSeq = hashLines.get(tile);
-            for(ArrayList<Tile> seq : tilesSeq){
-                sequencesToRemove.add(seq); 
+            for (ArrayList<Tile> seq : tilesSeq) {
+                sequencesToRemove.add(seq);
             }
         }
-        //System.out.println(sequencesToRemove);
+        // System.out.println(sequencesToRemove);
         nextRemainingSeq.removeAll(sequencesToRemove);
         return nextRemainingSeq;
     }
-
 
     // making valid board states, checking if we don't take anything back to our
     // hand
@@ -210,29 +217,30 @@ public class PossibleMoves {
     }
 
     // getting possible moves in a structure of an arrayList of Object array that
-    // contains board and hand, integer makeBoardType == 0 - all board states, other - couple of them
+    // contains board and hand, integer makeBoardType == 0 - all board states, other
+    // - couple of them
     public static ArrayList<Object[]> possibleMoves(Board b, ArrayList<Tile> hand, int makeBoardType) {
         ArrayList<Object[]> states = new ArrayList<>();
 
         ArrayList<Tile> drawPile = b.getDrawPile();
         if (drawPile != null && !drawPile.isEmpty()) {
             Object[] drawMove = MCTSAction.drawTileFromBoard(b, hand);
-            if(drawMove != null){
+            if (drawMove != null) {
                 states.add(drawMove);
             }
         }
-        
+
         ArrayList<ArrayList<Tile>> bList = b.getCurrentGameBoard();
         ArrayList<Tile> boa = new ArrayList<>();
         for (ArrayList<Tile> sequence : bList) {
             boa.addAll(sequence);
         }
-        
+
         ArrayList<ArrayList<Tile>> gLines = getLines(b, hand);
         ArrayList<ArrayList<ArrayList<Tile>>> gBoard = new ArrayList<>();
-        if(makeBoardType == 0){
+        if (makeBoardType == 0) {
             makeBoardState(new ArrayList<>(), gLines, gBoard, b);
-        }else{
+        } else {
             makeCoupleBoardStates(new ArrayList<>(), gLines, gBoard, b, hand);
         }
 
@@ -254,7 +262,7 @@ public class PossibleMoves {
         return states;
     }
 
-    public static ArrayList<ArrayList<Tile>> getLines(Board b, ArrayList<Tile> hand){
+    public static ArrayList<ArrayList<Tile>> getLines(Board b, ArrayList<Tile> hand) {
         ArrayList<Tile> combined = new ArrayList<>();
         ArrayList<ArrayList<Tile>> bList = b.getCurrentGameBoard();
         for (ArrayList<Tile> sequence : bList) {
@@ -277,17 +285,16 @@ public class PossibleMoves {
 
         // HashMap<Tile, ArrayList<ArrayList<Tile>>> hashTiles = new HashMap<>();
         // for (Tile keyTile : combined) {
-        //     hashTiles.put(keyTile, new ArrayList<>());
+        // hashTiles.put(keyTile, new ArrayList<>());
         // }
         // for(ArrayList<Tile> seq : gLines){
-        //     for(Tile tile : seq){
-        //         hashTiles.putIfAbsent(tile, new ArrayList<>());
-        //         if(!hashTiles.get(tile).contains(seq)){
-        //             hashTiles.get(tile).add(seq);
-        //         }
-        //     }
+        // for(Tile tile : seq){
+        // hashTiles.putIfAbsent(tile, new ArrayList<>());
+        // if(!hashTiles.get(tile).contains(seq)){
+        // hashTiles.get(tile).add(seq);
         // }
-
+        // }
+        // }
 
         return gLines;
     }
@@ -303,7 +310,6 @@ public class PossibleMoves {
         }
         return h;
     }
-
 
     public static String toString(ArrayList<Object[]> states) {
         String s = "";
@@ -358,6 +364,6 @@ public class PossibleMoves {
         System.out.println(toString(possibleMoves(b, hand, 0)));
         long estimatedTime = System.nanoTime() - startTime;
         System.out.println(estimatedTime);
-        
+
     }
 }
