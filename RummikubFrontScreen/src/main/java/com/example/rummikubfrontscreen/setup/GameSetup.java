@@ -1,10 +1,13 @@
 package com.example.rummikubfrontscreen.setup;
 
 import com.example.rummikubfrontscreen.GameBoardController;
+import com.example.rummikubfrontscreen.Main;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+// The `GameSetup` class is responsible for setting up the game of Rummikub. It initializes the tiles,
+// board, players, and other necessary components for the game.
 public class GameSetup {
 
     // Tiles not in play (bag)
@@ -52,6 +55,7 @@ public class GameSetup {
             player.sortByColor(player.hand);
         }
     }
+    
     public GameSetup(int numOfPlayers) {
         generateTiles();
         generateBoard2();
@@ -89,7 +93,7 @@ public class GameSetup {
         int size = tiles.size();
         ArrayList<Tile> hand = new ArrayList<>();
 
-        for (int i = 0; i < 14; i++) {
+        for (int i = 0; i < 7; i++) {
             int index = rand.nextInt(size - i);
             hand.add(tiles.get(index));
             tiles.remove(index);
@@ -110,19 +114,19 @@ public class GameSetup {
             tiles.remove(i);
         }
 
-        for (Value v : Value.values()) {
-            for (Colour c : Colour.values()) {
-                tiles.add(new Tile(c, v));
-            }
-        }
-
-        // Delete 6 Jokers
-        for (int i = 0; i < 4; i++) {
-            tiles.remove(tiles.size() - 1);
-        }
         for (Tile tile : tiles) {
             allTiles.add(tile);
         }
+        // for (Value v : Value.values()) {
+        //     for (Colour c : Colour.values()) {
+        //         tiles.add(new Tile(c, v));
+        //     }
+        // }
+
+        // Delete 6 Jokers
+        // for (int i = 0; i < 4; i++) {
+        //     tiles.remove(tiles.size() - 1);
+        // }
     }
 
     public ArrayList<Tile> getTiles() {
@@ -141,7 +145,17 @@ public class GameSetup {
         return allTiles;
     }
 
+    /**
+     * 🥰 
+     *      * @return
+     */
     public ArrayList<Player> getPlayers() {
+        
         return players;
+    }
+
+    public static void main(String[] locoMotiv){
+        GameSetup gs = new GameSetup();
+        System.out.println(gs.getAllTiles());
     }
 }

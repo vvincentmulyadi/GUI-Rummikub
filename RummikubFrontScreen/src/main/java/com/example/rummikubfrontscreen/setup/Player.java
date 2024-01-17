@@ -5,6 +5,10 @@ import java.util.Collections;
 
 
 
+/**
+ * The Player class represents a player in a game and provides methods for managing their hand of
+ * tiles.
+ */
 public class Player {
 
     ArrayList<Tile> hand;
@@ -106,19 +110,6 @@ public class Player {
     public static void sortByColor(ArrayList<Tile> tilesList) {
         ArrayList<ArrayList<Tile>> separated = seperateColours(tilesList);
         Collections.sort(tilesList,new TileComparator());
-
-//        // sorting each list with separated colours
-//        for (int i = 0; i < separated.size(); i++) {
-//            sortByNum(separated.get(i), 0, separated.get(i).size() - 1);
-//        }
-//
-//        int index = 0;
-//        for (int i = 0; i < separated.size(); i++) {
-//            for (int j = 0; j < separated.get(i).size(); j++) {
-//                tilesList.set(index, separated.get(i).get(j));
-//                index++;
-//            }
-//        }
     }
 
     // dividing the tiles into four lists according to colour

@@ -2,6 +2,9 @@ package com.example.rummikubfrontscreen.setup;
 
 import java.util.*;
 
+/**
+ * The `Tile` class represents a tile in a game, with properties such as colour, value, position, and ID.
+ */
 public class Tile {
 
     public Tile() {
@@ -21,6 +24,9 @@ public class Tile {
 
     private int idToColorSort;
 
+
+    // The constructor is initializing a `Tile` object with the given `colour` and `value` parameters. 
+    // It also assigns a unique `id` to the tile by incrementing the `counter` variable, and by the 'value' and 'color'.
     public Tile(Colour colour, Value value) {
         this.colour = colour;
         this.value = value;
@@ -83,8 +89,10 @@ public class Tile {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
         Tile tile = (Tile) obj;
         return id == tile.id &&
                 Double.compare(tile.x, x) == 0 &&
@@ -96,9 +104,12 @@ public class Tile {
 
 }
 
+/**
+ * The TileComparator class is a Java class that implements the Comparator interface and compares two
+ * Tile objects based on their idToColorSort property.
+ */
 class TileComparator implements Comparator<Tile> {
 
-    // override the compare() method
     public int compare(Tile s1, Tile s2) {
         if (s1.getIdToColorSort() == s2.getIdToColorSort())
             return 0;

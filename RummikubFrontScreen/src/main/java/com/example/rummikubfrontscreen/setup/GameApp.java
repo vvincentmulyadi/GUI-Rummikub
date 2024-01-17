@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 
 import com.example.rummikubfrontscreen.setup.MCTS.MCTSAction;
 
+/**
+ * The GameApp class represents a game application that manages players, tiles, and game logic.
+ */
 public class GameApp {
 
     GameSetup gs;

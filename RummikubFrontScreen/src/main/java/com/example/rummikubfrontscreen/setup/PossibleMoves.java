@@ -1,6 +1,7 @@
 package com.example.rummikubfrontscreen.setup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,13 +13,22 @@ import com.example.rummikubfrontscreen.setup.MCTS.MCTSAction;
 
 public class PossibleMoves {
     
+    /**
+     * The function `addToLineNextTile` recursively builds valid lines of tiles based on the given line
+     * type (group or run) and the remaining tiles, and adds them to the list of valid lines.
+     * 
+     * @param lineType The lineType parameter is an integer that indicates the type of line being
+     * built. A value of 0 represents a group line, while a value of 1 represents a run line.
+     * @param cLine The `cLine` parameter is an `ArrayList` that represents the currently built line.
+     * It contains `Tile` objects that are part of the line.
+     * @param remainingTiles An ArrayList of Tile objects representing the tiles that have not yet been
+     * added to the line.
+     * @param gLines gLines is an ArrayList of ArrayLists of Tiles. It represents valid single lines
+     * that have been built so far. Each inner ArrayList represents a single line.
+     */
     private static void addToLineNextTile(int lineType, ArrayList<Tile> cLine, ArrayList<Tile> remainingTiles,
             ArrayList<ArrayList<Tile>> gLines) {
-        // lineType == 0 - group, need to sortByColour
-        // lineType == 1 - run, need to sortByNum
-        // cLine - currently build line
-        // gLines - valid single lines
-        // we build lines with first element or proceed it with joker/jokers
+
         if (cLine.isEmpty()) {
             Player.sortByColor(remainingTiles);
             cLine.add(remainingTiles.get(0));
@@ -84,16 +94,27 @@ public class PossibleMoves {
         }
     }
 
-    // combining the made runs and groups into all possible board states they can
-    // create
+    
+    /**
+     * The function "makeBoardState" generates all possible valid board states by recursively adding
+     * tiles to the current board state and checking if it is valid.
+     * 
+     * @param cBoard The current board state, represented as an ArrayList of ArrayLists of Tile
+     * objects.
+     * @param remainingSeq The remainingSeq parameter is an ArrayList of ArrayLists of Tile objects. It
+     * represents the remaining sequences of tiles that can be added to the current board state. Each
+     * inner ArrayList represents a sequence of tiles.
+     * @param gBoard gBoard is an ArrayList of ArrayLists of ArrayLists of Tile objects. It represents
+     * the game board state, where each ArrayList<Tile> represents a row on the board, and each
+     * ArrayList<ArrayList<Tile>> represents the entire board.
+     * @param b The parameter "b" is of type Board.
+     */
     public static void makeBoardState(ArrayList<ArrayList<Tile>> cBoard, ArrayList<ArrayList<Tile>> remainingSeq, ArrayList<ArrayList<ArrayList<Tile>>> gBoard, Board b) {
         
         if(cBoard.isEmpty()){
             cBoard.add(remainingSeq.get(0));
             ArrayList<ArrayList<Tile>> nextRemainingSeq = new ArrayList<>(remainingSeq);
             nextRemainingSeq.remove(0);
-            // ArrayList<ArrayList<Tile>> nextRemainingSeq = getValidLines(remainingSeq.get(0), remainingSeq, hashLines);
-            //makeBoardState(cBoard, nextRemainingSeq, gBoard, b);
             if (makeValidBoardState(cBoard, b)) {
                 gBoard.add(new ArrayList<>(cBoard));
             }
@@ -115,7 +136,6 @@ public class PossibleMoves {
                 if(makeValidBoardState(cBoard, b)) {
                     gBoard.add(new ArrayList<>(cBoard));
                 }
-                //nextRemainingSeq = getValidLines(remainingSeq.get(i), remainingSeq, hashLines);
                 makeBoardState(cBoard, nextRemainingSeq, gBoard, b);
                 cBoard.remove(cBoard.size() - 1);
             }
@@ -131,8 +151,6 @@ public class PossibleMoves {
         return false;
     }
 
-
-    // making couple board states for random playout
     public static Object[] makeCoupleBoardStates(ArrayList<ArrayList<Tile>> cBoard, ArrayList<ArrayList<Tile>> remainingSeq, ArrayList<ArrayList<ArrayList<Tile>>> gBoard, Board b, ArrayList<Tile> hand) {
         
         if(cBoard.isEmpty()){
@@ -191,8 +209,15 @@ public class PossibleMoves {
     }
 
 
-    // making valid board states, checking if we don't take anything back to our
-    // hand
+    /**
+     * The function checks if a given game board state is valid by comparing the tiles on the board
+     * with the tiles in the current game board.
+     * 
+     * @param gBoard An ArrayList of ArrayLists of Tile objects representing the current game board
+     * state.
+     * @param board The "board" parameter is an object of type "Board".
+     * @return The method is returning a boolean value.
+     */
     public static boolean makeValidBoardState(ArrayList<ArrayList<Tile>> gBoard, Board board) {
         ArrayList<ArrayList<Tile>> bList = new ArrayList<>(board.getCurrentGameBoard());
         ArrayList<Tile> boardList = new ArrayList<>();
@@ -209,8 +234,17 @@ public class PossibleMoves {
         return false;
     }
 
-    // getting possible moves in a structure of an arrayList of Object array that
-    // contains board and hand, integer makeBoardType == 0 - all board states, other - couple of them
+    
+    /**
+     * The function `possibleMoves` generates all possible moves in a game given the current board
+     * state and the player's hand.
+     * 
+     * @param b The parameter `b` is of type `Board` and represents the current game board.
+     * @param hand An ArrayList of Tile objects representing the tiles in the player's hand.
+     * @param makeBoardType The parameter `makeBoardType` is an integer that determines the number of
+     * board states to be created.
+     * @return The method `possibleMoves` returns an `ArrayList` of `Object[]`.
+     */
     public static ArrayList<Object[]> possibleMoves(Board b, ArrayList<Tile> hand, int makeBoardType) {
         ArrayList<Object[]> states = new ArrayList<>();
 
@@ -254,6 +288,16 @@ public class PossibleMoves {
         return states;
     }
 
+    /**
+     * The function "getLines" takes a board and a hand of tiles as input, combines them into a single
+     * list, and then creates and returns a list of all possible lines that can be formed using the
+     * tiles from the board and the hand.
+     * 
+     * @param b The parameter `b` is of type `Board`. It represents the game board on which the lines
+     * are being calculated.
+     * @param hand An ArrayList of Tile objects representing the tiles in the player's hand.
+     * @return The method is returning an ArrayList of ArrayLists of Tile objects.
+     */
     public static ArrayList<ArrayList<Tile>> getLines(Board b, ArrayList<Tile> hand){
         ArrayList<Tile> combined = new ArrayList<>();
         ArrayList<ArrayList<Tile>> bList = b.getCurrentGameBoard();
@@ -288,10 +332,18 @@ public class PossibleMoves {
         //     }
         // }
 
-
         return gLines;
     }
 
+    /**
+     * The function takes a board and a hand of tiles as input, and returns a new hand that excludes
+     * any tiles that are already on the board.
+     * 
+     * @param board An ArrayList of ArrayLists of Tile objects representing the current state of the
+     * game board. Each inner ArrayList represents a sequence of tiles on the board.
+     * @param hand An ArrayList of Tile objects representing the tiles in the player's hand.
+     * @return The method is returning an ArrayList of Tile objects.
+     */
     public static ArrayList<Tile> getHandFromBoard(ArrayList<ArrayList<Tile>> board, ArrayList<Tile> hand) {
         ArrayList<Tile> h = new ArrayList<>(hand);
         ArrayList<Tile> b = new ArrayList<>();
@@ -341,6 +393,56 @@ public class PossibleMoves {
         seq2.add(new Tile(Colour.YELLOW, Value.FIVE));
         seq2.add(new Tile(Colour.YELLOW, Value.SIX));
         board.add(seq2);
+        // seq2 = new ArrayList<>();
+        // seq2.add(new Tile(Colour.RED, Value.ONE));
+        // seq2.add(new Tile(Colour.BLUE, Value.ONE));
+        // seq2.add(new Tile(Colour.BLACK, Value.ONE));
+        // board.add(seq2);
+        // seq2 = new ArrayList<>();
+        // seq2.add(new Tile(Colour.RED, Value.ONE));
+        // seq2.add(new Tile(Colour.BLUE, Value.ONE));
+        // seq2.add(new Tile(Colour.YELLOW, Value.ONE));
+        // board.add(seq2);
+        // seq2 = new ArrayList<>();
+        // seq2.add(new Tile(Colour.RED, Value.NINE));
+        // seq2.add(new Tile(Colour.BLUE, Value.NINE));
+        // seq2.add(new Tile(Colour.BLACK, Value.NINE));
+        // board.add(seq2);
+        // seq2 = new ArrayList<>();
+        // seq2.add(new Tile(Colour.RED, Value.NINE));
+        // seq2.add(new Tile(Colour.BLACK, Value.NINE));
+        // seq2.add(new Tile(Colour.YELLOW, Value.NINE));
+        // board.add(seq2);
+        // seq2 = new ArrayList<>();
+        // seq2.add(new Tile(Colour.RED, Value.TEN));
+        // seq2.add(new Tile(Colour.BLACK, Value.TEN));
+        // seq2.add(new Tile(Colour.YELLOW, Value.TEN));
+        // board.add(seq2);
+        // seq2 = new ArrayList<>();
+        // seq2.add(new Tile(Colour.RED, Value.TWELVE));
+        // seq2.add(new Tile(Colour.BLUE, Value.TWELVE));
+        // seq2.add(new Tile(Colour.YELLOW, Value.TWELVE));
+        // board.add(seq2);
+        // seq2 = new ArrayList<>();
+        // seq2.add(new Tile(Colour.BLUE, Value.SIX));
+        // seq2.add(new Tile(Colour.BLACK, Value.SIX));
+        // seq2.add(new Tile(Colour.YELLOW, Value.SIX));
+        // board.add(seq2);
+        // seq2 = new ArrayList<>();
+        // seq2.add(new Tile(Colour.RED, Value.TWO));
+        // seq2.add(new Tile(Colour.RED, Value.THREE));
+        // seq2.add(new Tile(Colour.RED, Value.FOUR));
+        // board.add(seq2);
+        // seq2 = new ArrayList<>();
+        // seq2.add(new Tile(Colour.BLACK, Value.ELEVEN));
+        // seq2.add(new Tile(Colour.BLACK, Value.TWELVE));
+        // seq2.add(new Tile(Colour.BLACK, Value.THIRTEEN));
+        // board.add(seq2);
+        // seq2 = new ArrayList<>();
+        // seq2.add(new Tile(Colour.YELLOW, Value.SIX));
+        // seq2.add(new Tile(Colour.YELLOW, Value.SEVEN));
+        // seq2.add(new Tile(Colour.YELLOW, Value.EIGHT));
+        // board.add(seq2);
 
         Board b = new Board(board, new ArrayList<>());
 
@@ -352,10 +454,27 @@ public class PossibleMoves {
         hand.add(new Tile(Colour.BLUE, Value.TWELVE));
         hand.add(new Tile(Colour.BLUE, Value.JOKER));
         hand.add(new Tile(Colour.RED, Value.THREE));
-        hand.add(new Tile(Colour.RED, Value.FOUR));
-        hand.add(new Tile(Colour.BLUE, Value.THREE));
+        // hand.add(new Tile(Colour.RED, Value.FOUR));
+        // hand.add(new Tile(Colour.BLUE, Value.THREE));
+
+        // hand.add(new Tile(Colour.RED, Value.FIVE));
+        // hand.add(new Tile(Colour.BLUE, Value.THREE));
+        // hand.add(new Tile(Colour.YELLOW, Value.JOKER));
+        // hand.add(new Tile(Colour.BLUE, Value.FOUR));
+        // hand.add(new Tile(Colour.BLUE, Value.EIGHT));
+        // hand.add(new Tile(Colour.BLUE, Value.TEN));
+        // hand.add(new Tile(Colour.BLUE, Value.THIRTEEN));
+        // hand.add(new Tile(Colour.BLACK, Value.FIVE));
+        // hand.add(new Tile(Colour.YELLOW, Value.TWO));
+        // hand.add(new Tile(Colour.YELLOW, Value.TWO));
+        // hand.add(new Tile(Colour.YELLOW, Value.SEVEN));
+        // hand.add(new Tile(Colour.YELLOW, Value.ELEVEN));
+        // hand.add(new Tile(Colour.YELLOW, Value.FOUR));
+        // hand.add(new Tile(Colour.BLUE, Value.SIX));
+        // hand.add(new Tile(Colour.BLUE, Value.NINE));
 
         System.out.println(toString(possibleMoves(b, hand, 0)));
+
         long estimatedTime = System.nanoTime() - startTime;
         System.out.println(estimatedTime);
         
