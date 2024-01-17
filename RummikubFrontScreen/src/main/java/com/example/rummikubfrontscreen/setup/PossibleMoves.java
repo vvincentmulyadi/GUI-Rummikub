@@ -12,19 +12,27 @@ import java.util.stream.Collectors;
 import com.example.rummikubfrontscreen.setup.MCTS.MCTSAction;
 
 public class PossibleMoves {
-    
+
     /**
-     * The function `addToLineNextTile` recursively builds valid lines of tiles based on the given line
-     * type (group or run) and the remaining tiles, and adds them to the list of valid lines.
+     * The function `addToLineNextTile` recursively builds valid lines of tiles
+     * based on the given line
+     * type (group or run) and the remaining tiles, and adds them to the list of
+     * valid lines.
      * 
-     * @param lineType The lineType parameter is an integer that indicates the type of line being
-     * built. A value of 0 represents a group line, while a value of 1 represents a run line.
-     * @param cLine The `cLine` parameter is an `ArrayList` that represents the currently built line.
-     * It contains `Tile` objects that are part of the line.
-     * @param remainingTiles An ArrayList of Tile objects representing the tiles that have not yet been
-     * added to the line.
-     * @param gLines gLines is an ArrayList of ArrayLists of Tiles. It represents valid single lines
-     * that have been built so far. Each inner ArrayList represents a single line.
+     * @param lineType       The lineType parameter is an integer that indicates the
+     *                       type of line being
+     *                       built. A value of 0 represents a group line, while a
+     *                       value of 1 represents a run line.
+     * @param cLine          The `cLine` parameter is an `ArrayList` that represents
+     *                       the currently built line.
+     *                       It contains `Tile` objects that are part of the line.
+     * @param remainingTiles An ArrayList of Tile objects representing the tiles
+     *                       that have not yet been
+     *                       added to the line.
+     * @param gLines         gLines is an ArrayList of ArrayLists of Tiles. It
+     *                       represents valid single lines
+     *                       that have been built so far. Each inner ArrayList
+     *                       represents a single line.
      */
     private static void addToLineNextTile(int lineType, ArrayList<Tile> cLine, ArrayList<Tile> remainingTiles,
             ArrayList<ArrayList<Tile>> gLines) {
@@ -94,24 +102,30 @@ public class PossibleMoves {
         }
     }
 
-    
     /**
-     * The function "makeBoardState" generates all possible valid board states by recursively adding
+     * The function "makeBoardState" generates all possible valid board states by
+     * recursively adding
      * tiles to the current board state and checking if it is valid.
      * 
-     * @param cBoard The current board state, represented as an ArrayList of ArrayLists of Tile
-     * objects.
-     * @param remainingSeq The remainingSeq parameter is an ArrayList of ArrayLists of Tile objects. It
-     * represents the remaining sequences of tiles that can be added to the current board state. Each
-     * inner ArrayList represents a sequence of tiles.
-     * @param gBoard gBoard is an ArrayList of ArrayLists of ArrayLists of Tile objects. It represents
-     * the game board state, where each ArrayList<Tile> represents a row on the board, and each
-     * ArrayList<ArrayList<Tile>> represents the entire board.
-     * @param b The parameter "b" is of type Board.
+     * @param cBoard       The current board state, represented as an ArrayList of
+     *                     ArrayLists of Tile
+     *                     objects.
+     * @param remainingSeq The remainingSeq parameter is an ArrayList of ArrayLists
+     *                     of Tile objects. It
+     *                     represents the remaining sequences of tiles that can be
+     *                     added to the current board state. Each
+     *                     inner ArrayList represents a sequence of tiles.
+     * @param gBoard       gBoard is an ArrayList of ArrayLists of ArrayLists of
+     *                     Tile objects. It represents
+     *                     the game board state, where each ArrayList<Tile>
+     *                     represents a row on the board, and each
+     *                     ArrayList<ArrayList<Tile>> represents the entire board.
+     * @param b            The parameter "b" is of type Board.
      */
-    public static void makeBoardState(ArrayList<ArrayList<Tile>> cBoard, ArrayList<ArrayList<Tile>> remainingSeq, ArrayList<ArrayList<ArrayList<Tile>>> gBoard, Board b) {
-        
-        if(cBoard.isEmpty()){
+    public static void makeBoardState(ArrayList<ArrayList<Tile>> cBoard, ArrayList<ArrayList<Tile>> remainingSeq,
+            ArrayList<ArrayList<ArrayList<Tile>>> gBoard, Board b) {
+
+        if (cBoard.isEmpty()) {
             cBoard.add(remainingSeq.get(0));
             ArrayList<ArrayList<Tile>> nextRemainingSeq = new ArrayList<>(remainingSeq);
             nextRemainingSeq.remove(0);
@@ -151,9 +165,15 @@ public class PossibleMoves {
         return false;
     }
 
-    public static Object[] makeCoupleBoardStates(ArrayList<ArrayList<Tile>> cBoard, ArrayList<ArrayList<Tile>> remainingSeq, ArrayList<ArrayList<ArrayList<Tile>>> gBoard, Board b, ArrayList<Tile> hand) {
-        
-        if(cBoard.isEmpty()){
+    public static Object[] makeCoupleBoardStates(ArrayList<ArrayList<Tile>> cBoard,
+            ArrayList<ArrayList<Tile>> remainingSeq, ArrayList<ArrayList<ArrayList<Tile>>> gBoard, Board b,
+            ArrayList<Tile> hand) {
+
+        if (remainingSeq == null || remainingSeq.isEmpty()) {
+            return null;
+        }
+
+        if (cBoard.isEmpty()) {
             cBoard.add(remainingSeq.get(0));
             ArrayList<ArrayList<Tile>> nextRemainingSeq = new ArrayList<>(remainingSeq);
             nextRemainingSeq.remove(0);
@@ -209,14 +229,15 @@ public class PossibleMoves {
         return nextRemainingSeq;
     }
 
-
     /**
-     * The function checks if a given game board state is valid by comparing the tiles on the board
+     * The function checks if a given game board state is valid by comparing the
+     * tiles on the board
      * with the tiles in the current game board.
      * 
-     * @param gBoard An ArrayList of ArrayLists of Tile objects representing the current game board
-     * state.
-     * @param board The "board" parameter is an object of type "Board".
+     * @param gBoard An ArrayList of ArrayLists of Tile objects representing the
+     *               current game board
+     *               state.
+     * @param board  The "board" parameter is an object of type "Board".
      * @return The method is returning a boolean value.
      */
     public static boolean makeValidBoardState(ArrayList<ArrayList<Tile>> gBoard, Board board) {
@@ -235,15 +256,18 @@ public class PossibleMoves {
         return false;
     }
 
-    
     /**
-     * The function `possibleMoves` generates all possible moves in a game given the current board
+     * The function `possibleMoves` generates all possible moves in a game given the
+     * current board
      * state and the player's hand.
      * 
-     * @param b The parameter `b` is of type `Board` and represents the current game board.
-     * @param hand An ArrayList of Tile objects representing the tiles in the player's hand.
-     * @param makeBoardType The parameter `makeBoardType` is an integer that determines the number of
-     * board states to be created.
+     * @param b             The parameter `b` is of type `Board` and represents the
+     *                      current game board.
+     * @param hand          An ArrayList of Tile objects representing the tiles in
+     *                      the player's hand.
+     * @param makeBoardType The parameter `makeBoardType` is an integer that
+     *                      determines the number of
+     *                      board states to be created.
      * @return The method `possibleMoves` returns an `ArrayList` of `Object[]`.
      */
     public static ArrayList<Object[]> possibleMoves(Board b, ArrayList<Tile> hand, int makeBoardType) {
@@ -290,16 +314,20 @@ public class PossibleMoves {
     }
 
     /**
-     * The function "getLines" takes a board and a hand of tiles as input, combines them into a single
-     * list, and then creates and returns a list of all possible lines that can be formed using the
+     * The function "getLines" takes a board and a hand of tiles as input, combines
+     * them into a single
+     * list, and then creates and returns a list of all possible lines that can be
+     * formed using the
      * tiles from the board and the hand.
      * 
-     * @param b The parameter `b` is of type `Board`. It represents the game board on which the lines
-     * are being calculated.
-     * @param hand An ArrayList of Tile objects representing the tiles in the player's hand.
+     * @param b    The parameter `b` is of type `Board`. It represents the game
+     *             board on which the lines
+     *             are being calculated.
+     * @param hand An ArrayList of Tile objects representing the tiles in the
+     *             player's hand.
      * @return The method is returning an ArrayList of ArrayLists of Tile objects.
      */
-    public static ArrayList<ArrayList<Tile>> getLines(Board b, ArrayList<Tile> hand){
+    public static ArrayList<ArrayList<Tile>> getLines(Board b, ArrayList<Tile> hand) {
         ArrayList<Tile> combined = new ArrayList<>();
         ArrayList<ArrayList<Tile>> bList = b.getCurrentGameBoard();
         for (ArrayList<Tile> sequence : bList) {
@@ -337,12 +365,16 @@ public class PossibleMoves {
     }
 
     /**
-     * The function takes a board and a hand of tiles as input, and returns a new hand that excludes
+     * The function takes a board and a hand of tiles as input, and returns a new
+     * hand that excludes
      * any tiles that are already on the board.
      * 
-     * @param board An ArrayList of ArrayLists of Tile objects representing the current state of the
-     * game board. Each inner ArrayList represents a sequence of tiles on the board.
-     * @param hand An ArrayList of Tile objects representing the tiles in the player's hand.
+     * @param board An ArrayList of ArrayLists of Tile objects representing the
+     *              current state of the
+     *              game board. Each inner ArrayList represents a sequence of tiles
+     *              on the board.
+     * @param hand  An ArrayList of Tile objects representing the tiles in the
+     *              player's hand.
      * @return The method is returning an ArrayList of Tile objects.
      */
     public static ArrayList<Tile> getHandFromBoard(ArrayList<ArrayList<Tile>> board, ArrayList<Tile> hand) {

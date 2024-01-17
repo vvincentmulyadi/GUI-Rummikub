@@ -85,8 +85,8 @@ public class MCTSGameState {
         ArrayList<Object[]> ownMoveStates;// = MCTSAction.ownMoveGroup(board, getCurrentHand(player));
 
         // For efficiency we will need to change the method to static
-        //GameApp gameApp = new GameApp();
-        ownMoveStates = PossibleMoves.possibleMoves(board, getCurrentHand(player));
+        // GameApp gameApp = new GameApp();
+        ownMoveStates = PossibleMoves.possibleMoves(board, getCurrentHand(player), 0);
 
         return ownMoveStates;
     }
@@ -166,7 +166,11 @@ public class MCTSGameState {
 
     @Override
     public String toString() {
-        return "Player " + player.getId() + " is playing and the Board looks like: \n" + board.toString() + " Hand: "
-                + aiPlayer.getHand().toString();
+        String str = "";
+        str = "\nPlayer " + player.getId() + " is playing\n";
+        for (Player player : listofplayers) {
+            str += player.toString() + "\n";
+        }
+        return str + "\nBoard looks like: \n" + board.toString();
     }
 }

@@ -76,8 +76,9 @@ public class MCTS {
 
     private void expand(Node node, MCTSGameState gameState) {
 
-        //GameApp gameApp = new GameApp();
-        ArrayList<Object[]> moveStates = PossibleMoves.possibleMoves(gameState.getBoard(), gameState.getCurrentHand());
+        // GameApp gameApp = new GameApp();
+        ArrayList<Object[]> moveStates = PossibleMoves.possibleMoves(gameState.getBoard(), gameState.getCurrentHand(),
+                0);
         MCTSGameState nodeGameState = node.getGameState();
         for (Object[] moveState : moveStates) {
             MCTSGameState newGameState = nodeGameState.copyAndNextPlayer((Board) moveState[0],
@@ -102,8 +103,12 @@ public class MCTS {
 
         MCTSGameState gameState = node.getGameState();
         while (!gameState.isWinner()) {
-            //GameApp gameApp = new GameApp();
-            ArrayList<Object[]> moveStates = PossibleMoves.possibleMoves(gameState.getBoard(), gameState.getCurrentHand());
+            System.out.println("\n\nStil doing Random Playout");
+            System.out.println(gameState);
+            // GameApp gameApp = new GameApp();
+            ArrayList<Object[]> moveStates = PossibleMoves.possibleMoves(gameState.getBoard(),
+                    gameState.getCurrentHand(), 1);
+            System.out.println("We got " + moveStates.size() + " moves");
             Object[] moveState = moveStates.get((int) (Math.random() * moveStates.size()));
             gameState = gameState.copyAndNextPlayer((Board) moveState[0], (ArrayList<Tile>) moveState[1]);
         }

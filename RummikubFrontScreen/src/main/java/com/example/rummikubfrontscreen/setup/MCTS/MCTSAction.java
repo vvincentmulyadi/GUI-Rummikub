@@ -124,7 +124,7 @@ public class MCTSAction {
         currentHand.add(drawTile);
 
         Object[] moveState = new Object[2];
-        moveState[0] = board;
+        moveState[0] = drawBoard;
         moveState[1] = currentHand;
         return moveState;
     }
