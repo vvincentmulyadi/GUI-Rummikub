@@ -42,7 +42,7 @@ public class PossibleMoves {
         } else if (lineType == 1) {
             // it can be joker o a number with same color +1
             ArrayList<Tile> nextremainingTiles = new ArrayList<>(remainingTiles);
-            for (Tile remainingTile : remainingTiles) {         
+            for (Tile remainingTile : remainingTiles) {
                 nextremainingTiles.remove(0);
 
                 if ((remainingTile.getColour() == cLine.get(cLine.size() - 1).getColour() &&
@@ -64,10 +64,10 @@ public class PossibleMoves {
         } else {
             // it can be a joker or the same number with a different colour
             ArrayList<Tile> nextremainingTiles = new ArrayList<>(remainingTiles);
-            for (Tile remainingTile : remainingTiles) {    
+            for (Tile remainingTile : remainingTiles) {
 
                 nextremainingTiles.remove(0);
-                
+
                 boolean c = true;
                 for (Tile tile : cLine) {
                     if (tile.getColour() == remainingTile.getColour() &&
@@ -126,14 +126,14 @@ public class PossibleMoves {
             nextRemainingSeq.remove(0);
             for (Tile tile : remainingSeq.get(i)) {
                 if (!cBoard.isEmpty() && containsTile(cBoard, tile)) {
-                        c = false;
-                        break;
-                    }
+                    c = false;
+                    break;
                 }
-            
+            }
+
             if (c) {
                 cBoard.add(remainingSeq.get(i));
-                if(makeValidBoardState(cBoard, b)) {
+                if (makeValidBoardState(cBoard, b)) {
                     gBoard.add(new ArrayList<>(cBoard));
                 }
                 makeBoardState(cBoard, nextRemainingSeq, gBoard, b);
@@ -174,17 +174,17 @@ public class PossibleMoves {
             }
             if (c) {
                 cBoard.add(remainingSeq.get(i));
-                if(makeValidBoardState(cBoard, b)) {
+                if (makeValidBoardState(cBoard, b)) {
                     gBoard.add(new ArrayList<>(cBoard));
-                    if(gBoard.size()==1){
+                    if (gBoard.size() == 1) {
                         Object[] oneBoard = new Object[2];
                         oneBoard[0] = new Board(gBoard.get(0));
                         oneBoard[1] = getHandFromBoard(gBoard.get(0), hand);
                         return oneBoard;
-                        
+
                     }
                 }
-                if(gBoard.isEmpty()){
+                if (gBoard.isEmpty()) {
                     makeCoupleBoardStates(cBoard, nextRemainingSeq, gBoard, b, hand);
                 }
                 cBoard.remove(cBoard.size() - 1);
@@ -193,17 +193,18 @@ public class PossibleMoves {
         return null;
     }
 
-    public static ArrayList<ArrayList<Tile>> getValidLines(ArrayList<Tile> usedSeq, ArrayList<ArrayList<Tile>> remainingSeq, HashMap<Tile, ArrayList<ArrayList<Tile>>> hashLines){
+    public static ArrayList<ArrayList<Tile>> getValidLines(ArrayList<Tile> usedSeq,
+            ArrayList<ArrayList<Tile>> remainingSeq, HashMap<Tile, ArrayList<ArrayList<Tile>>> hashLines) {
         ArrayList<ArrayList<Tile>> nextRemainingSeq = new ArrayList<>(remainingSeq);
         ArrayList<ArrayList<Tile>> sequencesToRemove = new ArrayList<>();
         nextRemainingSeq.remove(0);
-        for(Tile tile : usedSeq){
+        for (Tile tile : usedSeq) {
             ArrayList<ArrayList<Tile>> tilesSeq = hashLines.get(tile);
-            for(ArrayList<Tile> seq : tilesSeq){
-                sequencesToRemove.add(seq); 
+            for (ArrayList<Tile> seq : tilesSeq) {
+                sequencesToRemove.add(seq);
             }
         }
-        //System.out.println(sequencesToRemove);
+        // System.out.println(sequencesToRemove);
         nextRemainingSeq.removeAll(sequencesToRemove);
         return nextRemainingSeq;
     }
@@ -251,22 +252,22 @@ public class PossibleMoves {
         ArrayList<Tile> drawPile = b.getDrawPile();
         if (drawPile != null && !drawPile.isEmpty()) {
             Object[] drawMove = MCTSAction.drawTileFromBoard(b, hand);
-            if(drawMove != null){
+            if (drawMove != null) {
                 states.add(drawMove);
             }
         }
-        
+
         ArrayList<ArrayList<Tile>> bList = b.getCurrentGameBoard();
         ArrayList<Tile> boa = new ArrayList<>();
         for (ArrayList<Tile> sequence : bList) {
             boa.addAll(sequence);
         }
-        
+
         ArrayList<ArrayList<Tile>> gLines = getLines(b, hand);
         ArrayList<ArrayList<ArrayList<Tile>>> gBoard = new ArrayList<>();
-        if(makeBoardType == 0){
+        if (makeBoardType == 0) {
             makeBoardState(new ArrayList<>(), gLines, gBoard, b);
-        }else{
+        } else {
             makeCoupleBoardStates(new ArrayList<>(), gLines, gBoard, b, hand);
         }
 
@@ -321,15 +322,15 @@ public class PossibleMoves {
 
         // HashMap<Tile, ArrayList<ArrayList<Tile>>> hashTiles = new HashMap<>();
         // for (Tile keyTile : combined) {
-        //     hashTiles.put(keyTile, new ArrayList<>());
+        // hashTiles.put(keyTile, new ArrayList<>());
         // }
         // for(ArrayList<Tile> seq : gLines){
-        //     for(Tile tile : seq){
-        //         hashTiles.putIfAbsent(tile, new ArrayList<>());
-        //         if(!hashTiles.get(tile).contains(seq)){
-        //             hashTiles.get(tile).add(seq);
-        //         }
-        //     }
+        // for(Tile tile : seq){
+        // hashTiles.putIfAbsent(tile, new ArrayList<>());
+        // if(!hashTiles.get(tile).contains(seq)){
+        // hashTiles.get(tile).add(seq);
+        // }
+        // }
         // }
 
         return gLines;
@@ -355,7 +356,6 @@ public class PossibleMoves {
         }
         return h;
     }
-
 
     public static String toString(ArrayList<Object[]> states) {
         String s = "";
@@ -477,6 +477,6 @@ public class PossibleMoves {
 
         long estimatedTime = System.nanoTime() - startTime;
         System.out.println(estimatedTime);
-        
+
     }
 }
