@@ -277,9 +277,9 @@ public class PossibleMoves {
     public static ArrayList<Object[]> possibleMoves(Board b, ArrayList<Tile> hand, int makeBoardType) {
         ArrayList<Object[]> states = new ArrayList<>();
 
-        ArrayList<Tile> drawPile = b.getDrawPile();
+        Board drawBoard = b.clone();
+        ArrayList<Tile> drawPile = drawBoard.getDrawPile();
         if (drawPile != null && !drawPile.isEmpty()) {
-            Board drawBoard = b.clone();
             ArrayList<Tile> drawHand = new ArrayList<>(hand);
             Object[] drawMove = MCTSAction.drawTileFromBoard(drawBoard, drawHand);
             if (drawMove != null) {
