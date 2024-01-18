@@ -16,48 +16,26 @@ public class MCTSmain {
     GameSetup gameInfo;
 
     MCTSmain() {
-        // This is a test
-        // Assumption: player 0 is the AI
-        gameApp = new GameApp();
+
+        gameApp = new GameApp(2);
         gameInfo = gameApp.getGs();
-        // System.out.println(gameInfo.getBoard().toString());
-        System.out.println(gameInfo.getTiles());
         gameInfo.getBoard().addDrawPile(gameInfo.getTiles());
 
-
         MCTSGameState gameState = new MCTSGameState(gameApp.getCurPlr(), gameInfo.getBoard(), gameInfo.getPlayers());
+        ArrayList<Tile> hand = new ArrayList<Tile>();
+        hand.add(new Tile(Colour.YELLOW, Value.ONE));
+        hand.add(new Tile(Colour.BLACK, Value.ONE));
+        hand.add(new Tile(Colour.BLUE, Value.ONE));
+        gameState.getCurPlayer().setHand(hand);
         mcts = new MCTS(gameState);
         root = new Node(gameState, null);
-        System.out.println(gameState.getBoard().getDrawPile());
-        // apply move to board
-    }
-
-    // What is the difference between mcts and mncts gamestate ?
-    public static void main(String[] args) {
-        MCTSmain mcmain = new MCTSmain();
-
-        mcmain.getRoot().expandOwnMovesOnly();
-
-        mcmain.mcts.deepFirstSearch();
-        mcmain.getRoot().depthFirstSearch(mcmain.getRoot());
-
-        // String movestaeString = Utils.MoveStatetoString(args)
-        System.out.println(mcmain.getRoot().getChildren().toString());
-    }
-
-    private static void addGoodTiles(ArrayList<Tile> hand) {
-        // TODO Auto-generated method stub
-
-        hand.add(new Tile(Colour.YELLOW, Value.ONE));
-        hand.add(new Tile(Colour.RED, Value.ONE));
-        hand.add(new Tile(Colour.BLACK, Value.ONE));
     }
 
     public Node getRoot() {
         return root;
     }
 
-    public MCTS getMcts(){
+    public MCTS getMcts() {
         return mcts;
     }
 }

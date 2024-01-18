@@ -17,10 +17,15 @@ public class Node {
     private int visitCount;
     // Number of childnodes that resulted in a win
     private int winCount;
+    // If the gamestate has a winner the game is over
+    private boolean absoluteLeaf = false;
 
     private double explorationParameter = 1.4;
 
     public Node(MCTSGameState gameState, Node parent) {
+        if (gameState.hasWinner() == 1) {
+            this.absoluteLeaf = true;
+        }
         this.gameState = gameState;
         this.children = new ArrayList<>();
         this.uctValue = 0;
@@ -96,16 +101,17 @@ public class Node {
     }
 
     public double getUCTScore() {
+        calcUCTValue();
         return this.uctValue;
     }
 
     /**
      * 
      * @param node
-     * @param playoutResult either 0 or 1 depening on win or loss
+     * @param playoutResult either -1, 0 or 1 depening on win or loss
      */
     public void addPlayout(int playoutResult) {
-
+        System.out.println("Playout wurde geadded: " + playoutResult);
         this.winCount += playoutResult;
         this.visitCount++;
 
@@ -162,6 +168,20 @@ public class Node {
         this.gameState.incrementVisitCount();
     }
 
+    /**
+     * This method is for debugging purposses because in the mcts algorithm there
+     * appear new tiles
+     */
+    public int getAmountOfTiles() {
+        int amountOfTiles = 0;
+        amountOfTiles += gameState.getBoard().getDrawPile().size();
+        amountOfTiles += gameState.getBoard().getCurrentGameBoard().size() * 3;
+        for (Player player : gameState.getPlayers()) {
+            amountOfTiles += player.getHand().size();
+        }
+        return amountOfTiles;
+    }
+
     public int getVisitCount() {
         return this.visitCount;
     }
@@ -184,7 +204,8 @@ public class Node {
 
     @Override
     public String toString() {
-        return "Node [gameState=" + gameState + "]";
+        return gameState + " \nwith uctValue: " + uctValue + " and visitCount: " + visitCount + " and winCount: "
+                + winCount + "\n";
     }
 
 }

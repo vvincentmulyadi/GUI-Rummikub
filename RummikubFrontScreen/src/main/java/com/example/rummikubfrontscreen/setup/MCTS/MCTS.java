@@ -29,7 +29,7 @@ public class MCTS {
         for (int i = 0; i < MAX_ITERATIONS; i++) {
             Node candidateNode = selectCandidateNode(root);
             if (!gameState.isWinner()) {
-                expand(candidateNode, gameState);
+                expand(candidateNode);
             }
 
             Node nodeToExplore = candidateNode;
@@ -43,14 +43,6 @@ public class MCTS {
         return root.selection();
     }
 
-    public void deepFirstSearch() {
-
-        Node cur = root;
-        while (cur.expandOwnMovesOnly()) {
-            cur = cur.getRandomChildNode();
-        }
-    }
-
     private Node selectCandidateNode(Node root) {
         Node node = root;
         while (!node.isLeafNode()) {
@@ -60,24 +52,52 @@ public class MCTS {
     }
 
     private Node findBestNodeUCT(Node node) {
-        double maxScore = Double.MIN_VALUE;
+        double maxScore = -1;
         Node bestNode = null;
         ArrayList<Node> children = node.getChildren();
         for (Node child : children) {
-            // ımplentatıon todo
-            double ucbValue = child.getUCTScore();// calcUCTValue(child, explorationParameter);
+            double ucbValue = child.getUCTScore();
+            System.out.println(maxScore);
             if (ucbValue > maxScore) {
                 maxScore = ucbValue;
                 bestNode = child;
             }
         }
+        if (bestNode == null) {
+            System.out.println("BestNode is null in findBestNodeUCT");
+        }
         return bestNode;
     }
 
-    private void expand(Node node, MCTSGameState gameState) {
+    private ArrayList<Node> MctsAlgorithm(int iterations) {
+
+        for (int i = 0; i < iterations; i++) {
+            System.out.println(root);
+            Node candidateNode = selectCandidateNode(root);
+
+            if (!gameState.isWinner()) {
+                expand(candidateNode);
+            }
+
+            Node nodeToExplore = candidateNode;
+            if (candidateNode.getChildren().isEmpty()) {
+                candidateNode.expandOwnMovesOnly();
+                nodeToExplore = candidateNode.getRandomChildNode();
+            }
+            System.out.println("Nodes tiles that will be randomly played out now");
+            System.out.println(nodeToExplore.getAmountOfTiles());
+
+            int playoutResult = simulateRandomPlayout(nodeToExplore);
+            backPropagate(nodeToExplore, playoutResult);
+        }
+        return root.getChildren();
+    }
+
+    private void expand(Node node) {
 
         // GameApp gameApp = new GameApp();
-        ArrayList<Object[]> moveStates = PossibleMoves.possibleMoves(gameState.getBoard(), gameState.getCurrentHand(),
+        ArrayList<Object[]> moveStates = PossibleMoves.possibleMoves(node.getGameState().getBoard(),
+                node.getGameState().getCurrentHand(),
                 0);
         MCTSGameState nodeGameState = node.getGameState();
         for (Object[] moveState : moveStates) {
@@ -90,18 +110,30 @@ public class MCTS {
     }
 
     public static void main(String[] args) {
+
         MCTSmain mcmain = new MCTSmain();
-
         MCTS mcts = mcmain.getMcts();
-
         Node node = mcmain.getRoot();
-        System.out.println(simulateRandomPlayout(node));
-        System.out.println("The best move is: " + node.getGameState().getBoard().toString());
+
+        // System.out.println(simulateRandomPlayout(node));
+
+        System.out.println("This is the root\n" + mcts.root);
+
+        mcts.root.expandOwnMovesOnly();
+        System.out.println("The root has " + mcts.root.getChildren().size() + " many children");
+
+        mcts.MctsAlgorithm(5);
+        for (Node child : mcts.root.getChildren()) {
+            System.out.println(child);
+        }
     }
 
     private static int simulateRandomPlayout(Node node) {
 
-        MCTSGameState gameState = node.getGameState();
+        System.out.println(node);
+        MCTSGameState gameState = node.getGameState().clone();
+        System.out.println(gameState);
+
         while (!gameState.isWinner()) {
             System.out.println("\n\nStil doing Random Playout");
             System.out.println(gameState);
@@ -109,9 +141,16 @@ public class MCTS {
             ArrayList<Object[]> moveStates = PossibleMoves.possibleMoves(gameState.getBoard(),
                     gameState.getCurrentHand(), 1);
             System.out.println("We got " + moveStates.size() + " moves");
+            if (moveStates.isEmpty()) {
+                System.out.println("No more moves left");
+                return 0;
+            }
+
             Object[] moveState = moveStates.get((int) (Math.random() * moveStates.size()));
             gameState = gameState.copyAndNextPlayer((Board) moveState[0], (ArrayList<Tile>) moveState[1]);
         }
+        System.out.println("\n\nRandom Playout is done");
+        System.out.println(gameState);
 
         int result = gameState.isAIPlayerWinner();
 
