@@ -57,7 +57,6 @@ public class MCTS {
         ArrayList<Node> children = node.getChildren();
         for (Node child : children) {
             double ucbValue = child.getUCTScore();
-            System.out.println(maxScore);
             if (ucbValue > maxScore) {
                 maxScore = ucbValue;
                 bestNode = child;
@@ -69,36 +68,59 @@ public class MCTS {
         return bestNode;
     }
 
-    private ArrayList<Node> MctsAlgorithm(int iterations) {
+    private Node MctsAlgorithm(int iterations) {
+
+        if (root.isLeafNode())
+            expand(root);
+
+        if (root.getChildren().size() == 1) {
+            return root.getChildren().get(0);
+        }
+        if (root.hasChildWinner()) {
+            System.out.println("We got a winner!!!");
+            return root.getChildWinnerNode();
+        }
 
         for (int i = 0; i < iterations; i++) {
-            System.out.println(root);
             Node candidateNode = selectCandidateNode(root);
 
-            if (!gameState.isWinner()) {
-                expand(candidateNode);
-            }
-
             Node nodeToExplore = candidateNode;
-            if (candidateNode.getChildren().isEmpty()) {
-                candidateNode.expandOwnMovesOnly();
-                nodeToExplore = candidateNode.getRandomChildNode();
-            }
-            System.out.println("Nodes tiles that will be randomly played out now");
-            System.out.println(nodeToExplore.getAmountOfTiles());
 
+            if (!candidateNode.hadRandomPlayout() && !candidateNode.getGameState().isWinner()) {
+                expand(candidateNode);
+                if (!candidateNode.getChildren().isEmpty()) {
+                    nodeToExplore = candidateNode.getRandomChildNode();
+                }
+            } else {
+                nodeToExplore = candidateNode;
+            }
+
+            System.out.println("Random playout starts again");
             int playoutResult = simulateRandomPlayout(nodeToExplore);
             backPropagate(nodeToExplore, playoutResult);
         }
-        return root.getChildren();
+        Node bestNode = bestNode();
+        return bestNode;
+    }
+
+    private Node bestNode() {
+        int maxVisits = -1;
+        Node bestNode = null;
+        for (Node child : root.getChildren()) {
+            if (maxVisits < child.getVisitCount()) {
+                maxVisits = child.getVisitCount();
+                bestNode = child;
+            }
+        }
+        return bestNode;
     }
 
     private void expand(Node node) {
 
-        // GameApp gameApp = new GameApp();
         ArrayList<Object[]> moveStates = PossibleMoves.possibleMoves(node.getGameState().getBoard(),
                 node.getGameState().getCurrentHand(),
                 0);
+
         MCTSGameState nodeGameState = node.getGameState();
         for (Object[] moveState : moveStates) {
             MCTSGameState newGameState = nodeGameState.copyAndNextPlayer((Board) moveState[0],
@@ -106,7 +128,26 @@ public class MCTS {
             Node childNode = new Node(newGameState, node);
             node.addChild(childNode);
         }
-        System.out.println("\n\nYou just ran expand check pls if the right player is playing in this node");
+    }
+
+    private void MctsPlayThrough(int rounds) {
+
+        for (int i = 0; i < rounds; i++) {
+
+            Node action = MctsAlgorithm(20);
+            System.out.println("\n\n\n\n\nThose Are the Children that could have been played:");
+            for (Node child : root.getChildren()) {
+                System.out.println(child);
+            }
+            System.out.println("This is the action we are going to take: " + action);
+            root = action.newRoot();
+            if (root.isWinner()) {
+                System.out.println("We got a winner after " + i + " rounds");
+                break;
+            }
+
+        }
+        System.out.println(root);
     }
 
     public static void main(String[] args) {
@@ -117,30 +158,36 @@ public class MCTS {
 
         // System.out.println(simulateRandomPlayout(node));
 
-        System.out.println("This is the root\n" + mcts.root);
+        // mcts.root.expandOwnMovesOnly();
 
-        mcts.root.expandOwnMovesOnly();
+        Node nextMoce = mcts.MctsAlgorithm(50);
+        mcts.root = nextMoce;
+
+        mcts.MctsPlayThrough(20);
+
+        System.out.println("This is the root\n" + mcts.root);
         System.out.println("The root has " + mcts.root.getChildren().size() + " many children");
 
-        mcts.MctsAlgorithm(5);
         for (Node child : mcts.root.getChildren()) {
             System.out.println(child);
         }
     }
 
     private static int simulateRandomPlayout(Node node) {
+        node.setPlayout();
 
-        System.out.println(node);
         MCTSGameState gameState = node.getGameState().clone();
-        System.out.println(gameState);
+        // System.out.println(node);
+        // System.out.println(gameState);
 
         while (!gameState.isWinner()) {
-            System.out.println("\n\nStil doing Random Playout");
-            System.out.println(gameState);
-            // GameApp gameApp = new GameApp();
+            // System.out.println("\n\nStil doing Random Playout");
+            // System.out.println(gameState);
+
             ArrayList<Object[]> moveStates = PossibleMoves.possibleMoves(gameState.getBoard(),
-                    gameState.getCurrentHand(), 1);
-            System.out.println("We got " + moveStates.size() + " moves");
+                    gameState.getCurrentHand(), 0);
+
+            // System.out.println("We got " + moveStates.size() + " moves");
             if (moveStates.isEmpty()) {
                 System.out.println("No more moves left");
                 return 0;
@@ -149,10 +196,11 @@ public class MCTS {
             Object[] moveState = moveStates.get((int) (Math.random() * moveStates.size()));
             gameState = gameState.copyAndNextPlayer((Board) moveState[0], (ArrayList<Tile>) moveState[1]);
         }
-        System.out.println("\n\nRandom Playout is done");
         System.out.println(gameState);
 
         int result = gameState.isAIPlayerWinner();
+        System.out.println("\n\nRandom Playout is done");
+        System.out.println("The OutPut of playout is " + result);
 
         return result;
     }

@@ -22,11 +22,12 @@ public class MCTSmain {
         gameInfo.getBoard().addDrawPile(gameInfo.getTiles());
 
         MCTSGameState gameState = new MCTSGameState(gameApp.getCurPlr(), gameInfo.getBoard(), gameInfo.getPlayers());
-        ArrayList<Tile> hand = new ArrayList<Tile>();
-        hand.add(new Tile(Colour.YELLOW, Value.ONE));
-        hand.add(new Tile(Colour.BLACK, Value.ONE));
-        hand.add(new Tile(Colour.BLUE, Value.ONE));
-        gameState.getCurPlayer().setHand(hand);
+        // hacking the hand to be a known hand
+        // ArrayList<Tile> hand = new ArrayList<Tile>();
+        // hand.add(new Tile(Colour.YELLOW, Value.ONE));
+        // hand.add(new Tile(Colour.BLACK, Value.ONE));
+        // hand.add(new Tile(Colour.BLUE, Value.ONE));
+        // gameState.getCurPlayer().setHand(hand);
         mcts = new MCTS(gameState);
         root = new Node(gameState, null);
     }

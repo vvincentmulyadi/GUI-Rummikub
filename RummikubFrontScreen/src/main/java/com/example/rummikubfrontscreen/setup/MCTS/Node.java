@@ -17,8 +17,11 @@ public class Node {
     private int visitCount;
     // Number of childnodes that resulted in a win
     private int winCount;
+    private int staleMateCount;
     // If the gamestate has a winner the game is over
     private boolean absoluteLeaf = false;
+    // If the node was played through once
+    private boolean playedThrough = false;
 
     private double explorationParameter = 1.4;
 
@@ -31,6 +34,42 @@ public class Node {
         this.uctValue = 0;
         this.visitCount = 1;
         this.parent = parent;
+    }
+
+    public void setPlayout() {
+        this.playedThrough = true;
+    }
+
+    public boolean hadRandomPlayout() {
+        return this.playedThrough;
+    }
+
+    public boolean hasChildWinner() {
+        for (Node child : children) {
+            if (child.isWinner()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Node getChildWinnerNode() {
+        for (Node child : children) {
+            if (child.isWinner()) {
+                return child;
+            }
+        }
+        System.out.println("You shouldnt have tried this method if there is no winner");
+        return null;
+    }
+
+    public Node newRoot() {
+        Node newRoot = new Node(this.gameState, null);
+        return newRoot;
+    }
+
+    public boolean isWinner() {
+        return gameState.hasWinner() == 1;
     }
 
     /**
@@ -111,8 +150,10 @@ public class Node {
      * @param playoutResult either -1, 0 or 1 depening on win or loss
      */
     public void addPlayout(int playoutResult) {
-        System.out.println("Playout wurde geadded: " + playoutResult);
         this.winCount += playoutResult;
+        if (playoutResult == 0) {
+            this.staleMateCount++;
+        }
         this.visitCount++;
 
     }
@@ -205,7 +246,7 @@ public class Node {
     @Override
     public String toString() {
         return gameState + " \nwith uctValue: " + uctValue + " and visitCount: " + visitCount + " and winCount: "
-                + winCount + "\n";
+                + winCount + " and staleMateCount: " + staleMateCount + "\n";
     }
 
 }

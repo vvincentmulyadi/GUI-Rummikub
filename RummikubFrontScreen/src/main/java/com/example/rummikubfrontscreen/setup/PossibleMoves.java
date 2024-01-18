@@ -292,6 +292,7 @@ public class PossibleMoves {
         for (ArrayList<Tile> sequence : bList) {
             boa.addAll(sequence);
         }
+        System.out.println(hand.size() + boa.size() + " are all the tiles we try to combine to moves");
 
         ArrayList<ArrayList<Tile>> gLines = getLines(b, hand);
         ArrayList<ArrayList<ArrayList<Tile>>> gBoard = new ArrayList<>();
@@ -315,7 +316,6 @@ public class PossibleMoves {
                 states.add(arr);
             }
         }
-        System.out.println(states.size());
         return states;
     }
 
