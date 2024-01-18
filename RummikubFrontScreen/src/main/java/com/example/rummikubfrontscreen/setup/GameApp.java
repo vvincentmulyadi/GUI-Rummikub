@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 import com.example.rummikubfrontscreen.setup.MCTS.MCTSAction;
 
 /**
- * The GameApp class represents a game application that manages players, tiles, and game logic.
+ * The GameApp class represents a game application that manages players, tiles,
+ * and game logic.
  */
 public class GameApp {
 
@@ -20,6 +21,13 @@ public class GameApp {
 
     public GameApp() {
         gs = new GameSetup();
+        plrs = gs.getPlayers();
+        curPlr = plrs.get(0);
+        tiles = gs.getTiles();
+    }
+
+    public GameApp(int amountOfPlayers) {
+        gs = new GameSetup(amountOfPlayers);
         plrs = gs.getPlayers();
         curPlr = plrs.get(0);
         tiles = gs.getTiles();
@@ -76,4 +84,3 @@ public class GameApp {
         return gs;
     }
 }
-
