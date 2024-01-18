@@ -12,7 +12,6 @@ public class GameSetup {
 
     // Tiles not in play (bag)
     private ArrayList<Tile> tiles;
-    
 
     // All the existing tiles
     private ArrayList<Tile> allTiles = new ArrayList<>();
@@ -40,6 +39,9 @@ public class GameSetup {
 
     public GameSetup() {
         generateTiles();
+        for (Tile tile : tiles) {
+            System.out.println(tile);
+        }
         generateBoard();
         for (int i = 0; i < numOfPlayers; i++) {
             Player player = new Player(generateHand());
@@ -55,7 +57,7 @@ public class GameSetup {
             player.sortByColor(player.hand);
         }
     }
-    
+
     public GameSetup(int numOfPlayers) {
         generateTiles();
         generateBoard2();
@@ -81,7 +83,7 @@ public class GameSetup {
             // newGameBoard.add(new ArrayList());
             // newGameBoard.get(i).add(null);
         }
-        board = new Board(newGameBoard);
+        board = new Board(newGameBoard, tiles);
     }
 
     private void generateBoard2() {
@@ -93,7 +95,7 @@ public class GameSetup {
         int size = tiles.size();
         ArrayList<Tile> hand = new ArrayList<>();
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 2; i++) {
             int index = rand.nextInt(size - i);
             hand.add(tiles.get(index));
             tiles.remove(index);
@@ -117,16 +119,17 @@ public class GameSetup {
         for (Tile tile : tiles) {
             allTiles.add(tile);
         }
-        // for (Value v : Value.values()) {
-        //     for (Colour c : Colour.values()) {
-        //         tiles.add(new Tile(c, v));
-        //     }
-        // }
+        for (Value v : Value.values()) {
+            for (Colour c : Colour.values()) {
+                tiles.add(new Tile(c, v));
+            }
+        }
 
         // Delete 6 Jokers
-        // for (int i = 0; i < 4; i++) {
-        //     tiles.remove(tiles.size() - 1);
-        // }
+        for (int i = 0; i < 2; i++) {
+            tiles.remove(tiles.size() - 1);
+        }
+        System.out.println("Tiles size: " + tiles.size());
     }
 
     public ArrayList<Tile> getTiles() {
@@ -146,16 +149,17 @@ public class GameSetup {
     }
 
     /**
-     * 🥰 
-     *      * @return
+     * 🥰
+     * * @return
      */
     public ArrayList<Player> getPlayers() {
-        
+
         return players;
     }
 
-    public static void main(String[] locoMotiv){
+    public static void main(String[] locoMotiv) {
         GameSetup gs = new GameSetup();
+
         System.out.println(gs.getAllTiles());
     }
 }

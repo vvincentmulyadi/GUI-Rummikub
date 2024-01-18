@@ -125,6 +125,10 @@ public class PossibleMoves {
     public static void makeBoardState(ArrayList<ArrayList<Tile>> cBoard, ArrayList<ArrayList<Tile>> remainingSeq,
             ArrayList<ArrayList<ArrayList<Tile>>> gBoard, Board b) {
 
+        if (remainingSeq == null || remainingSeq.isEmpty()) {
+            return;
+        }
+
         if (cBoard.isEmpty()) {
             cBoard.add(remainingSeq.get(0));
             ArrayList<ArrayList<Tile>> nextRemainingSeq = new ArrayList<>(remainingSeq);
@@ -275,7 +279,9 @@ public class PossibleMoves {
 
         ArrayList<Tile> drawPile = b.getDrawPile();
         if (drawPile != null && !drawPile.isEmpty()) {
-            Object[] drawMove = MCTSAction.drawTileFromBoard(b, hand);
+            Board drawBoard = b.clone();
+            ArrayList<Tile> drawHand = new ArrayList<>(hand);
+            Object[] drawMove = MCTSAction.drawTileFromBoard(drawBoard, drawHand);
             if (drawMove != null) {
                 states.add(drawMove);
             }
