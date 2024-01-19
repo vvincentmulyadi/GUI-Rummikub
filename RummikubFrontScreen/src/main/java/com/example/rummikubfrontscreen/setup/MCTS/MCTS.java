@@ -229,6 +229,27 @@ public class MCTS {
         }
         return guessedOpponentDeck;
     }
+    //simple method for calculating deck probabilities
+    public ArrayList<Double> calculateDeckProbabilities(ArrayList<Tile> knownTiles){
+        ArrayList<Double> probabilities = new ArrayList<Double>();
+        ArrayList<Tile> tilesOnBoard = convert(this.board);
+        ArrayList<Tile> tilesOnHand = this.deck;
+        knownTiles.addAll(tilesOnBoard);
+        knownTiles.addAll(tilesOnHand);
+        int unknownTiles = 106 - knownTiles.size();
+        TileProbs tileProbs = new TileProbs();
+    
+        for(Tile tile : knownTiles) {
+            int tileIndex = TileProbs.tileToIndexConverter(tile);
+            tileProbs.adjustUniformProbs(tileIndex);
+        }
+    
+        for(int i = 0; i < tileProbs.getTileProbsUniform().length; i++) {
+            probabilities.add(tileProbs.getTileProbsUniform()[i] / unknownTiles);
+        }
+    
+        return probabilities;
+    }
 
     public ArrayList<Tile> convert(ArrayList<ArrayList<Tile>> board) {
         ArrayList<Tile> tiles = new ArrayList<>();
