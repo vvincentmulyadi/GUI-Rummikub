@@ -21,6 +21,15 @@ public class MCTSGameState {
         this.aiPlayer = playerList.get(0);
     }
 
+    public int hasWinner() {
+        for (Player player : listofplayers) {
+            if (player.getHand().isEmpty()) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
     public MCTSGameState copyAndNextPlayer(Board newBoard, ArrayList<Tile> newHand) {
         int indexOfCurrentPlayer = listofplayers.indexOf(player);
         ArrayList<Player> newPlayerList = (ArrayList<Player>) listofplayers.clone();
@@ -146,7 +155,7 @@ public class MCTSGameState {
         if (aiPlayer.getHand().isEmpty()) {
             return 1;
         }
-        return 0;
+        return -1;
     }
 
     public Player getCurPlayer() {

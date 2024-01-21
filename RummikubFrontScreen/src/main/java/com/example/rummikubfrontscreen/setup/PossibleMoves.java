@@ -190,11 +190,13 @@ public class PossibleMoves {
      */
     public static ArrayList<Object[]> possibleMoves(Board b, ArrayList<Tile> hand, int makeBoardType) {
         ArrayList<Object[]> states = new ArrayList<>();
-    
-        ArrayList<Tile> drawPile = b.getDrawPile();
+
+        Board drawBoard = b.clone();
+        ArrayList<Tile> drawPile = drawBoard.getDrawPile();
         if (drawPile != null && !drawPile.isEmpty()) {
-            Object[] drawMove = MCTSAction.drawTileFromBoard(b, hand);
-            if(drawMove != null){
+            ArrayList<Tile> drawHand = new ArrayList<>(hand);
+            Object[] drawMove = MCTSAction.drawTileFromBoard(drawBoard, drawHand);
+            if (drawMove != null) {
                 states.add(drawMove);
             }
         }
@@ -208,6 +210,7 @@ public class PossibleMoves {
     
         ArrayList<Tile> boardandhand = new ArrayList<>(boa);
         boardandhand.addAll(hand);
+        System.out.println(hand.size() + boa.size() + " are all the tiles we try to combine to moves");
 
 
         //gBoard - all possible board states from the current board state and hand
@@ -231,7 +234,6 @@ public class PossibleMoves {
                 states.add(arr);
             }
         }
-        System.out.println(states.size());
         return states;
     }
 

@@ -4,7 +4,8 @@ import java.util.Random;
 import java.util.ArrayList;
 
 /**
- * The Board class represents a game board with a 2D grid of tiles and provides methods for
+ * The Board class represents a game board with a 2D grid of tiles and provides
+ * methods for
  * manipulating and verifying the board state.
  */
 public class Board {
@@ -41,7 +42,7 @@ public class Board {
         return drawPile;
     }
 
-    public void addDrawPile(ArrayList<Tile> drawPile){
+    public void addDrawPile(ArrayList<Tile> drawPile) {
         this.drawPile = drawPile;
     }
 
@@ -58,7 +59,6 @@ public class Board {
         if (drawPile == null) {
             System.out.println("!!! The draw pile is null in the board class !!!");
         }
-        System.out.println("Drawpile size: " + drawPile.size());
         if (drawPile.size() == 0) {
             System.out.println("!!! The draw pile is empty !!!");
             return null;
@@ -81,11 +81,13 @@ public class Board {
     }
 
     /**
-     * The function `boardVerifier` checks if a given board configuration is valid for a game by
+     * The function `boardVerifier` checks if a given board configuration is valid
+     * for a game by
      * verifying if the series of tiles in the game consist of valid groups or runs.
      * 
-     * @param seriesInGame An ArrayList of ArrayLists of Tile objects. Each inner ArrayList represents
-     * a series of tiles in the game.
+     * @param seriesInGame An ArrayList of ArrayLists of Tile objects. Each inner
+     *                     ArrayList represents
+     *                     a series of tiles in the game.
      * @return The method is returning a boolean value.
      */
     public static boolean boardVerifier(ArrayList<ArrayList<Tile>> seriesInGame) {
@@ -130,12 +132,14 @@ public class Board {
     }
 
     /**
-     * The function checks if a given group of tiles is valid, meaning all tiles have the same value
+     * The function checks if a given group of tiles is valid, meaning all tiles
+     * have the same value
      * and each color is used only once.
      * 
      * @param group An ArrayList of Tile objects representing a group of tiles.
-     * @param tile1 The `tile1` parameter is an instance of the `Tile` class, which represents a single
-     * tile in a game.
+     * @param tile1 The `tile1` parameter is an instance of the `Tile` class, which
+     *              represents a single
+     *              tile in a game.
      * @return The method is returning a boolean value.
      */
     public static boolean checkGroup(ArrayList<Tile> group, Tile tile1) {
@@ -159,11 +163,14 @@ public class Board {
     /**
      * The function checks if a given ArrayList of tiles forms a valid run.
      * 
-     * @param run An ArrayList of Tile objects representing a run of tiles in a Rummikub game.
-     * @param tile1 The parameter "tile1" is an instance of the Tile class, which represents a single
-     * tile in a game.
-     * @param indexOfTile1 The `indexOfTile1` parameter represents the index of `tile1` in the `run`
-     * ArrayList.
+     * @param run          An ArrayList of Tile objects representing a run of tiles
+     *                     in a Rummikub game.
+     * @param tile1        The parameter "tile1" is an instance of the Tile class,
+     *                     which represents a single
+     *                     tile in a game.
+     * @param indexOfTile1 The `indexOfTile1` parameter represents the index of
+     *                     `tile1` in the `run`
+     *                     ArrayList.
      * @return The method is returning a boolean value.
      */
     public static boolean checkRun(ArrayList<Tile> run, Tile tile1, int indexOfTile1) {
@@ -194,12 +201,13 @@ public class Board {
         }
         // This clone doesnt deep clone the drawpile since if it most often stays the
         // same
-        return new Board(newBoard, drawPile);
+        return new Board(newBoard, (ArrayList<Tile>) drawPile.clone());
     }
 
     @Override
     public String toString() {
         String str = "";
+        str += "DrawPile: " + drawPile.size() + "\n";
         for (int i = 0; i < currentGameBoard.size(); i++) {
             // if (currentGameBoard.get(i).size() == 0)
             // continue;
@@ -210,27 +218,27 @@ public class Board {
         return str;
     }
 
-    public static void main(String[] args) {
-        ArrayList<Tile> group = new ArrayList<>();
+    // public static void main(String[] args) {
+    // ArrayList<Tile> group = new ArrayList<>();
 
-        group.add(new Tile(Colour.BLUE, Value.SEVEN));
-        group.add(new Tile(Colour.RED, Value.SEVEN));
-        group.add(new Tile(Colour.BLACK, Value.SEVEN));
-        group.add(new Tile(Colour.YELLOW, Value.JOKER));
+    // group.add(new Tile(Colour.BLUE, Value.SEVEN));
+    // group.add(new Tile(Colour.RED, Value.SEVEN));
+    // group.add(new Tile(Colour.BLACK, Value.SEVEN));
+    // group.add(new Tile(Colour.YELLOW, Value.JOKER));
 
-        ArrayList<Tile> run = new ArrayList<>();
-        run.add(new Tile(Colour.BLACK, Value.JOKER));
-        run.add(new Tile(Colour.BLACK, Value.JOKER));
-        run.add(new Tile(Colour.BLACK, Value.TWO));
-        run.add(new Tile(Colour.BLACK, Value.THREE));
-        run.add(new Tile(Colour.BLACK, Value.FOUR));
+    // ArrayList<Tile> run = new ArrayList<>();
+    // run.add(new Tile(Colour.BLACK, Value.JOKER));
+    // run.add(new Tile(Colour.BLACK, Value.JOKER));
+    // run.add(new Tile(Colour.BLACK, Value.TWO));
+    // run.add(new Tile(Colour.BLACK, Value.THREE));
+    // run.add(new Tile(Colour.BLACK, Value.FOUR));
 
-        Board board = new Board();
-        ArrayList<ArrayList<Tile>> seriesInGame = new ArrayList<>();
-        seriesInGame.add(group);
-        seriesInGame.add(run);
+    // Board board = new Board();
+    // ArrayList<ArrayList<Tile>> seriesInGame = new ArrayList<>();
+    // seriesInGame.add(group);
+    // seriesInGame.add(run);
 
-        System.out.println(Board.boardVerifier(seriesInGame));
-    }
+    // System.out.println(Board.boardVerifier(seriesInGame));
+    // }
 
 }

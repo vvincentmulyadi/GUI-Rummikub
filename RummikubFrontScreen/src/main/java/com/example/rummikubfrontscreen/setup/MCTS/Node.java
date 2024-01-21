@@ -17,15 +17,59 @@ public class Node {
     private int visitCount;
     // Number of childnodes that resulted in a win
     private int winCount;
+    private int staleMateCount;
+    // If the gamestate has a winner the game is over
+    private boolean absoluteLeaf = false;
+    // If the node was played through once
+    private boolean playedThrough = false;
 
     private double explorationParameter = 1.4;
 
     public Node(MCTSGameState gameState, Node parent) {
+        if (gameState.hasWinner() == 1) {
+            this.absoluteLeaf = true;
+        }
         this.gameState = gameState;
         this.children = new ArrayList<>();
         this.uctValue = 0;
         this.visitCount = 1;
         this.parent = parent;
+    }
+
+    public void setPlayout() {
+        this.playedThrough = true;
+    }
+
+    public boolean hadRandomPlayout() {
+        return this.playedThrough;
+    }
+
+    public boolean hasChildWinner() {
+        for (Node child : children) {
+            if (child.isWinner()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Node getChildWinnerNode() {
+        for (Node child : children) {
+            if (child.isWinner()) {
+                return child;
+            }
+        }
+        System.out.println("You shouldnt have tried this method if there is no winner");
+        return null;
+    }
+
+    public Node newRoot() {
+        Node newRoot = new Node(this.gameState, null);
+        return newRoot;
+    }
+
+    public boolean isWinner() {
+        return gameState.hasWinner() == 1;
     }
 
     /**
@@ -96,17 +140,20 @@ public class Node {
     }
 
     public double getUCTScore() {
+        calcUCTValue();
         return this.uctValue;
     }
 
     /**
      * 
      * @param node
-     * @param playoutResult either 0 or 1 depening on win or loss
+     * @param playoutResult either -1, 0 or 1 depening on win or loss
      */
     public void addPlayout(int playoutResult) {
-
         this.winCount += playoutResult;
+        if (playoutResult == 0) {
+            this.staleMateCount++;
+        }
         this.visitCount++;
 
     }
@@ -162,6 +209,20 @@ public class Node {
         this.gameState.incrementVisitCount();
     }
 
+    /**
+     * This method is for debugging purposses because in the mcts algorithm there
+     * appear new tiles
+     */
+    public int getAmountOfTiles() {
+        int amountOfTiles = 0;
+        amountOfTiles += gameState.getBoard().getDrawPile().size();
+        amountOfTiles += gameState.getBoard().getCurrentGameBoard().size() * 3;
+        for (Player player : gameState.getPlayers()) {
+            amountOfTiles += player.getHand().size();
+        }
+        return amountOfTiles;
+    }
+
     public int getVisitCount() {
         return this.visitCount;
     }
@@ -184,7 +245,8 @@ public class Node {
 
     @Override
     public String toString() {
-        return "Node [gameState=" + gameState + "]";
+        return gameState + " \nwith uctValue: " + uctValue + " and visitCount: " + visitCount + " and winCount: "
+                + winCount + " and staleMateCount: " + staleMateCount + "\n";
     }
 
 }
