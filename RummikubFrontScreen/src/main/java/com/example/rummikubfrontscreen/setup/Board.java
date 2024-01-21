@@ -46,8 +46,9 @@ public class Board {
         this.drawPile = drawPile;
     }
 
-    public void setCurrentGameBoard(ArrayList<ArrayList<Tile>> currentGameBoard) {
+    public void setCurrentGameBoard(ArrayList<ArrayList<Tile>> currentGameBoard, ArrayList<Tile> drawPilus) {
         this.currentGameBoard = currentGameBoard;
+        this.drawPile = drawPilus;
     }
 
     public Tile drawTile() {

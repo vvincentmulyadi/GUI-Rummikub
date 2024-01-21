@@ -36,7 +36,7 @@ public class annSim {
             ArrayList<Object[]> moves = PossibleMoves.possibleMoves(b, h, 0);
             //System.out.println(moves.size());
             //System.out.println(ga.toString());
-            makeMove(moves, b);
+            makeMove(moves);
             moves.clear();
             //System.out.println("size after clearing: " +moves.size());
             System.out.println("\n");
@@ -55,9 +55,10 @@ public class annSim {
         return false;
     }
 
-    public void makeMove(ArrayList<Object[]> moves, Board b){
+    public void makeMove(ArrayList<Object[]> moves){
         ArrayList<ArrayList<Tile>> newBoard = new ArrayList<>();
         ArrayList<Tile> newHand = new ArrayList<>();
+        ArrayList<Tile> newDrawPile = new ArrayList<>();
         if(!moves.isEmpty()){
             int m = Integer.MAX_VALUE;
             int i = -1;
@@ -69,10 +70,12 @@ public class annSim {
                     m = l;
                     newBoard = new ArrayList<>(ne.getCurrentGameBoard());
                     newHand = new ArrayList<>(n);
+                    newDrawPile = new ArrayList<>(ne.getDrawPile());
                 }
-            }if(!newBoard.isEmpty()) {
+            }
+            if(!newBoard.isEmpty()) {
                 System.out.println("move chosen: " + newBoard);
-                ga.getGs().getBoard().setCurrentGameBoard(newBoard);
+                ga.getGs().getBoard().setCurrentGameBoard(newBoard, newDrawPile);
                 ga.getCurPlr().setHand(newHand);
             }
         }else if(moves.isEmpty() || newBoard.isEmpty()){
@@ -85,16 +88,16 @@ public class annSim {
         ga.nextPlayer();
     }
 
-    public void makeMoveRand(ArrayList<Object[]> moves){
-        Random rand = new Random();
-        int rn = rand.nextInt(moves.size());
-        Object[] move = moves.get(rn);
-        Board b = new Board(((Board) move[0]).getCurrentGameBoard());
-        ArrayList<Tile> h = new ArrayList<>((ArrayList<Tile>) move[1]);
-        System.out.println(ga.getCurPlr().getId());
-        ga.getGs().getBoard().setCurrentGameBoard(b.getCurrentGameBoard());
-        ga.getCurPlr().setHand(h);
-    }
+    // public void makeMoveRand(ArrayList<Object[]> moves){
+    //     Random rand = new Random();
+    //     int rn = rand.nextInt(moves.size());
+    //     Object[] move = moves.get(rn);
+    //     Board b = new Board(((Board) move[0]).getCurrentGameBoard());
+    //     ArrayList<Tile> h = new ArrayList<>((ArrayList<Tile>) move[1]);
+    //     System.out.println(ga.getCurPlr().getId());
+    //     ga.getGs().getBoard().setCurrentGameBoard(b.getCurrentGameBoard());
+    //     ga.getCurPlr().setHand(h);
+    // }
 
     public static void main(String[] args) {
         annSim s = new annSim();

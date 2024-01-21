@@ -2,6 +2,7 @@ package com.example.rummikubfrontscreen.setup;
 
 import com.example.rummikubfrontscreen.setup.MCTS.MCTS;
 import com.example.rummikubfrontscreen.setup.MCTS.MCTSAction;
+import com.example.rummikubfrontscreen.setup.MCTS.MCTSGameState;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,6 +24,14 @@ public class RandomAgent {
         this.player = player;
         this.draw = false;
         chosenMoves = new ArrayList<>();
+    }
+
+    public MCTSGameState applyAction (MCTSGameState gs) {
+        ArrayList<Object[]> possibleMoves = gs.getOwnMoveStates();
+        Random rand = new Random();
+        int rn = rand.nextInt(moves.size());
+        Object[] move = moves.get(rn);
+        return appliedActionGameState;
     }
 
     public void takeRandomAction() {
