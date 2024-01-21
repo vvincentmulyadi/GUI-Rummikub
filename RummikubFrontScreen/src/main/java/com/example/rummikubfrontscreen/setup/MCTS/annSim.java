@@ -23,6 +23,11 @@ public class annSim {
             //System.out.println("new round");
             ga.getGs().getBoard().addDrawPile(ga.getGs().getTiles());
             Board b = ga.getGs().getBoard();
+            
+            if(ga.getGs().getBoard().getDrawPile().isEmpty()){
+                System.out.println("no winner!");
+                return;
+            }
 
             ArrayList<Tile> h = ga.getCurPlr().getHand();
             System.out.println("player playing: " + ga.getCurPlr().getId() + ", hand: " + h);

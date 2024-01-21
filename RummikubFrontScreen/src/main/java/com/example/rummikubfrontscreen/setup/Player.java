@@ -3,8 +3,6 @@ package com.example.rummikubfrontscreen.setup;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
-
 /**
  * The Player class represents a player in a game and provides methods for managing their hand of
  * tiles.
@@ -107,9 +105,25 @@ public class Player {
     }
 
     // sorting the list of tiles first by colour and then by number
-    public static void sortByColor(ArrayList<Tile> tilesList) {
+    public static ArrayList<Tile> sortByColor(ArrayList<Tile> tilesList) {
         ArrayList<ArrayList<Tile>> separated = seperateColours(tilesList);
-        Collections.sort(tilesList,new TileComparator());
+        Collections.sort(tilesList, new TileComparator());
+        tilesList = moveJokers(tilesList);
+        return tilesList;
+    }
+
+    public static ArrayList<Tile> moveJokers(ArrayList<Tile> tilesList){
+        ArrayList<Tile> newTilesList =  new ArrayList<>();
+        ArrayList<Tile> jokerList = new ArrayList<>();
+        for(Tile tile : tilesList){
+            if(tile.getValue() == Value.JOKER){
+                jokerList.add(tile);
+            }else{
+                newTilesList.add(tile);
+            }
+        }
+        newTilesList.addAll(jokerList);
+        return newTilesList;
     }
 
     // dividing the tiles into four lists according to colour
