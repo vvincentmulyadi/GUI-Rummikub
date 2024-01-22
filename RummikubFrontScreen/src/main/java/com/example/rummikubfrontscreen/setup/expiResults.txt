@@ -1,8 +1,12 @@
 1
-number of moves: 40
-
-No winner!
+number of moves: 7
 
 1
-number of moves: 40
+number of moves: 9
+
+1
+number of moves: 6
+
+1
+number of moves: 8
 
