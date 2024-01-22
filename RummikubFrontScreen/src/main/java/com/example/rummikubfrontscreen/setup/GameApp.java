@@ -83,4 +83,9 @@ public class GameApp {
     public GameSetup getGs() {
         return gs;
     }
+
+    public ArrayList<Player> getPlayers(){
+        return plrs;
+    }
+
 }

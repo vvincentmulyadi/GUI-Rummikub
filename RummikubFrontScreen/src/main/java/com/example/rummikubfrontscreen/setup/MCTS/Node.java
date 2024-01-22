@@ -7,6 +7,9 @@ import com.example.rummikubfrontscreen.setup.Player;
 import com.example.rummikubfrontscreen.setup.Utils;
 import com.example.rummikubfrontscreen.setup.Tile;
 
+/**
+ * The Node class represents a node in a Monte Carlo Tree Search algorithm, used for game playing.
+ */
 public class Node {
     private int voting = 0;
     private MCTSGameState gameState;
@@ -125,7 +128,6 @@ public class Node {
     public Node depthFirstSearch(Node node) {
         i++;
         if (node.getGameState().getCurPlayer().getHand().isEmpty()) {
-            System.out.println("NO FUCKING WAY WE GOT A WINNER");
             System.out.println(node.getGameState());
             children.get(-1);
         }

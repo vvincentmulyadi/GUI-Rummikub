@@ -12,6 +12,10 @@ import com.example.rummikubfrontscreen.setup.PossibleMoves;
 import com.example.rummikubfrontscreen.setup.Tile;
 import com.example.rummikubfrontscreen.setup.Value;
 
+/**
+ * The MCTS class implements the Monte Carlo Tree Search algorithm for a game and provides methods for
+ * finding the next move and simulating game playthroughs.
+ */
 public class MCTS {
     private MCTSGameState gameState;
     public Node root;

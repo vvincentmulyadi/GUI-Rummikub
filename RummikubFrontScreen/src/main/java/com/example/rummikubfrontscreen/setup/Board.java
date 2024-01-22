@@ -218,28 +218,4 @@ public class Board {
         }
         return str;
     }
-
-    // public static void main(String[] args) {
-    // ArrayList<Tile> group = new ArrayList<>();
-
-    // group.add(new Tile(Colour.BLUE, Value.SEVEN));
-    // group.add(new Tile(Colour.RED, Value.SEVEN));
-    // group.add(new Tile(Colour.BLACK, Value.SEVEN));
-    // group.add(new Tile(Colour.YELLOW, Value.JOKER));
-
-    // ArrayList<Tile> run = new ArrayList<>();
-    // run.add(new Tile(Colour.BLACK, Value.JOKER));
-    // run.add(new Tile(Colour.BLACK, Value.JOKER));
-    // run.add(new Tile(Colour.BLACK, Value.TWO));
-    // run.add(new Tile(Colour.BLACK, Value.THREE));
-    // run.add(new Tile(Colour.BLACK, Value.FOUR));
-
-    // Board board = new Board();
-    // ArrayList<ArrayList<Tile>> seriesInGame = new ArrayList<>();
-    // seriesInGame.add(group);
-    // seriesInGame.add(run);
-
-    // System.out.println(Board.boardVerifier(seriesInGame));
-    // }
-
 }

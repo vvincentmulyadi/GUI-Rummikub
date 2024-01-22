@@ -8,6 +8,10 @@ import javafx.scene.control.Label;
 
 import java.util.Random;
 
+/**
+ * The BoardController class is a Java class that controls the functionality of a game board, including
+ * adding random values to buttons and handling button clicks.
+ */
 public class BoardController {
     @FXML
     private Button draw;

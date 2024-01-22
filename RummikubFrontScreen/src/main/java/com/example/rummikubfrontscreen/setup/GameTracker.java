@@ -8,6 +8,10 @@ import java.io.IOException;
 
 import com.example.rummikubfrontscreen.setup.MCTS.MCTS;
 
+/**
+ * The GameTracker class is used to track the results of a game, including the number of moves and the
+ * winner, and provides methods to write and read the results to/from a file.
+ */
 public class GameTracker {
 
     private static int MCSTWon;
@@ -38,18 +42,23 @@ public class GameTracker {
         int numOfDraws = 0;
         int timesMctsWon = 0;
         int timesRandomWon = 0; 
+        int avMoves = 0;
 
         while ((line = be.readLine()) != null) {
             if(line.equals("No winner!")){
                 numOfDraws += 1;
             }else if(line.equals("1")){
                 timesMctsWon += 1;
+                String nLine = be.readLine();
+                String[] nl = nLine.split(" ");
+                avMoves += Integer.parseInt(nl[nl.length-1]);
             }else if(line.equals("0")){
                 timesRandomWon += 1;
             }
         }
-
-        String result = "number of draws: " + numOfDraws + ", times MCTS won: " + timesMctsWon + ", times Random Agent won: " + timesRandomWon;
+        avMoves /= timesMctsWon;
+        int totalSim = numOfDraws + timesMctsWon + timesRandomWon;
+        String result = "number of draws: " + numOfDraws + ", times Linear Regression won: " + timesMctsWon + ", times Agent won: " + timesRandomWon +", total simualtions: "+ totalSim + ", average number of moves for LR: " + avMoves;
         return result;
     }
 
@@ -66,16 +75,7 @@ public class GameTracker {
     }
 
     public static void main(String args[]) throws IOException{
-
-        // setWinner(-1);
-        // setNumOfMoves(24);
-        // writeToFile();
-
-        // setWinner(1);
-        // setNumOfMoves(40);
-        // writeToFile();
         
-
         String result = new String();
         result = readToFile();
         System.out.println(result);

@@ -7,6 +7,9 @@ import com.example.rummikubfrontscreen.setup.MCTS.MCTSGameState;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * The RandomAgent class is a Java class that represents an agent that takes random actions in a game.
+ */
 public class RandomAgent {
 
     private Player player;

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 1
 number of moves: 9
 
@@ -261,6 +262,14 @@ number of moves: 8
 
 1
 number of moves: 6
+=======
+
+0
+number of moves: 11
+
+1
+number of moves: 10
+>>>>>>> 6595b09546ad450d58fe4e37f6f08e0fd2aeb729
 
 1
 number of moves: 9
@@ -278,8 +287,16 @@ number of moves: 8
 number of moves: 8
 
 1
+<<<<<<< HEAD
 number of moves: 9
 
 1
 number of moves: 7
 
+=======
+number of moves: 7
+
+0
+number of moves: 4
+
+>>>>>>> 6595b09546ad450d58fe4e37f6f08e0fd2aeb729
