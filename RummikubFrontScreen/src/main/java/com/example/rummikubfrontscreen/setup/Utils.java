@@ -54,38 +54,4 @@ public class Utils {
         return array;
     }
 
-    public static void main(String[] args) {
-        ArrayList<Tile> groupYe = new ArrayList<>();
-
-        groupYe.add(new Tile(Colour.YELLOW, Value.ONE));
-        groupYe.add(new Tile(Colour.YELLOW, Value.ONE));
-        groupYe.add(new Tile(Colour.YELLOW, Value.TWO));
-        groupYe.add(new Tile(Colour.RED, Value.ONE));
-        groupYe.add(new Tile(Colour.BLACK, Value.TWO));
-        groupYe.add(new Tile(Colour.YELLOW, Value.SIX));
-        groupYe.add(new Tile(Colour.YELLOW, Value.SEVEN));
-        groupYe.add(new Tile(Colour.YELLOW, Value.EIGHT));
-        groupYe.add(new Tile(Colour.YELLOW, Value.EIGHT));
-        groupYe.add(new Tile(Colour.BLACK, Value.EIGHT));
-        groupYe.add(new Tile(Colour.RED, Value.EIGHT));
-        groupYe.add(new Tile(Colour.RED, Value.NINE));
-        groupYe.add(new Tile(Colour.RED, Value.SEVEN));
-        groupYe.add(new Tile(Colour.BLUE, Value.EIGHT));
-        ArrayList<Tile> groups = new ArrayList<>();
-
-        System.out.println(groupYe.toString());
-        int[] a = aListToArray(groupYe);
-        System.out.println(Arrays.toString(a));
-        ArrayList<Tile> group = ArrayToArrayList(a);
-        System.out.println(group.toString());
-
-        int[] ac = { 1, 2, 3 };
-        System.out.println(Arrays.toString(a));
-        int[] b = a.clone();
-        b[0] = 5;
-        System.out.println(Arrays.toString(a));
-        System.out.println(Arrays.toString(b));
-
-    }
-
 }

@@ -26,7 +26,7 @@ public class annSim {
         ga = mcmain.gameApp;
         gs = ga.getGs();
         mcts = mcmain.getMcts();
-        mcts.MctsPlayThrough(20);
+        mcts.MctsPlayThrough(20); 
 
         ArrayList<Node> inputs = mcts.inputs;
         ArrayList<Node> targets = mcts.targets;
