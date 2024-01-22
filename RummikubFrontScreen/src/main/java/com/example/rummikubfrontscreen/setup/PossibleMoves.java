@@ -218,7 +218,6 @@ public class PossibleMoves {
         ArrayList<ArrayList<Tile>> gHand = new ArrayList<>();
         Player.sortByColor(boardandhand);
         makeBoardState(new ArrayList<>(), gBoard,gHand, boardandhand, hand, new ArrayList<Tile>());
-       
 
         for (int i = 0; i < gBoard.size(); i++) {
             ArrayList<Tile> bo = new ArrayList<>();
