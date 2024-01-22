@@ -136,7 +136,7 @@ public class MCTS {
 
         for (int i = 0; i < rounds; i++) {
 
-            Node action = MctsAlgorithm(20);
+            Node action = MctsAlgorithm(50);
             //System.out.println("\n\n\n\n\nThose Are the Children that could have been played:");
             for (Node child : root.getChildren()) {
                 System.out.println(child);
@@ -173,8 +173,8 @@ public class MCTS {
         //System.out.println("This is the root\n" + mcts.root);
         //System.out.println("The root has " + mcts.root.getChildren().size() + " many children");
         
-        System.out.println(inputs);
-        System.out.println(targets);
+        System.out.println(inputs.size());
+        System.out.println(targets.size());
 
         // for (Node child : mcts.root.getChildren()) {
         //     System.out.println(child);
