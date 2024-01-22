@@ -146,14 +146,14 @@ public class MCTSGameState {
     }
 
     public int isAIPlayerWinner() {
-        if (!isWinner()) {
-            System.out.println("You are asking if the AI is the winner but the game is not over yet");
-            System.out.println("So check that first");
-            listofplayers.get(-1);
-        }
 
         if (aiPlayer.getHand().isEmpty()) {
             return 1;
+        }
+        for (Player player : listofplayers) {
+            if (player.getHand().isEmpty()) {
+                return 0;
+            }
         }
         return -1;
     }
