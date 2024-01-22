@@ -179,11 +179,15 @@ public class Node {
         this.children.add(child);
     }
 
+    public int getWinCount(){
+        return winCount;
+    }
+
     public Node getRandomChildNode() {
         int randomIndex = (int) (Math.random() * this.children.size());
-        System.out.println("Children size " + this.children.size());
+        //System.out.println("Children size " + this.children.size());
         if (this.children.size() > 1) {
-            System.out.println("\n\n Here are Children!!!" + getChildren().toString() + "\n\n\n");
+            //System.out.println("\n\n Here are Children!!!" + getChildren().toString() + "\n\n\n");
             randomIndex = 1;
         }
         return this.children.get(randomIndex);

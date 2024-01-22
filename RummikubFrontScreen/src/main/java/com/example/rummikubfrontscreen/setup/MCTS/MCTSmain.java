@@ -15,7 +15,7 @@ public class MCTSmain {
     GameApp gameApp;
     GameSetup gameInfo;
 
-    MCTSmain() {
+    public MCTSmain() {
 
         gameApp = new GameApp(2);
         gameInfo = gameApp.getGs();

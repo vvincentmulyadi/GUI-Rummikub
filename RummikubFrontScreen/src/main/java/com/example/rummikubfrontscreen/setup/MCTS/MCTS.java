@@ -12,13 +12,15 @@ import com.example.rummikubfrontscreen.setup.Value;
 
 public class MCTS {
     private MCTSGameState gameState;
-    private Node root;
+    public Node root;
     private static final int MAX_ITERATIONS = 1000;
     static double explorationParameter = 1.4;
     private ArrayList<ArrayList<Tile>> board;
     private ArrayList<Tile> deck;
     ArrayList<Tile> guessedOpponentDeck;
     private String time;
+    public static ArrayList<Node> inputs = new ArrayList<>();
+    public static ArrayList<Node> targets = new ArrayList<>();
 
     public MCTS(MCTSGameState gameState) {
         this.gameState = gameState;
@@ -68,7 +70,7 @@ public class MCTS {
         return bestNode;
     }
 
-    private Node MctsAlgorithm(int iterations) {
+    public Node MctsAlgorithm(int iterations) {
 
         if (root.isLeafNode())
             expand(root);
@@ -77,7 +79,7 @@ public class MCTS {
             return root.getChildren().get(0);
         }
         if (root.hasChildWinner()) {
-            System.out.println("We got a winner!!!");
+            //System.out.println("We got a winner!!!");
             return root.getChildWinnerNode();
         }
 
@@ -95,7 +97,7 @@ public class MCTS {
                 nodeToExplore = candidateNode;
             }
 
-            System.out.println("Random playout starts again");
+            //System.out.println("Random playout starts again");
             int playoutResult = simulateRandomPlayout(nodeToExplore);
             backPropagate(nodeToExplore, playoutResult);
         }
@@ -130,21 +132,24 @@ public class MCTS {
         }
     }
 
-    private void MctsPlayThrough(int rounds) {
+    public void MctsPlayThrough(int rounds) {
 
         for (int i = 0; i < rounds; i++) {
 
             Node action = MctsAlgorithm(20);
-            System.out.println("\n\n\n\n\nThose Are the Children that could have been played:");
+            //System.out.println("\n\n\n\n\nThose Are the Children that could have been played:");
             for (Node child : root.getChildren()) {
                 System.out.println(child);
             }
-            System.out.println("This is the action we are going to take: " + action);
+            //System.out.println("This is the action we are going to take: " + action);
+            inputs.add(action.getParent());
+            targets.add(action);
             root = action.newRoot();
             if (root.isWinner()) {
-                System.out.println("We got a winner after " + i + " rounds");
+                //System.out.println("We got a winner after " + i + " rounds");
                 break;
             }
+            System.out.println("were at iteration: " + i);
 
         }
         System.out.println(root);
@@ -160,17 +165,20 @@ public class MCTS {
 
         // mcts.root.expandOwnMovesOnly();
 
-        Node nextMoce = mcts.MctsAlgorithm(50);
-        mcts.root = nextMoce;
+        // Node nextMoce = mcts.MctsAlgorithm(50);
+        // mcts.root = nextMoce;
 
         mcts.MctsPlayThrough(20);
 
-        System.out.println("This is the root\n" + mcts.root);
-        System.out.println("The root has " + mcts.root.getChildren().size() + " many children");
+        //System.out.println("This is the root\n" + mcts.root);
+        //System.out.println("The root has " + mcts.root.getChildren().size() + " many children");
+        
+        System.out.println(inputs);
+        System.out.println(targets);
 
-        for (Node child : mcts.root.getChildren()) {
-            System.out.println(child);
-        }
+        // for (Node child : mcts.root.getChildren()) {
+        //     System.out.println(child);
+        // }
     }
 
     private static int simulateRandomPlayout(Node node) {
@@ -189,7 +197,7 @@ public class MCTS {
 
             // System.out.println("We got " + moveStates.size() + " moves");
             if (moveStates.isEmpty()) {
-                System.out.println("No more moves left");
+                //System.out.println("No more moves left");
                 return 0;
             }
 
@@ -199,8 +207,8 @@ public class MCTS {
         System.out.println(gameState);
 
         int result = gameState.isAIPlayerWinner();
-        System.out.println("\n\nRandom Playout is done");
-        System.out.println("The OutPut of playout is " + result);
+        //System.out.println("\n\nRandom Playout is done");
+        //System.out.println("The OutPut of playout is " + result);
 
         return result;
     }

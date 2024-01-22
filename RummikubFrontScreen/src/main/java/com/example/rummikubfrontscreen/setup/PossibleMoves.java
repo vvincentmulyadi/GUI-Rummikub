@@ -145,7 +145,7 @@ public class PossibleMoves {
             nextboardandhand.removeAll(seq);
             
                 cBoard.add(seq);
-                makeBoardState(cBoard,gBoard,gHand,nextboardandhand,hand,unusedTiles);
+                makeBoardState(cBoard, gBoard, gHand,nextboardandhand,hand,unusedTiles);
                 cBoard.remove(cBoard.size() - 1);
            
         }
@@ -210,7 +210,7 @@ public class PossibleMoves {
     
         ArrayList<Tile> boardandhand = new ArrayList<>(boa);
         boardandhand.addAll(hand);
-        System.out.println(hand.size() + boa.size() + " are all the tiles we try to combine to moves");
+        //System.out.println(hand.size() + boa.size() + " are all the tiles we try to combine to moves");
 
 
         //gBoard - all possible board states from the current board state and hand
