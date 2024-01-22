@@ -147,7 +147,6 @@ public class MCTS {
                 if (children.get(i) == winner)
                     return i;
             }
-            // return rootInput.;
         }
 
         for (int i = 0; i < iterations; i++) {
@@ -171,11 +170,18 @@ public class MCTS {
         for (Node child : rootInput.getChildren()) {
             // System.out.println(child);
         }
+        double[] propabilityDistirbution = new double[children.size()];
+        int bestInt = 0;
         for (int i = 0; i < children.size(); i++) {
+            System.out.println("The visit count of " + i + " is: " + children.get(i).getVisitCount());
+
+            propabilityDistirbution[i] = children.get(i).getVisitCount() / ((double) iterations + 2);
+            System.out.println(propabilityDistirbution[i]);
             if (children.get(i) == bestNode)
-                return i;
+                bestInt = i;
         }
-        return -1;
+        System.out.println("The propabilityDistirbution is: " + Arrays.toString(propabilityDistirbution));
+        return bestInt;
     }
 
     public int MctsAlgorithm(int iterations) {
@@ -185,11 +191,13 @@ public class MCTS {
     private Node bestNode(Node rootInput) {
         int maxVisits = -1;
         Node bestNode = null;
-        for (Node child : rootInput.getChildren()) {
-            if (maxVisits < child.getVisitCount()) {
-                maxVisits = child.getVisitCount();
-                bestNode = child;
+        for (int i = 0; i < rootInput.getChildren().size(); i++) {
+            System.out.println(maxVisits + " " + root.getChildren().get(i).getVisitCount());
+            if (maxVisits < root.getChildren().get(i).getVisitCount()) {
+                maxVisits = root.getChildren().get(i).getVisitCount();
+                bestNode = root.getChildren().get(i);
             }
+            System.out.println(i);
         }
         return bestNode;
     }
