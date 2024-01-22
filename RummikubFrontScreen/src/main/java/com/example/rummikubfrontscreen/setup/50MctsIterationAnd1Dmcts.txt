@@ -1,12 +1,15 @@
 1
-number of moves: 7
-
-1
 number of moves: 9
 
 1
 number of moves: 6
 
 1
+number of moves: 9
+
+1
 number of moves: 8
+
+1
+number of moves: 6
 

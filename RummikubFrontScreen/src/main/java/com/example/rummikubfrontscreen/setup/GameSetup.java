@@ -74,6 +74,7 @@ public class GameSetup {
         for (Player player : players) {
             player.sortByColor(player.hand);
         }
+        System.out.println(board.toString());
     }
 
     private void generateBoard() {
@@ -87,7 +88,7 @@ public class GameSetup {
     }
 
     private void generateBoard2() {
-        board = new Board(new ArrayList<>());
+        board = new Board(new ArrayList<>(), tiles);
     }
 
     public ArrayList<Tile> generateHand() {
@@ -120,14 +121,14 @@ public class GameSetup {
             allTiles.add(tile);
         }
         // for (Value v : Value.values()) {
-        //     for (Colour c : Colour.values()) {
-        //         tiles.add(new Tile(c, v));
-        //     }
+        // for (Colour c : Colour.values()) {
+        // tiles.add(new Tile(c, v));
+        // }
         // }
 
         // // Delete 6 Jokers
         // for (int i = 0; i < 4; i++) {
-        //     tiles.remove(tiles.size() - 1);
+        // tiles.remove(tiles.size() - 1);
         // }
         System.out.println("Tiles size: " + tiles.size());
     }

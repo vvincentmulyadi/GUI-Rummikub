@@ -1,6 +1,8 @@
 package com.example.rummikubfrontscreen.setup.MCTS;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import com.example.rummikubfrontscreen.setup.Board;
@@ -25,6 +27,9 @@ public class MCTS {
     public MCTS(MCTSGameState gameState) {
         this.gameState = gameState;
         this.root = new Node(gameState, null);
+    }
+
+    public MCTS() {
     }
 
     public Node findNextMove() {
@@ -70,21 +75,73 @@ public class MCTS {
         return bestNode;
     }
 
-    public Node MctsAlgorithm(int iterations) {
+    private static int mostFrequent(int arr[]) {
+        // Sort the array
+        Arrays.sort(arr);
 
-        if (root.isLeafNode())
-            expand(root);
+        // find the max frequency using linear traversal
+        int max_count = 1, res = arr[0];
+        int curr_count = 1;
 
-        if (root.getChildren().size() == 1) {
-            return root.getChildren().get(0);
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] == arr[i - 1])
+                curr_count++;
+            else
+                curr_count = 1;
+
+            if (curr_count > max_count) {
+                max_count = curr_count;
+                res = arr[i - 1];
+            }
         }
-        if (root.hasChildWinner()) {
-            //System.out.println("We got a winner!!!");
-            return root.getChildWinnerNode();
+        return res;
+    }
+
+    public Node MctsVotingAlgorithm(Node rootInput, int iterations, int votings) {
+        int[] votes = new int[votings];
+        if (rootInput.isLeafNode())
+            expand(rootInput);
+        for (int i = 0; i < votings; i++) {
+            Node testNode = (Node) rootInput.clone();
+            int vote = MctsAlgorithm(testNode, iterations);
+            votes[i] = vote;
+
+        }
+
+        // for (int i = 0; i < rootInput.getChildren().size(); i++) {
+        // System.out.println("Vote " + i);
+        // System.out.println(rootInput.getChildren().get(i));
+        // }
+        int finalVote = mostFrequent(votes);
+        System.out.println(Arrays.toString(votes));
+        System.out.println("Final Vote is " + finalVote);
+        return rootInput.getChildren().get(finalVote);
+    }
+
+    public int MctsAlgorithm(Node rootInput, int iterations) {
+
+        if (rootInput.isLeafNode())
+            expand(rootInput);
+
+        ArrayList<Node> children = rootInput.getChildren();
+
+        if (rootInput.getChildren().size() == 1) {
+
+            // return rootInput.getChildren().get(0);
+            return 0;
+        }
+        if (rootInput.hasChildWinner()) {
+            System.out.println("We got a winner!!!");
+            Node winner = rootInput.getChildWinnerNode();
+            for (int i = 0; i < children.size(); i++) {
+                if (children.get(i) == winner)
+                    return i;
+            }
+            // return rootInput.;
         }
 
         for (int i = 0; i < iterations; i++) {
-            Node candidateNode = selectCandidateNode(root);
+            Node candidateNode = selectCandidateNode(rootInput);
 
             Node nodeToExplore = candidateNode;
 
@@ -97,18 +154,28 @@ public class MCTS {
                 nodeToExplore = candidateNode;
             }
 
-            //System.out.println("Random playout starts again");
             int playoutResult = simulateRandomPlayout(nodeToExplore);
             backPropagate(nodeToExplore, playoutResult);
         }
-        Node bestNode = bestNode();
-        return bestNode;
+        Node bestNode = bestNode(rootInput);
+        for (Node child : rootInput.getChildren()) {
+            // System.out.println(child);
+        }
+        for (int i = 0; i < children.size(); i++) {
+            if (children.get(i) == bestNode)
+                return i;
+        }
+        return -1;
     }
 
-    private Node bestNode() {
+    public int MctsAlgorithm(int iterations) {
+        return MctsAlgorithm(root, iterations);
+    }
+
+    private Node bestNode(Node rootInput) {
         int maxVisits = -1;
         Node bestNode = null;
-        for (Node child : root.getChildren()) {
+        for (Node child : rootInput.getChildren()) {
             if (maxVisits < child.getVisitCount()) {
                 maxVisits = child.getVisitCount();
                 bestNode = child;
@@ -136,17 +203,19 @@ public class MCTS {
 
         for (int i = 0; i < rounds; i++) {
 
-            Node action = MctsAlgorithm(50);
-            //System.out.println("\n\n\n\n\nThose Are the Children that could have been played:");
+            int rootaction = MctsAlgorithm(20);
+            Node action = root.getChildren().get(rootaction);
+            // System.out.println("\n\n\n\n\nThose Are the Children that could have been
+            // played:");
             for (Node child : root.getChildren()) {
                 System.out.println(child);
             }
-            //System.out.println("This is the action we are going to take: " + action);
+            // System.out.println("This is the action we are going to take: " + action);
             inputs.add(action.getParent());
             targets.add(action);
             root = action.newRoot();
             if (root.isWinner()) {
-                //System.out.println("We got a winner after " + i + " rounds");
+                // System.out.println("We got a winner after " + i + " rounds");
                 break;
             }
             System.out.println("were at iteration: " + i);
@@ -157,9 +226,11 @@ public class MCTS {
 
     public static void main(String[] args) {
 
-        MCTSmain mcmain = new MCTSmain();
+        MCTSmain mcmain = new MCTSmain(2);
         MCTS mcts = mcmain.getMcts();
         Node node = mcmain.getRoot();
+
+        System.out.println("So we have: " + node.getAmountOfTiles());
 
         // System.out.println(simulateRandomPlayout(node));
 
@@ -173,11 +244,11 @@ public class MCTS {
         //System.out.println("This is the root\n" + mcts.root);
         //System.out.println("The root has " + mcts.root.getChildren().size() + " many children");
         
-        System.out.println(inputs.size());
-        System.out.println(targets.size());
+        System.out.println(inputs);
+        System.out.println(targets);
 
         // for (Node child : mcts.root.getChildren()) {
-        //     System.out.println(child);
+        // System.out.println(child);
         // }
     }
 
@@ -197,22 +268,21 @@ public class MCTS {
 
             // System.out.println("We got " + moveStates.size() + " moves");
             if (moveStates.isEmpty()) {
-                //System.out.println("No more moves left");
+                // System.out.println("No more moves left");
                 return 0;
             }
 
             Object[] moveState = moveStates.get((int) (Math.random() * moveStates.size()));
             gameState = gameState.copyAndNextPlayer((Board) moveState[0], (ArrayList<Tile>) moveState[1]);
         }
-        System.out.println(gameState);
+        // System.out.println(gameState);
 
         int result = gameState.isAIPlayerWinner();
-        //System.out.println("\n\nRandom Playout is done");
-        //System.out.println("The OutPut of playout is " + result);
-
         return result;
     }
 
+    // System.out.println("\n\nRandom Playout is done");
+    // System.out.println("The OutPut of playout is " + result);
     /**
      * 
      * @param node
@@ -223,6 +293,28 @@ public class MCTS {
             node.addPlayout(playoutResult);
             node = node.getParent();
         }
+    }
+
+    // simple method for calculating deck probabilities
+    public ArrayList<Double> calculateDeckProbabilities(ArrayList<Tile> knownTiles) {
+        ArrayList<Double> probabilities = new ArrayList<Double>();
+        ArrayList<Tile> tilesOnBoard = convert(this.board);
+        ArrayList<Tile> tilesOnHand = this.deck;
+        knownTiles.addAll(tilesOnBoard);
+        knownTiles.addAll(tilesOnHand);
+        int unknownTiles = 106 - knownTiles.size();
+        TileProbs tileProbs = new TileProbs();
+
+        for (Tile tile : knownTiles) {
+            int tileIndex = TileProbs.tileToIndexConverter(tile);
+            tileProbs.adjustUniformProbs(tileIndex);
+        }
+
+        for (int i = 0; i < tileProbs.getTileProbsUniform().length; i++) {
+            probabilities.add(tileProbs.getTileProbsUniform()[i] / unknownTiles);
+        }
+
+        return probabilities;
     }
 
     public ArrayList<Tile> getGuessedOpponentDeck(ArrayList<Tile> knownTiles) {
@@ -236,27 +328,6 @@ public class MCTS {
             }
         }
         return guessedOpponentDeck;
-    }
-    //simple method for calculating deck probabilities
-    public ArrayList<Double> calculateDeckProbabilities(ArrayList<Tile> knownTiles){
-        ArrayList<Double> probabilities = new ArrayList<Double>();
-        ArrayList<Tile> tilesOnBoard = convert(this.board);
-        ArrayList<Tile> tilesOnHand = this.deck;
-        knownTiles.addAll(tilesOnBoard);
-        knownTiles.addAll(tilesOnHand);
-        int unknownTiles = 106 - knownTiles.size();
-        TileProbs tileProbs = new TileProbs();
-    
-        for(Tile tile : knownTiles) {
-            int tileIndex = TileProbs.tileToIndexConverter(tile);
-            tileProbs.adjustUniformProbs(tileIndex);
-        }
-    
-        for(int i = 0; i < tileProbs.getTileProbsUniform().length; i++) {
-            probabilities.add(tileProbs.getTileProbsUniform()[i] / unknownTiles);
-        }
-    
-        return probabilities;
     }
 
     public ArrayList<Tile> convert(ArrayList<ArrayList<Tile>> board) {

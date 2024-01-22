@@ -8,6 +8,7 @@ import com.example.rummikubfrontscreen.setup.Utils;
 import com.example.rummikubfrontscreen.setup.Tile;
 
 public class Node {
+    private int voting = 0;
     private MCTSGameState gameState;
     private Node parent;
     private ArrayList<Node> children;
@@ -24,6 +25,18 @@ public class Node {
     private boolean playedThrough = false;
 
     private double explorationParameter = 1.4;
+
+    public void addVote() {
+        this.voting++;
+    }
+
+    public int getVotes() {
+        return this.voting;
+    }
+
+    public int getWinner() {
+        return gameState.isAIPlayerWinner();
+    }
 
     public Node(MCTSGameState gameState, Node parent) {
         if (gameState.hasWinner() == 1) {
@@ -56,6 +69,8 @@ public class Node {
     public Node getChildWinnerNode() {
         for (Node child : children) {
             if (child.isWinner()) {
+                // System.out.println("We are in getchioldwinnnrereoirjldsjf");
+                // System.out.println(child);
                 return child;
             }
         }
@@ -179,15 +194,16 @@ public class Node {
         this.children.add(child);
     }
 
-    public int getWinCount(){
+    public int getWinCount() {
         return winCount;
     }
 
     public Node getRandomChildNode() {
         int randomIndex = (int) (Math.random() * this.children.size());
-        //System.out.println("Children size " + this.children.size());
+        // System.out.println("Children size " + this.children.size());
         if (this.children.size() > 1) {
-            //System.out.println("\n\n Here are Children!!!" + getChildren().toString() + "\n\n\n");
+            // System.out.println("\n\n Here are Children!!!" + getChildren().toString() +
+            // "\n\n\n");
             randomIndex = 1;
         }
         return this.children.get(randomIndex);
@@ -244,7 +260,15 @@ public class Node {
             return;
         }
         double winRate = (double) winCount / (double) visitCount;
-        this.uctValue = winRate + this.explorationParameter * Math.log(parent.getVisitCount()) / this.getVisitCount();
+        double underRoot = Math.log(parent.getVisitCount()) / this.getVisitCount();
+        underRoot = Math.sqrt(underRoot);
+        this.uctValue = winRate + this.explorationParameter * underRoot;
+    }
+
+    @Override
+    public Node clone() {
+        Node clone = new Node(this.gameState.clone(), this.getParent());
+        return clone;
     }
 
     @Override

@@ -26,15 +26,15 @@ public class RandomAgent {
         chosenMoves = new ArrayList<>();
     }
 
-    public MCTSGameState applyAction (MCTSGameState gs) {
+    public MCTSGameState applyAction(MCTSGameState gs) {
         ArrayList<Object[]> possibleMoves = gs.getOwnMoveStates();
         Random rand = new Random();
         int rn = rand.nextInt(possibleMoves.size());
         Object[] move = possibleMoves.get(rn);
         Board b = (Board) move[0];
         ArrayList<Tile> hand = (ArrayList<Tile>) move[1];
-        gs.changeCurrentPlayersHand(hand);
-        MCTSGameState appliedActionGameState = new MCTSGameState(gs.getCurPlayer(), b, gs.getPlayers());
+
+        MCTSGameState appliedActionGameState = gs.copyAndNextPlayer(b, hand);
         return appliedActionGameState;
     }
 
