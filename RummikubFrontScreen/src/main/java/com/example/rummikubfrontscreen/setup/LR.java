@@ -14,18 +14,19 @@ public class LR {
         this.intercept = 0;
     }
 
-    public void train(ArrayList<MCTSGameState> features, ArrayList<MCTSGameState> targets) {
+    public void train(ArrayList<Node> inputs, ArrayList<Node> targets) {
 
-        double[] x = new double[features.size()];
+        double[] x = new double[inputs.size()];
         double[] y = new double[targets.size()];
 
-        for (int i = 0; i < features.size(); i++) {
+        for (int i = 0; i < inputs.size(); i++) {
             Object[] move = new Object[2];
-            move[0] = features.get(i).getBoard();
-            move[1] = features.get(i).getCurrentHand();
+            move[0] = inputs.get(i).getGameState().getBoard();
+            move[1] = inputs.get(i).getGameState().getCurrentHand();
             x[i] = extractFeatures(move);
             y[i] = calculateScore(targets.get(i));
-
+            System.out.println(x[i]);
+            System.out.println(y[i]);
         }
 
         linearRegression(x, y);
@@ -62,13 +63,17 @@ public class LR {
     private double extractFeatures(Object[] instance) {
         double bSize = ((Board) instance[0]).getCurrentGameBoard().size();
         double hand = ((ArrayList<Tile>) instance[1]).size();
-        return bSize/hand;
+        double totalHand = 0;
+        for(int i = 0;i<hand;i++){
+            totalHand += ((ArrayList<Tile>) instance[1]).get(i).getValue().getValue();
+        }
+        return bSize/hand + totalHand;
     }
 
     // Calculated score for the state, so visits of the node and whether it was on the winning path
-    private double calculateScore(MCTSGameState target) {
-        double visits = target.getVisits();
-        double winScore = target.getWinScore();
+    private double calculateScore(Node target) {
+        double visits = target.getVisitCount();
+        double winScore = target.getWinCount();
         double x = visits + winScore;
         return x;
 
@@ -94,10 +99,16 @@ public class LR {
     public static void main(String[] args) {
         // Example usage
         LR model = new LR();
+        MCTSmain mcmain = new MCTSmain();
+        MCTS mcts = mcmain.getMcts();
+        Node nextMoce = mcts.MctsAlgorithm(50);
+        mcts.root = nextMoce;
+        mcts.MctsPlayThrough(20);
 
-        // Assuming you have training data in the form of features and targets
-        ArrayList<MCTSGameState> features = new ArrayList<>();
-        ArrayList<MCTSGameState> targets = new ArrayList<>();
+        ArrayList<Node> features = mcts.inputs;
+        ArrayList<Node> targets = mcts.targets;
+        System.out.println(features);
+        System.out.println(targets);
 
         // Train the model
         model.train(features, targets);
@@ -168,8 +179,6 @@ public class LR {
         hand.add(new Tile(Colour.BLACK, Value.FIVE));
         hand.add(new Tile(Colour.YELLOW, Value.TWO));
         hand.add(new Tile(Colour.YELLOW, Value.TWO));
-        hand.add(new Tile(Colour.YELLOW, Value.SEVEN));
-        hand.add(new Tile(Colour.YELLOW, Value.ELEVEN));
         hand.add(new Tile(Colour.YELLOW, Value.FOUR));
         hand.add(new Tile(Colour.BLUE, Value.SIX));
         hand.add(new Tile(Colour.BLUE, Value.NINE));

@@ -194,6 +194,10 @@ public class Node {
         this.children.add(child);
     }
 
+    public int getWinCount() {
+        return winCount;
+    }
+
     public Node getRandomChildNode() {
         int randomIndex = (int) (Math.random() * this.children.size());
         // System.out.println("Children size " + this.children.size());
