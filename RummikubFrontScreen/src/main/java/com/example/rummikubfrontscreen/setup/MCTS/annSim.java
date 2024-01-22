@@ -3,8 +3,10 @@ package com.example.rummikubfrontscreen.setup.MCTS;
 import com.example.rummikubfrontscreen.setup.Board;
 import com.example.rummikubfrontscreen.setup.GameApp;
 import com.example.rummikubfrontscreen.setup.GameSetup;
+import com.example.rummikubfrontscreen.setup.LR;
 import com.example.rummikubfrontscreen.setup.PossibleMoves;
 import com.example.rummikubfrontscreen.setup.Tile;
+import com.example.rummikubfrontscreen.setup.Utils;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,10 +14,19 @@ import java.util.Random;
 public class annSim {
     GameApp ga;
     GameSetup gs;
+    LR model;
 
     public annSim(){
-        gs = new GameSetup(4);
+        gs = new GameSetup(2);
         ga = new GameApp(gs);
+        model = new LR();
+        MCTSmain mcmain = new MCTSmain();
+        MCTS mcts = mcmain.getMcts();
+        mcts.MctsPlayThrough(20);
+
+        ArrayList<Node> inputs = mcts.inputs;
+        ArrayList<Node> targets = mcts.targets;
+        model.train(inputs, targets);
     }
 
     public void simulateGame(){
@@ -36,7 +47,11 @@ public class annSim {
             ArrayList<Object[]> moves = PossibleMoves.possibleMoves(b, h, 0);
             //System.out.println(moves.size());
             //System.out.println(ga.toString());
-            makeMove(moves);
+            if(ga.getCurPlr().getId()!=0){
+                makeMove(moves);
+            }else{
+               makeMoveLR(moves, h.size());
+            }
             moves.clear();
             //System.out.println("size after clearing: " +moves.size());
             System.out.println("\n");
@@ -53,6 +68,26 @@ public class annSim {
             return true;
         }
         return false;
+    }
+
+    public void makeMoveLR(ArrayList<Object[]> moves, int h){
+        Object[] predictedOutput = null;
+        if(!moves.isEmpty()){
+            predictedOutput = model.predict(moves, h);
+            if(predictedOutput!=null){
+                ga.getGs().getBoard().setCurrentGameBoard(((Board) predictedOutput[0]).getCurrentGameBoard(), ((Board) predictedOutput[0]).getDrawPile());
+                ga.getCurPlr().setHand((ArrayList<Tile>) predictedOutput[1]);
+                System.out.println("move chosen: ");
+                Utils.print(predictedOutput);
+            }
+        }else if(moves.isEmpty() || predictedOutput == null){
+            Tile tile = ga.draw();
+            System.out.println("drawn: " + tile);
+            if(tile == null){
+                System.out.println("No winner!");
+            }
+        }
+        ga.nextPlayer();
     }
 
     public void makeMove(ArrayList<Object[]> moves){

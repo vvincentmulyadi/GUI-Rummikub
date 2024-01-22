@@ -23,10 +23,8 @@ public class LR {
             Object[] move = new Object[2];
             move[0] = inputs.get(i).getGameState().getBoard();
             move[1] = inputs.get(i).getGameState().getCurrentHand();
-            x[i] = extractFeatures(move);
+            x[i] = extractFeatures(move, inputs.get(i).getGameState().getCurrentHand().size());
             y[i] = calculateScore(targets.get(i));
-            System.out.println(x[i]);
-            System.out.println(y[i]);
         }
 
         linearRegression(x, y);
@@ -49,6 +47,8 @@ public class LR {
 
         slope = numerator / denominator;
         intercept = yMean - slope * xMean;
+        System.out.println(slope);
+        System.out.println(intercept);
     }
 
     private double mean(double[] array) {
@@ -60,14 +60,12 @@ public class LR {
     }
 
     // Extracted features from the current state, we chose the board size and players hand and divided them.
-    private double extractFeatures(Object[] instance) {
+    private double extractFeatures(Object[] instance, int h) {
         double bSize = ((Board) instance[0]).getCurrentGameBoard().size();
         double hand = ((ArrayList<Tile>) instance[1]).size();
-        double totalHand = 0;
-        for(int i = 0;i<hand;i++){
-            totalHand += ((ArrayList<Tile>) instance[1]).get(i).getValue().getValue();
-        }
-        return bSize/hand + totalHand;
+        double diff = h - hand;
+        
+        return bSize/hand + diff;
     }
 
     // Calculated score for the state, so visits of the node and whether it was on the winning path
@@ -79,17 +77,25 @@ public class LR {
 
     }
 
-    public Object[] predict(ArrayList<Object[]> input) {
+    public Object[] predict(ArrayList<Object[]> input, int h) {
         // Use the trained model to predict the output
         Object[] bestPrediction = null;
         double bestScore = Double.NEGATIVE_INFINITY;
 
         for (Object[] instance : input) {
-            double predictedScore = slope * extractFeatures(instance) + intercept;
+            if(instance == input.get(0)){
+                continue;
+            }
+            double predictedScore = slope * extractFeatures(instance, h) + intercept;
+            System.out.println(predictedScore);
 
-            if (predictedScore > bestScore) {
+            if (predictedScore > bestScore || ((ArrayList<Tile>) instance[1]).size() == 0) {
                 bestScore = predictedScore;
                 bestPrediction = instance;
+                if( ((ArrayList<Tile>) instance[1]).size() == 0){
+                    bestPrediction = instance;
+                    return bestPrediction;
+                }
             }
         }
 
@@ -101,17 +107,13 @@ public class LR {
         LR model = new LR();
         MCTSmain mcmain = new MCTSmain();
         MCTS mcts = mcmain.getMcts();
-        Node nextMoce = mcts.MctsAlgorithm(50);
-        mcts.root = nextMoce;
         mcts.MctsPlayThrough(20);
 
-        ArrayList<Node> features = mcts.inputs;
+        ArrayList<Node> inputs = mcts.inputs;
         ArrayList<Node> targets = mcts.targets;
-        System.out.println(features);
-        System.out.println(targets);
 
         // Train the model
-        model.train(features, targets);
+        model.train(inputs, targets);
 
         ArrayList<ArrayList<Tile>> board = new ArrayList<>();
         ArrayList<Tile> seq2 = new ArrayList<>();
@@ -121,29 +123,14 @@ public class LR {
         seq2.add(new Tile(Colour.BLACK, Value.ONE));
         board.add(seq2);
         seq2 = new ArrayList<>();
-        seq2.add(new Tile(Colour.RED, Value.ONE));
-        seq2.add(new Tile(Colour.BLUE, Value.ONE));
-        seq2.add(new Tile(Colour.YELLOW, Value.ONE));
+        seq2.add(new Tile(Colour.RED, Value.THREE));
+        seq2.add(new Tile(Colour.BLUE, Value.THREE));
+        seq2.add(new Tile(Colour.BLACK, Value.THREE));
         board.add(seq2);
         seq2 = new ArrayList<>();
-        seq2.add(new Tile(Colour.RED, Value.NINE));
-        seq2.add(new Tile(Colour.BLUE, Value.NINE));
-        seq2.add(new Tile(Colour.BLACK, Value.NINE));
-        board.add(seq2);
-        seq2 = new ArrayList<>();
-        seq2.add(new Tile(Colour.RED, Value.NINE));
-        seq2.add(new Tile(Colour.BLACK, Value.NINE));
-        seq2.add(new Tile(Colour.YELLOW, Value.NINE));
-        board.add(seq2);
-        seq2 = new ArrayList<>();
-        seq2.add(new Tile(Colour.RED, Value.TEN));
-        seq2.add(new Tile(Colour.BLACK, Value.TEN));
-        seq2.add(new Tile(Colour.YELLOW, Value.TEN));
-        board.add(seq2);
-        seq2 = new ArrayList<>();
-        seq2.add(new Tile(Colour.RED, Value.TWELVE));
-        seq2.add(new Tile(Colour.BLUE, Value.TWELVE));
-        seq2.add(new Tile(Colour.YELLOW, Value.TWELVE));
+        seq2.add(new Tile(Colour.RED, Value.FOUR));
+        seq2.add(new Tile(Colour.BLACK, Value.FOUR));
+        seq2.add(new Tile(Colour.YELLOW, Value.FOUR));
         board.add(seq2);
         seq2 = new ArrayList<>();
         seq2.add(new Tile(Colour.BLUE, Value.SIX));
@@ -156,37 +143,36 @@ public class LR {
         seq2.add(new Tile(Colour.RED, Value.FOUR));
         board.add(seq2);
         seq2 = new ArrayList<>();
-        seq2.add(new Tile(Colour.BLACK, Value.ELEVEN));
-        seq2.add(new Tile(Colour.BLACK, Value.TWELVE));
-        seq2.add(new Tile(Colour.BLACK, Value.THIRTEEN));
-        board.add(seq2);
-        seq2 = new ArrayList<>();
-        seq2.add(new Tile(Colour.YELLOW, Value.SIX));
-        seq2.add(new Tile(Colour.YELLOW, Value.SEVEN));
-        seq2.add(new Tile(Colour.YELLOW, Value.EIGHT));
+        seq2.add(new Tile(Colour.BLACK, Value.SIX));
+        seq2.add(new Tile(Colour.BLUE, Value.SIX));
+        seq2.add(new Tile(Colour.RED, Value.SIX));
         board.add(seq2);
 
-        Board b = new Board(board, new ArrayList<>());
+
+        ArrayList<Tile> drawPile = new ArrayList<>();
+        drawPile.add(new Tile(Colour.BLACK, Value.FIVE));
+        drawPile.add(new Tile(Colour.YELLOW, Value.FIVE));
+        drawPile.add(new Tile(Colour.RED, Value.FIVE));
+
+        Board b = new Board(board, drawPile);
 
         ArrayList<Tile> hand = new ArrayList<>();
         hand.add(new Tile(Colour.RED, Value.FIVE));
         hand.add(new Tile(Colour.BLUE, Value.THREE));
         hand.add(new Tile(Colour.YELLOW, Value.JOKER));
         hand.add(new Tile(Colour.BLUE, Value.FOUR));
-        hand.add(new Tile(Colour.BLUE, Value.EIGHT));
-        hand.add(new Tile(Colour.BLUE, Value.TEN));
-        hand.add(new Tile(Colour.BLUE, Value.THIRTEEN));
         hand.add(new Tile(Colour.BLACK, Value.FIVE));
-        hand.add(new Tile(Colour.YELLOW, Value.TWO));
         hand.add(new Tile(Colour.YELLOW, Value.TWO));
         hand.add(new Tile(Colour.YELLOW, Value.FOUR));
         hand.add(new Tile(Colour.BLUE, Value.SIX));
-        hand.add(new Tile(Colour.BLUE, Value.NINE));
 
         // Use the trained model to make predictions
-        ArrayList<Object[]> inputFeatures = PossibleMoves.possibleMoves(b, hand, 0);
-        Object[] predictedOutput = model.predict(inputFeatures);
+        ArrayList<Object[]> input = PossibleMoves.possibleMoves(b, hand, 0);
+        Utils.print(input.get(4));
+        System.out.println(input.size());
+        Object[] predictedOutput = model.predict(input, hand.size());
 
-        System.out.println("Predicted Output: " + predictedOutput);
+        System.out.println("Predicted Output: ");
+        Utils.print(predictedOutput);
     }
 }

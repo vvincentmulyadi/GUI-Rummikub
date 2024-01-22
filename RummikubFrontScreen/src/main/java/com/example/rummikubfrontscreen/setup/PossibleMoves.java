@@ -48,9 +48,8 @@ public class PossibleMoves {
                 if ((remainingTile.getColour() == cLine.get(cLine.size() - 1).getColour() &&
                         remainingTile.getInt() == cLine.get(cLine.size() - 1).getInt() + 1) ||
                         remainingTile.getValue() == Value.JOKER ||
-                        (remainingTile.getColour() == cLine.get(cLine.size() - 1).getColour()
-                                && cLine.size() > 1 &&
-                                cLine.get(cLine.size() - 1).getValue() == Value.JOKER &&
+                        (cLine.size() > 1 && remainingTile.getColour() == cLine.get(cLine.size() - 2).getColour()
+                                && cLine.get(cLine.size() - 1).getValue() == Value.JOKER &&
                                 remainingTile.getInt() == cLine.get(cLine.size() - 2).getInt() + 2)) {
                     cLine.add(remainingTile);
                     if (cLine.size() >= 3) {

@@ -241,10 +241,9 @@ public class MCTS {
 
         mcts.MctsPlayThrough(20);
 
-        // System.out.println("This is the root\n" + mcts.root);
-        // System.out.println("The root has " + mcts.root.getChildren().size() + " many
-        // children");
-
+        //System.out.println("This is the root\n" + mcts.root);
+        //System.out.println("The root has " + mcts.root.getChildren().size() + " many children");
+        
         System.out.println(inputs);
         System.out.println(targets);
 
