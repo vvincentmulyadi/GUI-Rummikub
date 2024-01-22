@@ -40,14 +40,14 @@ public class TileProbs {
         groupYe.add(new Tile(Colour.BLACK, Value.ONE));
         groupYe.add(new Tile(Colour.YELLOW, Value.FIVE));
         groupYe.add(new Tile(Colour.YELLOW, Value.SIX));
-        groupYe.add(new Tile(Colour.YELLOW, Value.SEVEN));
-        groupYe.add(new Tile(Colour.YELLOW, Value.EIGHT));
-        groupYe.add(new Tile(Colour.YELLOW, Value.EIGHT));
-        groupYe.add(new Tile(Colour.BLACK, Value.EIGHT));
-        groupYe.add(new Tile(Colour.RED, Value.EIGHT));
-        groupYe.add(new Tile(Colour.RED, Value.NINE));
-        groupYe.add(new Tile(Colour.RED, Value.SEVEN));
-        groupYe.add(new Tile(Colour.BLUE, Value.EIGHT));
+        // groupYe.add(new Tile(Colour.YELLOW, Value.SEVEN));
+        // groupYe.add(new Tile(Colour.YELLOW, Value.EIGHT));
+        // groupYe.add(new Tile(Colour.YELLOW, Value.EIGHT));
+        // groupYe.add(new Tile(Colour.BLACK, Value.EIGHT));
+        // groupYe.add(new Tile(Colour.RED, Value.EIGHT));
+        // groupYe.add(new Tile(Colour.RED, Value.NINE));
+        // groupYe.add(new Tile(Colour.RED, Value.SEVEN));
+        // groupYe.add(new Tile(Colour.BLUE, Value.EIGHT));
         System.out.println("start");
         for (Tile tile : groupYe) {
             System.out.println(tile);
