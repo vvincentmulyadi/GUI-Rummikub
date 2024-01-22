@@ -101,9 +101,19 @@ public class MCTS {
         int[] votes = new int[votings];
         if (rootInput.isLeafNode())
             expand(rootInput);
+        ArrayList<Tile> unknownTiles = TileProbs.combiner(rootInput.getGameState());
+
         for (int i = 0; i < votings; i++) {
             Node testNode = (Node) rootInput.clone();
+            MCTSGameState gs = testNode.getGameState();
+            // Hiding the hand of the second player
+            ArrayList<Tile> realHand = gs.getPlayers().get(1).getHand();
+            realHand = TileProbs.handSampler(unknownTiles, gs);
+
             int vote = MctsAlgorithm(testNode, iterations);
+            System.out.println("In MctsVotingAlgorithm we got vote " + vote);
+            System.out.println("Vote: " + testNode.getChildren().get(vote));
+
             votes[i] = vote;
 
         }
@@ -205,14 +215,13 @@ public class MCTS {
 
             int rootaction = MctsAlgorithm(20);
             Node action = root.getChildren().get(rootaction);
-            // System.out.println("\n\n\n\n\nThose Are the Children that could have been
-            // played:");
-            for (Node child : root.getChildren()) {
-                System.out.println(child);
+            System.out.println("\n\n\n\n\nThose Are the Children that could have been played:");
+            for (int j = 0; j < root.getChildren().size(); j++) {
+                System.out.println("This is: " + j);
+                // System.out.println(root.getChildren().get(j));
             }
-            // System.out.println("This is the action we are going to take: " + action);
-            inputs.add(action.getParent());
-            targets.add(action);
+            System.out.println("This is the action we are going to take: " + rootaction);
+
             root = action.newRoot();
             if (root.isWinner()) {
                 // System.out.println("We got a winner after " + i + " rounds");
@@ -221,7 +230,6 @@ public class MCTS {
             System.out.println("were at iteration: " + i);
 
         }
-        System.out.println(root);
     }
 
     public static void main(String[] args) {
@@ -232,24 +240,8 @@ public class MCTS {
 
         System.out.println("So we have: " + node.getAmountOfTiles());
 
-        // System.out.println(simulateRandomPlayout(node));
-
-        // mcts.root.expandOwnMovesOnly();
-
-        // Node nextMoce = mcts.MctsAlgorithm(50);
-        // mcts.root = nextMoce;
-
         mcts.MctsPlayThrough(20);
 
-        //System.out.println("This is the root\n" + mcts.root);
-        //System.out.println("The root has " + mcts.root.getChildren().size() + " many children");
-        
-        System.out.println(inputs);
-        System.out.println(targets);
-
-        // for (Node child : mcts.root.getChildren()) {
-        // System.out.println(child);
-        // }
     }
 
     private static int simulateRandomPlayout(Node node) {

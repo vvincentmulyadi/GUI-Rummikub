@@ -15,7 +15,7 @@ public class MctsVSRandom {
         MctsVSRandom mctsVSRandom = new MctsVSRandom();
         Node root = mctsMain.getRoot();
 
-        mctsVSRandom.dataCollecter(root, 10);
+        mctsVSRandom.dataCollecter(root, 0);
 
     }
 
@@ -33,11 +33,11 @@ public class MctsVSRandom {
 
     private void dataCollecter(Node root, int playOutIterations) throws IOException {
 
-        int dmcts = 3;
+        int dmcts = 1;
 
         System.out.println("playOutIterations: " + playOutIterations + " dmcts: " + dmcts);
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 20; i++) {
             MCTSmain mctsMain = new MCTSmain(2);
             Node newRoot = mctsMain.getRoot();
             root = mcts.MctsVotingAlgorithm(newRoot, playOutIterations, dmcts);

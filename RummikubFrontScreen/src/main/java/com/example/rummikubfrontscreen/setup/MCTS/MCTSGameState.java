@@ -89,6 +89,17 @@ public class MCTSGameState {
         return player.getHand();
     }
 
+    public ArrayList<Tile> getAlltileOnField() {
+        ArrayList<ArrayList<Tile>> boardTiles = board.getCurrentGameBoard();
+        ArrayList<Tile> allT = new ArrayList<>();
+        for (ArrayList<Tile> meld : boardTiles) {
+            for (Tile tile : meld) {
+                allT.add(tile);
+            }
+        }
+        return allT;
+    }
+
     public ArrayList<Object[]> getOwnMoveStates() {
 
         ArrayList<Object[]> ownMoveStates;// = MCTSAction.ownMoveGroup(board, getCurrentHand(player));

@@ -37,6 +37,10 @@ public class GameSetup {
         return agent;
     }
 
+    public GameSetup(double d) {
+        generateTiles();
+    }
+
     public GameSetup() {
         generateTiles();
         for (Tile tile : tiles) {

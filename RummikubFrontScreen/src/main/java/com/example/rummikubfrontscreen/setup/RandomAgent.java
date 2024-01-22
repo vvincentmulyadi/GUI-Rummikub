@@ -29,6 +29,9 @@ public class RandomAgent {
     public MCTSGameState applyAction(MCTSGameState gs) {
         ArrayList<Object[]> possibleMoves = gs.getOwnMoveStates();
         Random rand = new Random();
+        if (possibleMoves.size() == 0) {
+            return gs.copyAndNextPlayer(gs.getBoard(), gs.getCurPlayer().getHand());
+        }
         int rn = rand.nextInt(possibleMoves.size());
         Object[] move = possibleMoves.get(rn);
         Board b = (Board) move[0];

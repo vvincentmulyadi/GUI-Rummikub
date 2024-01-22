@@ -1,6 +1,7 @@
 package com.example.rummikubfrontscreen.setup.MCTS;
 
 import com.example.rummikubfrontscreen.setup.Colour;
+import com.example.rummikubfrontscreen.setup.GameSetup;
 import com.example.rummikubfrontscreen.setup.Tile;
 import com.example.rummikubfrontscreen.setup.Value;
 
@@ -78,6 +79,32 @@ public class TileProbs {
             }
         }
         return array;
+    }
+
+    public static ArrayList<Tile> combiner(MCTSGameState gameState) {
+        double d = 2.5;
+        GameSetup gs = new GameSetup(d);
+        ArrayList<Tile> allTiles = gs.getAllTiles();
+        ArrayList<Tile> hand = gameState.getPlayers().get(0).getHand();
+        ArrayList<Tile> board = gameState.getAlltileOnField();
+        for (Tile tile : hand) {
+            allTiles.remove(tile);
+        }
+        for (Tile tile : board) {
+            allTiles.remove(tile);
+        }
+        return allTiles;
+    }
+
+    public static ArrayList<Tile> handSampler(ArrayList<Tile> possibleTiles, MCTSGameState gs) {
+        int handSize = gs.getPlayers().get(1).getHand().size();
+        ArrayList<Tile> newHand = new ArrayList<>();
+        for (int i = 0; i < handSize; i++) {
+            int randomIndex = (int) (Math.random() * possibleTiles.size());
+            newHand.add(possibleTiles.get(randomIndex));
+            possibleTiles.remove(randomIndex);
+        }
+        return newHand;
     }
 
     public double[] getTileProbsUniform() {
