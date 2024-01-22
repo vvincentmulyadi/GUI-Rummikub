@@ -9,13 +9,13 @@ public enum Value {
     FOUR("4"),
     FIVE("5"),
     SIX("6"),
-    // SEVEN("7"),
-    // EIGHT("8"),
-    // NINE("9"),
-    // TEN("10"),
-    // ELEVEN("11"),
-    // TWELVE("12"),
-    // THIRTEEN("13"),
+    SEVEN("7"),
+    EIGHT("8"),
+    NINE("9"),
+    TEN("10"),
+    ELEVEN("11"),
+    TWELVE("12"),
+    THIRTEEN("13"),
     JOKER("100");
 
     private String valueSymbol;

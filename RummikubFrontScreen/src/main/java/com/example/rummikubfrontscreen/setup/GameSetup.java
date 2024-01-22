@@ -100,7 +100,7 @@ public class GameSetup {
         int size = tiles.size();
         ArrayList<Tile> hand = new ArrayList<>();
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 14; i++) {
             int index = rand.nextInt(size - i);
             hand.add(tiles.get(index));
             tiles.remove(index);
@@ -124,16 +124,16 @@ public class GameSetup {
         for (Tile tile : tiles) {
             allTiles.add(tile);
         }
-        // for (Value v : Value.values()) {
-        // for (Colour c : Colour.values()) {
-        // tiles.add(new Tile(c, v));
-        // }
-        // }
+        for (Value v : Value.values()) {
+        for (Colour c : Colour.values()) {
+        tiles.add(new Tile(c, v));
+        }
+        }
 
-        // // Delete 6 Jokers
-        // for (int i = 0; i < 4; i++) {
-        // tiles.remove(tiles.size() - 1);
-        // }
+        // Delete 6 Jokers
+        for (int i = 0; i < 4; i++) {
+        tiles.remove(tiles.size() - 1);
+        }
         System.out.println("Tiles size: " + tiles.size());
     }
 

@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
+/**
+ * The GameBoardController class is responsible for managing the game board, including handling button
+ * clicks, placing tiles on the board, and checking the validity of the game board.
+ */
 public class GameBoardController {
 
     @FXML

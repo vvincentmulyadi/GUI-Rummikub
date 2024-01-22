@@ -1,6 +1,180 @@
+<<<<<<< HEAD
+1
+number of moves: 9
+
+1
+number of moves: 9
+
+1
+number of moves: 6
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+1
+number of moves: 10
+
+1
+number of moves: 2
+
+1
+number of moves: 8
+
+1
+number of moves: 7
+
+1
+number of moves: 6
+
+1
+number of moves: 9
+
+1
+number of moves: 9
+
+1
+number of moves: 11
+
+1
+number of moves: 9
 
 0
-number of moves: 11
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+0
+number of moves: 8
+
+1
+number of moves: 7
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 7
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 6
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+1
+number of moves: 7
+
+1
+number of moves: 9
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+0
+number of moves: 8
+
+1
+number of moves: 6
+
+1
+number of moves: 7
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 7
+
+1
+number of moves: 5
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+1
+number of moves: 9
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 7
+
+1
+number of moves: 7
+
+1
+number of moves: 8
 
 1
 number of moves: 10
@@ -11,6 +185,118 @@ number of moves: 8
 1
 number of moves: 7
 
+1
+number of moves: 9
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+1
+number of moves: 7
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 7
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 7
+
+1
+number of moves: 9
+
+1
+number of moves: 5
+
+1
+number of moves: 7
+
+1
+number of moves: 8
+
+1
+number of moves: 7
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 6
+=======
+
+0
+number of moves: 11
+
+1
+number of moves: 10
+>>>>>>> 6595b09546ad450d58fe4e37f6f08e0fd2aeb729
+
+1
+number of moves: 9
+
+1
+number of moves: 7
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+<<<<<<< HEAD
+number of moves: 9
+
+1
+number of moves: 7
+
+=======
+number of moves: 7
+
 0
 number of moves: 4
 
+>>>>>>> 6595b09546ad450d58fe4e37f6f08e0fd2aeb729

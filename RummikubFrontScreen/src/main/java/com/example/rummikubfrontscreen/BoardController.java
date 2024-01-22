@@ -1,3 +1,6 @@
+/**
+ * The FXTile class is a subclass of Tile that represents a graphical tile in a JavaFX application.
+ */
 package com.example.rummikubfrontscreen;
 
 import com.example.rummikubfrontscreen.GameBoardController;
