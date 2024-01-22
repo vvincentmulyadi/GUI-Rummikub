@@ -4,7 +4,7 @@ import com.example.rummikubfrontscreen.setup.Board;
 import com.example.rummikubfrontscreen.setup.GameApp;
 import com.example.rummikubfrontscreen.setup.GameSetup;
 import com.example.rummikubfrontscreen.setup.GameTracker;
-import com.example.rummikubfrontscreen.setup.LR;
+import com.example.rummikubfrontscreen.setup.LinearRegressionModel;
 import com.example.rummikubfrontscreen.setup.PossibleMoves;
 import com.example.rummikubfrontscreen.setup.Tile;
 import com.example.rummikubfrontscreen.setup.Utils;
@@ -13,15 +13,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * The `annSim` class is a simulation of a game that uses both the MCTS (Monte Carlo Tree Search)
+ * algorithm and a Linear Regression (LR) model to make moves.
+ */
 public class annSim {
     GameApp ga;
     GameSetup gs;
-    LR model;
+    LinearRegressionModel model;
+
     int drawn = 0;
     MCTS mcts;
 
     public annSim() {
-        model = new LR();
+        model = new LinearRegressionModel();
         MCTSmain mcmain = new MCTSmain(2);
         ga = mcmain.gameApp;
         gs = ga.getGs();
@@ -38,8 +43,6 @@ public class annSim {
         drawn = 0;
         MCTSGameState games = new MCTSGameState(ga.getCurPlr(), ga.getGs().getBoard(), ga.getPlayers());
         while (!ga.isWinner()) {
-            // System.out.println("new round");
-            // ga.getGs().getBoard().addDrawPile(ga.getGs().getTiles());
             Board b = ga.getGs().getBoard();
             if (ga.getGs().getBoard().getDrawPile().isEmpty()) {
                 System.out.println("no winner!");
@@ -85,17 +88,13 @@ public class annSim {
         System.out.println("Rounds: " + numOfRounds);
     }
 
-    public boolean firstMove(ArrayList<Tile> move) {
-        int sum = 0;
-        for (Tile tile : move) {
-            sum += tile.getInt();
-        }
-        if (sum >= 30) {
-            return true;
-        }
-        return false;
-    }
-
+    /**
+     * The function "makeMoveMcts" uses the Monte Carlo Tree Search algorithm to make a move in a game,
+     * updating the game state and player's hand accordingly.
+     * 
+     * @param gs The parameter "gs" is of type MCTSGameState. It represents the current state of the
+     * game in the Monte Carlo Tree Search algorithm.
+     */
     public void makeMoveMcts(MCTSGameState gs){
         Node node = new Node(gs, null);
         int nodeInt = mcts.MctsAlgorithm(node, 50);
@@ -105,6 +104,16 @@ public class annSim {
         ga.nextPlayer();
     }
 
+    /**
+     * The function `makeMoveLR` makes a move in a game by predicting the next move using a machine
+     * learning model, updating the game board and player's hand accordingly, and printing the chosen
+     * move.
+     * 
+     * @param moves An ArrayList of Object arrays representing the possible moves in the game.
+     * @param h The parameter "h" is not explicitly defined in the code snippet provided. It is likely
+     * a variable representing the current player's hand.
+     * @param b The parameter "b" is an object of the class "Board".
+     */
     public void makeMoveLR(ArrayList<Object[]> moves, int h, Board b) {
         Object[] predictedOutput = null;
         if (!moves.isEmpty()) {
@@ -136,6 +145,14 @@ public class annSim {
         ga.nextPlayer();
     }
 
+    /**
+     * The function `makeMove` selects the best move from a list of moves and updates the game board
+     * and player's hand accordingly, or draws a tile if no moves are available.
+     * 
+     * @param moves An ArrayList of Object arrays. Each Object array contains two elements: a Board
+     * object and an ArrayList of Tile objects.
+     * @param b The parameter `b` is an instance of the `Board` class.
+     */
     public void makeMove(ArrayList<Object[]> moves, Board b) {
         ArrayList<ArrayList<Tile>> newBoard = new ArrayList<>();
         ArrayList<Tile> newHand = new ArrayList<>();
@@ -177,17 +194,6 @@ public class annSim {
         }
         ga.nextPlayer();
     }
-
-    // public void makeMoveRand(ArrayList<Object[]> moves) {
-    // Random rand = new Random();
-    // int rn = rand.nextInt(moves.size());
-    // Object[] move = moves.get(rn);
-    // Board b = new Board(((Board) move[0]).getCurrentGameBoard());
-    // ArrayList<Tile> h = new ArrayList<>((ArrayList<Tile>) move[1]);
-    // System.out.println(ga.getCurPlr().getId());
-    // ga.getGs().getBoard().setCurrentGameBoard(b.getCurrentGameBoard());
-    // ga.getCurPlr().setHand(h);
-    // }
 
     public static void main(String[] args) throws IOException {
         for (int i = 0; i < 20; i++) {

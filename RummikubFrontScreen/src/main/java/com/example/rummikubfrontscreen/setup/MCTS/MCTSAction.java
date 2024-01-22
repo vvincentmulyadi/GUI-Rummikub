@@ -9,6 +9,10 @@ import com.example.rummikubfrontscreen.setup.Tile;
 import com.example.rummikubfrontscreen.setup.Utils;
 import com.example.rummikubfrontscreen.setup.Value;
 
+/**
+ * The MCTSAction class contains methods for generating legal moves in a game and partitioning a hand
+ * of tiles by color or number.
+ */
 public class MCTSAction {
 
     HashMap<Colour, Integer> colorMap;
@@ -21,17 +25,6 @@ public class MCTSAction {
         colorMap.put(Colour.BLACK, 4);
     }
 
-    // Big problem:
-    // Limiting our moves to only the max length or maximal # of tiles we place may
-    // hinder a second move.
-    // How do we account for jokers in our hand? Are we gonna place a value on the
-    // Move such that we prefer playing without the joker?
-    // How are we going to keep track the legal Moves ?
-    // Like git ? By only keeping track of the changes ? No to complex
-    /*
-     * TODO: Sorting the current hand before executing the ownMove method
-     *
-     */
     public ArrayList<ArrayList<Tile>> ownMoverRun(ArrayList<Tile> currentHand) {
         // ArrayList<ArrayList<Tile>> legalMoves) {
 
@@ -209,40 +202,6 @@ public class MCTSAction {
         }
 
         return partitionedByColour;
-    }
-
-    public static void main(String[] args) {
-
-        ArrayList<Tile> groupYe = new ArrayList<>();
-
-        groupYe.add(new Tile(Colour.YELLOW, Value.TWO));
-        groupYe.add(new Tile(Colour.YELLOW, Value.ONE));
-        // groupYe.add(new Tile(Colour.YELLOW, Value.THREE));
-        // groupYe.add(new Tile(Colour.YELLOW, Value.SEVEN));
-        // groupYe.add(new Tile(Colour.YELLOW, Value.FIVE));
-        // groupYe.add(new Tile(Colour.YELLOW, Value.SIX));
-        // groupYe.add(new Tile(Colour.YELLOW, Value.SEVEN));
-        // groupYe.add(new Tile(Colour.YELLOW, Value.EIGHT));
-        // groupYe.add(new Tile(Colour.YELLOW, Value.EIGHT));
-        // groupYe.add(new Tile(Colour.BLACK, Value.EIGHT));
-        // groupYe.add(new Tile(Colour.RED, Value.EIGHT));
-        // groupYe.add(new Tile(Colour.RED, Value.NINE));
-        // groupYe.add(new Tile(Colour.RED, Value.SEVEN));
-        // groupYe.add(new Tile(Colour.BLUE, Value.EIGHT));
-        ArrayList<ArrayList<Tile>> groups = new ArrayList<>();
-        groups.add(groupYe);
-        MCTSAction mcts = new MCTSAction();
-        ArrayList<ArrayList<Tile>> legalMoves = mcts.ownMoveGroup(groupYe);
-        ArrayList<ArrayList<Tile>> runLegal = mcts.ownMoverRun(groupYe);
-        System.out.println("Legal moves" + legalMoves.toString());
-        System.out.println("Legal runsmoves" + runLegal.toString());
-
-        HashMap<Colour, Integer> colorMap = new HashMap<>();
-        colorMap.put(Colour.RED, 1);
-        colorMap.put(Colour.BLUE, 2);
-        colorMap.put(Colour.YELLOW, 3);
-        colorMap.put(Colour.BLACK, 4);
-
     }
 
 }

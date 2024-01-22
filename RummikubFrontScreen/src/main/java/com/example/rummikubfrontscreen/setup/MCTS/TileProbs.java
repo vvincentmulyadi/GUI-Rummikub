@@ -7,6 +7,10 @@ import com.example.rummikubfrontscreen.setup.Value;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * The `TileProbs` class represents a collection of methods and data structures for calculating and
+ * manipulating probabilities related to a set of tiles in a game.
+ */
 public class TileProbs {
     private double[] tileProbsUniform;
     private double[] tileValueProbs;
@@ -28,34 +32,6 @@ public class TileProbs {
         for (int i = 0; i < 4; i++) {
             tileColourProbs[i] = 1;
         }
-    }
-
-    public static void main(String[] args) {
-
-        ArrayList<Tile> groupYe = new ArrayList<>();
-
-        groupYe.add(new Tile(Colour.YELLOW, Value.ONE));
-        groupYe.add(new Tile(Colour.RED, Value.ONE));
-        groupYe.add(new Tile(Colour.BLUE, Value.ONE));
-        groupYe.add(new Tile(Colour.BLACK, Value.ONE));
-        groupYe.add(new Tile(Colour.YELLOW, Value.FIVE));
-        groupYe.add(new Tile(Colour.YELLOW, Value.SIX));
-        // groupYe.add(new Tile(Colour.YELLOW, Value.SEVEN));
-        // groupYe.add(new Tile(Colour.YELLOW, Value.EIGHT));
-        // groupYe.add(new Tile(Colour.YELLOW, Value.EIGHT));
-        // groupYe.add(new Tile(Colour.BLACK, Value.EIGHT));
-        // groupYe.add(new Tile(Colour.RED, Value.EIGHT));
-        // groupYe.add(new Tile(Colour.RED, Value.NINE));
-        // groupYe.add(new Tile(Colour.RED, Value.SEVEN));
-        // groupYe.add(new Tile(Colour.BLUE, Value.EIGHT));
-        System.out.println("start");
-        for (Tile tile : groupYe) {
-            System.out.println(tile);
-            System.out.println(tileToIndexConverter(tile));
-            System.out.println(indexToTileConverter(tileToIndexConverter(tile)));
-            System.out.println();
-        }
-
     }
 
     public static double[] allTilesPros(ArrayList<Tile> hand, ArrayList<ArrayList<Tile>> board) {

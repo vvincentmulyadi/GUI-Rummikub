@@ -8,6 +8,10 @@ import java.io.IOException;
 
 import com.example.rummikubfrontscreen.setup.MCTS.MCTS;
 
+/**
+ * The GameTracker class is used to track the results of a game, including the number of moves and the
+ * winner, and provides methods to write and read the results to/from a file.
+ */
 public class GameTracker {
 
     private static int MCSTWon;
