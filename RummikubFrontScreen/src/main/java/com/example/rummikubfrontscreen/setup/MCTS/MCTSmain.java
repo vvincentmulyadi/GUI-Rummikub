@@ -9,6 +9,9 @@ import com.example.rummikubfrontscreen.setup.Tile;
 import com.example.rummikubfrontscreen.setup.Utils;
 import com.example.rummikubfrontscreen.setup.Value;
 
+/**
+ * The MCTSmain class initializes the MCTS algorithm and game state for a given number of players.
+ */
 public class MCTSmain {
     Node root;
     MCTS mcts;

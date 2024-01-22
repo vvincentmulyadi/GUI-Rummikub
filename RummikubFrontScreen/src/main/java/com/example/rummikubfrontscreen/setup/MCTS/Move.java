@@ -5,8 +5,12 @@ import com.example.rummikubfrontscreen.setup.*;
 
 import java.util.*;
 
+/**
+ * The Move class represents a move in a game and provides methods for generating legal moves based on
+ * the current board and hand.
+ */
 public class Move {
-    // everything simplified to the bare parameters to avoid tight decoupling here
+
     Player currentPlayer;
     private ArrayList<ArrayList<Tile>> initialBoard;
     private Board currentBoard;
@@ -47,24 +51,8 @@ public class Move {
         return allSets;
     }
 
-    private static boolean isSetPresent(ArrayList<Tile> hand, ArrayList<Tile> set) {
-        if (hand.isEmpty()) {
-            return false;
-        }
-        Set<Tile> checkHand = new HashSet<>(hand);
-        Set<Tile> checkSet = new HashSet<>(set);
-        return checkHand.containsAll(checkSet);
-
-    }
-
     public ArrayList<ArrayList<Tile>> getAllSets() {
         return allSets;
-    }
-
-    private static void remove(List<Tile> tileList, ArrayList<Tile> elementsToRemove) {
-        for (Tile tile : elementsToRemove) {
-            tileList.remove(tile);
-        }
     }
 
     public static ArrayList<ArrayList<Tile>> simpleMove(ArrayList<Tile> currentHand, Player currentPlayer,
@@ -263,28 +251,6 @@ public class Move {
             }
         }
         return result;
-    }
-
-    public static void main(String[] args) {
-        ArrayList<Tile> groupYe = new ArrayList<>();
-
-        groupYe.add(new Tile(Colour.YELLOW, Value.TWO));
-        groupYe.add(new Tile(Colour.YELLOW, Value.ONE));
-        groupYe.add(new Tile(Colour.YELLOW, Value.THREE));
-        Tile node = groupYe.get(0);
-
-        ArrayList<ArrayList<Tile>> groups = new ArrayList<>();
-        ArrayList<ArrayList<Tile>> board = new ArrayList<>();
-        groups.add(groupYe);
-        Move move = new Move(board, groupYe);
-        ArrayList<ArrayList<Tile>> legalMoves = move.generateSets(groupYe);
-        System.out.println("Legal moves" + legalMoves.toString());
-
-        HashMap<Colour, Integer> colorMap = new HashMap<>();
-        colorMap.put(Colour.RED, 1);
-        colorMap.put(Colour.BLUE, 2);
-        colorMap.put(Colour.YELLOW, 3);
-        colorMap.put(Colour.BLACK, 4);
     }
 
 }

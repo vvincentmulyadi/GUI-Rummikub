@@ -5,6 +5,10 @@ import java.io.IOException;
 import com.example.rummikubfrontscreen.setup.GameTracker;
 import com.example.rummikubfrontscreen.setup.RandomAgent;
 
+/**
+ * The `MctsVSRandom` class simulates a game between an MCTS agent and a random agent, collecting data
+ * on the game outcomes.
+ */
 public class MctsVSRandom {
 
     MCTS mcts = new MCTS();

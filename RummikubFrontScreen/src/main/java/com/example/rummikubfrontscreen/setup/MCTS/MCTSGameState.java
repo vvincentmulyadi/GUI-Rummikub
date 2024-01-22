@@ -3,6 +3,10 @@ package com.example.rummikubfrontscreen.setup.MCTS;
 import com.example.rummikubfrontscreen.setup.*;
 import java.util.*;
 
+/**
+ * The `MCTSGameState` class represents the state of a game in the Monte Carlo Tree Search algorithm,
+ * including the board, players, visit count, and win score.
+ */
 public class MCTSGameState {
     private Board board;
     private Player player;
@@ -64,14 +68,9 @@ public class MCTSGameState {
         visitCount++;
     }
 
-    /*
-     * TODO Subtract AI from all tiles
-     */
     public ArrayList<Tile> getCurrentHand(Player currentPlayer) {
         ArrayList<Tile> aiHand = aiPlayer.getHand();
         ArrayList<Tile> currentHand = null;
-        // return player hand right now because we would run it with dmcts where the
-        // hands are known
         if (currentPlayer == currentPlayer) {
             currentHand = aiHand;
         } else {
@@ -82,9 +81,6 @@ public class MCTSGameState {
         return currentPlayer.getHand();
     }
 
-    /*
-     * TODO Subtract AI from all tiles
-     */
     public ArrayList<Tile> getCurrentHand() {
         return player.getHand();
     }
@@ -93,34 +89,10 @@ public class MCTSGameState {
 
         ArrayList<Object[]> ownMoveStates;// = MCTSAction.ownMoveGroup(board, getCurrentHand(player));
 
-        // For efficiency we will need to change the method to static
-        // GameApp gameApp = new GameApp();
+
         ownMoveStates = PossibleMoves.possibleMoves(board, getCurrentHand(player), 0);
 
         return ownMoveStates;
-    }
-
-    public ArrayList<ArrayList<Tile>> getLegalMoves(ArrayList<Tile> currentHand, Player currentPlayer) {
-        GameSetup gameSetup = new GameSetup();
-        Board curBoard = gameSetup.getBoard();
-        ArrayList<ArrayList<Tile>> legalMoves = new ArrayList<ArrayList<Tile>>();
-
-        /*
-         * TODO figure out how to get the size of the board and then if size is zero
-         * then use the checkers to
-         * add move to list of legal moves if value of runs and rovs are above 30 move
-         * to next tile
-         * if not move to next player
-         * then check if 1 tile form set at the board
-         * if not move to next tile on hand
-         * then check if 3 tiles form a set on the board
-         * check until every tile in players hand has been iterated over and then end
-         * turn for AI
-         * create another AIplayer class
-         * 
-         */
-
-        return legalMoves;
     }
 
     public Board getBoard() {

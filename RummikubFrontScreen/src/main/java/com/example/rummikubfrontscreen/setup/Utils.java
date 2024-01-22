@@ -3,6 +3,10 @@ package com.example.rummikubfrontscreen.setup;
 import java.util.*; // Import the ArrayList class
 import com.example.rummikubfrontscreen.setup.MCTS.TileProbs;
 
+/**
+ * The Utils class provides various utility methods for converting between ArrayLists and arrays,
+ * printing game state information, and manipulating arrays.
+ */
 public class Utils {
     /**
      * ArrayList<Tile> = {Y1, Y1, R1,Y2, B2}

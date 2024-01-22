@@ -4,12 +4,16 @@ import java.util.ArrayList;
 
 import com.example.rummikubfrontscreen.setup.MCTS.*;
 
-public class LR {
+/**
+ * The `LinearRegressionModel` class implements a linear regression model for predicting scores based
+ * on input features.
+ */
+public class LinearRegressionModel {
 
     private double slope;
     private double intercept;
 
-    public LR() {
+    public LinearRegressionModel() {
         this.slope = 0;
         this.intercept = 0;
     }
