@@ -64,7 +64,6 @@ public class LR {
         double bSize = ((Board) instance[0]).getCurrentGameBoard().size();
         double hand = ((ArrayList<Tile>) instance[1]).size();
         double diff = h - hand;
-        
         return bSize/hand + diff;
     }
 
@@ -77,17 +76,17 @@ public class LR {
 
     }
 
-    public Object[] predict(ArrayList<Object[]> input, int h) {
+    public Object[] predict(ArrayList<Object[]> input, int h, Board b) {
         // Use the trained model to predict the output
         Object[] bestPrediction = null;
         double bestScore = Double.NEGATIVE_INFINITY;
 
         for (Object[] instance : input) {
-            if(instance == input.get(0)){
+            if(instance == input.get(0) || ((Board) instance[0]).getCurrentGameBoard() == b.getCurrentGameBoard()){
                 continue;
             }
             double predictedScore = slope * extractFeatures(instance, h) + intercept;
-            System.out.println(predictedScore);
+            //System.out.println(predictedScore);
 
             if (predictedScore > bestScore || ((ArrayList<Tile>) instance[1]).size() == 0) {
                 bestScore = predictedScore;

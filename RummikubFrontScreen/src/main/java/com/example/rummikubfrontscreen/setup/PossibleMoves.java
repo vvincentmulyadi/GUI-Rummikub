@@ -77,7 +77,7 @@ public class PossibleMoves {
                 }
                 if ((remainingTile.getColour() != cLine.get(cLine.size() - 1).getColour() &&
                         remainingTile.getValue() == cLine.get(cLine.size() - 1).getValue()) ||
-                        remainingTile.getValue() == Value.JOKER || (cLine.size() > 2 &&
+                        remainingTile.getValue() == Value.JOKER || (cLine.size() > 1 &&
                                 cLine.get(cLine.size() - 1).getValue() == Value.JOKER &&
                                 remainingTile.getValue() == cLine.get(cLine.size() - 2).getValue())) {
                     if (c) {
