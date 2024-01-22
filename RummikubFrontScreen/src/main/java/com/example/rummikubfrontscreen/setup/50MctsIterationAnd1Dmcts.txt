@@ -13,3 +13,120 @@ number of moves: 8
 1
 number of moves: 6
 
+1
+number of moves: 7
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+1
+number of moves: 9
+
+1
+number of moves: 8
+
+1
+number of moves: 7
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+1
+number of moves: 7
+
+1
+number of moves: 7
+
+1
+number of moves: 8
+
+1
+number of moves: 11
+
+1
+number of moves: 9
+
+1
+number of moves: 8
+
+1
+number of moves: 8
+
+0
+number of moves: 2
+
+1
+number of moves: 9
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+1
+number of moves: 8
+
+0
+number of moves: 8
+
+1
+number of moves: 8
+
+1
+number of moves: 7
+
+1
+number of moves: 6
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+1
+number of moves: 9
+
+1
+number of moves: 9
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+1
+number of moves: 9
+
+0
+number of moves: 9
+
+1
+number of moves: 6
+
+1
+number of moves: 7
+
+1
+number of moves: 8
+
+1
+number of moves: 10
+
+1
+number of moves: 8
+
+1
+number of moves: 9
+
+1
+number of moves: 1
+
